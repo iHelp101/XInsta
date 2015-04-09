@@ -1,0 +1,70 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ihelp101.instagram">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="42+" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="Download Instagram photos and videos" />
+
+        <activity
+            android:name="com.ihelp101.instagram.Activity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".FilePickerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/FilePicker.Theme">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name="com.ihelp101.instagram.IntroActivity-Alias"
+            android:label="@string/app_name"
+            android:targetActivity=".Activity" >
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity-alias>
+
+        <receiver android:name=".Downloader">
+            <intent-filter>
+                <action android:name="com.ihelp101.instagram.DOWNLOAD" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".Open">
+            <intent-filter>
+                <action android:name="com.ihelp101.instagram.IMAGE" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".SDCard"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+    </application>
+
+</manifest>

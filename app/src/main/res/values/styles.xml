@@ -1,0 +1,39 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+	
+	<!-- This base is overridden for larger displays -->
+    <style name="FilePicker.Theme.Base" parent="android:Theme.Holo.Light">
+        <item name="isDialog">false</item>
+    </style>
+
+    <style name="FilePicker.Theme" parent="FilePicker.Theme.Base">
+        <item name="android:actionOverflowButtonStyle">@style/FilePicker.ActionButton.Overflow</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <!--<item name="android:windowBackground">@android:color
+        /transparent</item>-->
+        <!--<item name="android:actionBarWidgetTheme">@android:style/Theme.Holo</item>-->
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
+
+    <style name="FilePicker.ActionButton.Overflow" parent="android:Widget.Holo.ActionButton.Overflow">
+        <!--<item name="android:src">@drawable/ic_action_overflow</item>-->
+    </style>
+
+</resources>

@@ -1,0 +1,58 @@
+<resources>
+
+    <string name="app_name">XInsta</string>
+    
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Download</string>
+
+    <!-- Used if username wasn't obtained correctly or empty -->
+    <string name="someone_username_placeholder">Someone</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast message -->
+    <string name="downloading">Dowloading %1$s</string>
+
+    <!-- Description in notification -->
+    <string name="instagram_item">Instagram %1$s</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">photo</string>
+    <string name="video">video</string>
+
+    <!-- Error messages -->
+    <string name="direct_share_download_failed">DS Download Failed</string>
+    <string name="mediatype_error">Failed to get MediaType. Downloading will not work with this version of Instagram, wait for an update</string>
+
+    <!-- Donation package process -->
+    <string name="requires_donation_package_title">Requires donation package</string>
+    <string name="requires_donation_package_message">This feature requires the Instagram Downloader donation package</string>
+    <string name="go_to_play_store">Go to Play Store</string>
+    <string name="play_store_not_found">Play Store not found</string>
+	
+	<string name="new_folder">New folder</string>
+    <string name="create_folder_error">Failed to create folder</string>
+    <string name="name">Name</string>
+    <string name="go_back">Go back</string>
+    <string name="select_something_first">Please select something first</string>
+
+    <plurals
+        name="select_dir">
+        <item quantity="one">Select directory</item>
+        <item quantity="other">Select directories</item>
+    </plurals>
+
+    <plurals
+        name="select_file">
+        <item quantity="one">Select file</item>
+        <item quantity="other">Select files</item>
+    </plurals>
+
+    <plurals
+        name="select_dir_or_file">
+        <item quantity="one">Select directory or file</item>
+        <item quantity="other">Select directories or files</item>
+    </plurals>
+
+</resources>
