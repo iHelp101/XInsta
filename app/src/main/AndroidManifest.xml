@@ -48,23 +48,6 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity-alias>
-
-        <receiver android:name=".Downloader">
-            <intent-filter>
-                <action android:name="com.ihelp101.instagram.DOWNLOAD" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".Open">
-            <intent-filter>
-                <action android:name="com.ihelp101.instagram.IMAGE" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".SDCard"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
     </application>
 
 </manifest>

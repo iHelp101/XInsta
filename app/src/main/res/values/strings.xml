@@ -1,7 +1,13 @@
 <resources>
 
     <string name="app_name">XInsta</string>
-    
+
+    <!-- ListView -->
+    <string name="Save">Save Location</string>
+    <string name="Visibility">App Icon Visibility</string>
+    <string name="Revert">Revert Save Location To Default</string>
+    <string name="Update">Update Hooks</string>
+
     <!-- The Download button -->
     <string name="the_not_so_big_but_big_button">Download</string>
 

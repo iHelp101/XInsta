@@ -96,16 +96,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <Button
-                style="?android:attr/buttonBarButtonStyle"
-                android:id="@+id/button_reset"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="light"
-                android:text="Reset" />
-
             <Button
                 android:id="@+id/button_cancel"
                 style="?android:attr/buttonBarButtonStyle"

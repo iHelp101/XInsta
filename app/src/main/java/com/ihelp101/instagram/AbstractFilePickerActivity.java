@@ -232,31 +232,4 @@ public abstract class AbstractFilePickerActivity<T> extends Activity
         setResult(Activity.RESULT_CANCELED);
         finish();
     }
-
-    @Override
-    public void onReset() {
-        try {
-            File root = new File(Environment.getExternalStorageDirectory(), ".Instagram");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            File gpxfile = new File(root, "Location.txt");
-            FileWriter writer = new FileWriter(gpxfile);
-            writer.append("Instagram");
-            writer.flush();
-            writer.close();
-        }
-        catch(IOException e) {
-
-        }
-
-        Toast toast = Toast.makeText(getApplicationContext(), "Save location reset to default.\nPlease kill the Instagram app.", Toast.LENGTH_LONG);
-
-        TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-        if( v != null) v.setGravity(Gravity.CENTER);
-        toast.show();
-
-        setResult(Activity.RESULT_CANCELED);
-        finish();
-    }
 }

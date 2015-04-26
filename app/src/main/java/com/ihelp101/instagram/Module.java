@@ -7,23 +7,37 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -35,17 +49,27 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class Module implements IXposedHookLoadPackage {
 
+    private NotificationManager mNotifyManager;
+    private NotificationCompat.Builder mBuilder;
+    int id = 1;
+
 	private CharSequence[] mMenuOptions = null;
 	private CharSequence[] mDirectShareMenuOptions = null;
 	private Object mCurrentMediaOptionButton;
 	private Object mCurrentDirectShareMediaOptionButton;
 	private static final String mDownloadString = "Download";
 	private static String mDownloadTranslated;
+    private static String videoLocation;
+    private static String imageLocation;
+    private static String linkToDownload;
+    private static String oldCheck = "No";
 
 	private static Context mContext;
+    private static Context nContext;
 
 	private static Class<?> MediaType;
 	private static Class<?> User;
+    private static Class<?> imageHook;
 
     private static String SAVE = "Instagram";
 	private static String FEED_CLASS_NAME = "Nope";
@@ -65,7 +89,10 @@ public class Module implements IXposedHookLoadPackage {
     private static String mMEDIA_PHOTO_HOOK = "Nope";
     private static String USERNAME_HOOK = "Nope";
     private static String FULLNAME__HOOK = "Nope";
+    private static String IMAGE_HOOK_CLASS = "Nope";
+    private static String IMAGE_HOOK = "Nope";
 
+    private int scan = 0;
 
 
     private static void log(String log) {
@@ -85,9 +112,9 @@ public class Module implements IXposedHookLoadPackage {
         final int versionCheck = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionCode;
         //End Snippet
 
-        XposedBridge.log("Instagram Version Code: " + versionCheck);
+        nContext = context;
 
-        mContext = context;
+        XposedBridge.log("Instagram Version Code: " + versionCheck);
 
         //Hook Fetch
         File file = new File(Environment.getExternalStorageDirectory() + "/.Instagram/Hooks.txt");
@@ -109,25 +136,44 @@ public class Module implements IXposedHookLoadPackage {
 
         String[] split = text.toString().split(";");
 
-        //Location Fetch
-        File fileLocation = new File(Environment.getExternalStorageDirectory() + "/.Instagram/Location.txt");
+        //Image Fetch
+        File imagelocation = new File(Environment.getExternalStorageDirectory() + "/.Instagram/Image.txt");
 
-        StringBuilder location = new StringBuilder();
+        StringBuilder image = new StringBuilder();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fileLocation));
+            BufferedReader br = new BufferedReader(new FileReader(imagelocation));
             String line;
 
             while ((line = br.readLine()) != null) {
-                location.append(line);
+                image.append(line);
             }
             br.close();
         }
         catch (IOException e) {
-            location.append("Instagram");
+            image.append("Instagram");
         }
 
-        SAVE = location.toString();
+        //Video Fetch
+        File videolocation = new File(Environment.getExternalStorageDirectory() + "/.Instagram/Video.txt");
+
+        StringBuilder video = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(videolocation));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                video.append(line);
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            video.append("Instagram");
+        }
+
+        imageLocation = image.toString();
+        videoLocation = video.toString();
         FEED_CLASS_NAME = split[1];
         MEDIA_CLASS_NAME = split[2];
         MEDIA_TYPE_CLASS_NAME = split[3];
@@ -145,6 +191,14 @@ public class Module implements IXposedHookLoadPackage {
         mMEDIA_PHOTO_HOOK = split[15];
         USERNAME_HOOK = split[16];
         FULLNAME__HOOK = split[17];
+        try {
+            IMAGE_HOOK_CLASS = split[18];
+            IMAGE_HOOK = split[19];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            oldCheck = "Yes";
+        }
+
+        XposedBridge.log("Instagram First Hook: " + split[1]);
 
         if (FEED_CLASS_NAME.equals("Nope")||MEDIA_CLASS_NAME.equals("Nope")||MEDIA_TYPE_CLASS_NAME.equals("Nope")||USER_CLASS_NAME.equals("Nope")||MEDIA_OPTIONS_BUTTON_CLASS_NAME.equals("Nope")||DS_MEDIA_OPTIONS_BUTTON_CLASS_NAME.equals("Nope")||DS_PERM_MORE_OPTIONS_DIALOG_CLASS_NAME.equals("Nope")||MEDIA_OPTIONS_BUTTON_HOOK.equals("Nope")||MEDIA_OPTIONS_BUTTON_HOOK2.equals("Nope")||PERM__HOOK.equals("Nope")||PERM__HOOK2.equals("Nope")||mMEDIA_HOOK.equals("Nope")||VIDEOTYPE_HOOK.equals("Nope")||mMEDIA_VIDEO_HOOK.equals("Nope")||mMEDIA_PHOTO_HOOK .equals("Nope")||USERNAME_HOOK.equals("Nope")||FULLNAME__HOOK.equals("Nope")) {
 
@@ -155,6 +209,17 @@ public class Module implements IXposedHookLoadPackage {
                     lpparam.classLoader);
             MediaType = findClass(MEDIA_TYPE_CLASS_NAME, lpparam.classLoader);
             User = findClass(USER_CLASS_NAME, lpparam.classLoader);
+            if (oldCheck.equals("No")) {
+                imageHook = findClass(IMAGE_HOOK_CLASS, lpparam.classLoader);
+            }
+
+            if (imageLocation.equals("")) {
+                imageLocation = "Instagram";
+            }
+
+            if (videoLocation.equals("")) {
+                imageLocation = "Instagram";
+            }
 
             XC_MethodHook injectDownloadIntoCharSequenceHook = new XC_MethodHook() {
                 @Override
@@ -216,7 +281,7 @@ public class Module implements IXposedHookLoadPackage {
                 }
             });
 
-            Class<?> DirectShareMenuClickListener = findClass(DS_PERM_MORE_OPTIONS_DIALOG_CLASS_NAME, lpparam.classLoader);
+            Class < ?> DirectShareMenuClickListener = findClass(DS_PERM_MORE_OPTIONS_DIALOG_CLASS_NAME, lpparam.classLoader);
             findAndHookMethod(DirectShareMenuClickListener, "onClick", DialogInterface.class, int.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -228,6 +293,7 @@ public class Module implements IXposedHookLoadPackage {
 
                         Field[] mCurrentMediaOptionButtonFields =
                                 mCurrentDirectShareMediaOptionButton.getClass().getDeclaredFields();
+
                         for (Field iField : mCurrentMediaOptionButtonFields) {
                             if (iField.getType().getName().equals(MEDIA_CLASS_NAME)) {
                                 iField.setAccessible(true);
@@ -314,15 +380,9 @@ public class Module implements IXposedHookLoadPackage {
             log("Video Type not found!");
         }
 
-		String linkToDownload;
 		String filenameExtension;
 		String descriptionType;
 		int descriptionTypeId = R.string.photo;
-
-//		String[] qualities = { "m", "l", "k", "o", "n" };
-//		for (String field : qualities) {
-//			XposedBridge.log("Module: " + field + ": " + (String) getObjectField(mMedia, field));
-//		}
 
 		if (mMediaType.equals(videoType)) {
             linkToDownload = (String) getObjectField(mMedia, mMEDIA_VIDEO_HOOK);
@@ -330,11 +390,22 @@ public class Module implements IXposedHookLoadPackage {
 			descriptionType = "video";
 			descriptionTypeId = R.string.video;
 		} else {
-			linkToDownload = (String) getObjectField(mMedia, mMEDIA_PHOTO_HOOK);
+            if (oldCheck.equals("No")) {
+                Object photo = getFieldByType(mMedia, imageHook);
+                linkToDownload = (String) getObjectField(photo, IMAGE_HOOK);
+            } else {
+                linkToDownload = (String) getObjectField(mMedia, mMEDIA_PHOTO_HOOK);
+            }
 			filenameExtension = "jpg";
 			descriptionType = "photo";
 			descriptionTypeId = R.string.photo;
 		}
+
+        if (descriptionType.equals("photo")) {
+            SAVE = imageLocation;
+        } else {
+            SAVE = videoLocation;
+        }
 
 		// Construct filename
 		// username_imageId.jpg
@@ -374,15 +445,139 @@ public class Module implements IXposedHookLoadPackage {
             }
         }
 
-        Intent intent = new Intent();
-        intent.setAction("com.ihelp101.instagram.DOWNLOAD");
-        intent.putExtra("URL", linkToDownload);
-        intent.putExtra("Name", fileName);
-        intent.putExtra("User", userFullName);
-        intent.putExtra("Description", descriptionType);
-        intent.putExtra("Location", SAVE);
-        mContext.sendBroadcast(intent);
+        new DownloadFileAsync().execute(linkToDownload, SAVE, fileName, userFullName, descriptionType);
 	}
+
+    private class DownloadFileAsync extends AsyncTask<Object, String, String> {
+
+        String User = null;
+        String Desc = null;
+        String Location = null;
+        String fileName = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            Random r = new Random();
+            int i1 = r.nextInt(80000000 - 65) + 65;
+            id = i1;
+        }
+
+        @Override
+        protected String doInBackground(Object... aurl) {
+            int count;
+            Location = aurl[1] + "/" + aurl[2];
+            Location = Location.replace("%20", " ");
+            Location = Location.replace("file://", "");
+            fileName = (String) aurl [2];
+            User = (String) aurl[3];
+            Desc = (String) aurl[4];
+
+            mNotifyManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            mBuilder = new NotificationCompat.Builder(mContext);
+            mBuilder.setContentTitle("" + User + "'s " + Desc)
+                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setContentText("Downloading.....");
+            if (Build.VERSION.SDK_INT > 11) {
+                mBuilder.setProgress(100, 0, false);
+            }
+            mNotifyManager.notify(id, mBuilder.build());
+
+
+            try {
+                URL url = new URL((String) aurl[0]);
+                URLConnection conexion = url.openConnection();
+                conexion.connect();
+
+                int lenghtOfFile = conexion.getContentLength();
+
+                InputStream input = new BufferedInputStream(url.openStream());
+                OutputStream output = new FileOutputStream(Location);
+
+                byte data[] = new byte[1024];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    publishProgress(""+(int)((total*100)/lenghtOfFile));
+                    output.write(data, 0, count);
+                }
+
+                output.flush();
+                output.close();
+                input.close();
+            } catch (Exception e) {
+                System.out.println("Error: " + e);
+                Toast.makeText(nContext, "Download failed.", Toast.LENGTH_LONG).show();
+                mBuilder.setContentTitle("" + User + "'s " + Desc);
+                mBuilder.setContentText("Download failed.");
+                mBuilder.setTicker("Download failed.");
+                if (Build.VERSION.SDK_INT > 11) {
+                    mBuilder.setProgress(0, 0, false);
+                }
+                mBuilder.setSmallIcon(android.R.drawable.ic_dialog_info);
+                mBuilder.setAutoCancel(true);
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onProgressUpdate(String... progress) {
+            if (Build.VERSION.SDK_INT > 11) {
+                mBuilder.setProgress(100, Integer.parseInt(progress[0]), false);
+                mNotifyManager.notify(id, mBuilder.build());
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String unused) {
+            Toast.makeText(mContext, "Download completed.", Toast.LENGTH_LONG).show();
+
+            mBuilder.setContentTitle("" + User + "'s " + Desc);
+            mBuilder.setContentText("Download completed.");
+            mBuilder.setTicker("Download completed.");
+            mBuilder.setSmallIcon(android.R.drawable.ic_dialog_info);
+            if (Build.VERSION.SDK_INT > 11) {
+                mBuilder.setProgress(0, 0, false);
+            }
+            mBuilder.setAutoCancel(true);
+
+            Intent notificationIntent = new Intent();
+            notificationIntent.setAction(Intent.ACTION_VIEW);
+
+            File file = new File(Location);
+            if (fileName.contains("jpg")) {
+                notificationIntent.setDataAndType(Uri.fromFile(file), "image/*");
+            } else {
+                notificationIntent.setDataAndType(Uri.fromFile(file), "video/*");
+            }
+            notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
+                    notificationIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT );
+
+            mBuilder.setContentIntent(contentIntent);
+            mNotifyManager.notify(id, mBuilder.build());
+
+            MediaScannerConnection.scanFile(nContext,
+                    new String[]{Location}, null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
+                        public void onScanCompleted(String path, Uri uri) {
+                            if (uri != null) {
+                                scan = 1;
+                            }
+                        }
+                    });
+
+            if (scan == 1) {
+                scan = 0;
+                Toast.makeText(nContext, "Download completed.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
 	private String getDownloadString() {
 		if (mDownloadTranslated == null)

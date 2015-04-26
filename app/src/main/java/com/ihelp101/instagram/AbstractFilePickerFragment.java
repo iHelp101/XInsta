@@ -112,16 +112,6 @@ public abstract class AbstractFilePickerFragment<T> extends ListFragment
 
         lv.setOnItemLongClickListener(this);
 
-        view.findViewById(R.id.button_reset)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        if (listener != null) {
-                            listener.onReset();
-                        }
-                    }
-                });
-
         view.findViewById(R.id.button_cancel)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -577,8 +567,6 @@ public abstract class AbstractFilePickerFragment<T> extends ListFragment
         public void onFilesPicked(List<Uri> files);
 
         public void onCancelled();
-
-        public void onReset();
     }
 
     public class DefaultHashMap<K, V> extends HashMap<K, V> {
