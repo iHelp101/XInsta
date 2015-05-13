@@ -232,4 +232,10 @@ public abstract class AbstractFilePickerActivity<T> extends Activity
         setResult(Activity.RESULT_CANCELED);
         finish();
     }
+
+    @Override
+    public void onReset() {
+        setResult(1337);
+        finish();
+    }
 }

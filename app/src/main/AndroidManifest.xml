@@ -20,7 +20,7 @@
             android:value="Download Instagram photos and videos" />
 
         <activity
-            android:name="com.ihelp101.instagram.Activity"
+            android:name="com.ihelp101.instagram.Main"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
@@ -42,7 +42,7 @@
         <activity-alias
             android:name="com.ihelp101.instagram.IntroActivity-Alias"
             android:label="@string/app_name"
-            android:targetActivity=".Activity" >
+            android:targetActivity=".Main" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />

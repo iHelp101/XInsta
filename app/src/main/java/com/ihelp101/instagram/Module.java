@@ -91,7 +91,6 @@ public class Module implements IXposedHookLoadPackage {
     private static String FULLNAME__HOOK = "Nope";
     private static String IMAGE_HOOK_CLASS = "Nope";
     private static String IMAGE_HOOK = "Nope";
-
     private int scan = 0;
 
 
@@ -99,10 +98,10 @@ public class Module implements IXposedHookLoadPackage {
 		XposedBridge.log("Module: " + log);
 	}
 
-	@Override
-	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
-		if (!lpparam.packageName.equals("com.instagram.android"))
-			return;
+    @Override
+    public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
+        if (!lpparam.packageName.equals("com.instagram.android"))
+            return;
 
         // Thank you to KeepChat For the Following Code Snippet
         // http://git.io/JJZPaw
@@ -207,6 +206,9 @@ public class Module implements IXposedHookLoadPackage {
             final Class<?> MediaOptionsButton = findClass(MEDIA_OPTIONS_BUTTON_CLASS_NAME, lpparam.classLoader);
             final Class<?> DirectSharePermalinkMoreOptionsDialog = findClass(DS_MEDIA_OPTIONS_BUTTON_CLASS_NAME,
                     lpparam.classLoader);
+
+            mDownloadTranslated = ResourceHelper.getString(nContext, R.string.the_not_so_big_but_big_button);
+
             MediaType = findClass(MEDIA_TYPE_CLASS_NAME, lpparam.classLoader);
             User = findClass(USER_CLASS_NAME, lpparam.classLoader);
             if (oldCheck.equals("No")) {
@@ -238,10 +240,6 @@ public class Module implements IXposedHookLoadPackage {
                         } catch (Throwable t) {
                             log("Unable to get Context, button not translated");
                         }
-                    }
-
-                    if (mContext != null) {
-                        mDownloadTranslated = ResourceHelper.getString(mContext, R.string.the_not_so_big_but_big_button);
                     }
 
                     if (!array.contains(getDownloadString()))
@@ -286,8 +284,9 @@ public class Module implements IXposedHookLoadPackage {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     CharSequence localCharSequence = mDirectShareMenuOptions[(Integer) param.args[1]];
-                    if (mContext == null)
+                    if (mContext == null) {
                         mContext = ((Dialog) param.args[0]).getContext();
+                    }
                     if (getDownloadString().equals(localCharSequence)) {
                         Object mMedia = null;
 
@@ -324,7 +323,7 @@ public class Module implements IXposedHookLoadPackage {
                         mContext = context;
                     }
                     CharSequence localCharSequence = mMenuOptions[(Integer) param.args[1]];
-                    if (mDownloadString.equals(localCharSequence)) {
+                    if (mDownloadTranslated.equals(localCharSequence)) {
                         Object mMedia = null;
 
                         try {
@@ -358,18 +357,18 @@ public class Module implements IXposedHookLoadPackage {
 	private void downloadMedia(Object sourceButton, Object mMedia) throws IllegalAccessException, IllegalArgumentException {
 		Field contextField =
 				XposedHelpers.findFirstFieldByExactType(sourceButton.getClass(), Context.class);
-		if (mContext == null) {
-			try {
-				mContext = (Context) contextField.get(sourceButton);
-			} catch (Exception e) {
-				e.printStackTrace();
-				log("Failed to get Context");
-				return;
-			}
-		}
+        if (mContext == null) {
+            try {
+                mContext = (Context) contextField.get(sourceButton);
+            } catch (Exception e) {
+                e.printStackTrace();
+                log("Failed to get Context");
+                return;
+            }
+        }
 
 		Object mMediaType = getFieldByType(mMedia, MediaType);
-		if (mMediaType == null) {
+        if (mMediaType == null) {
 			log("Failed to get MediaType");
 			return;
 		}
@@ -410,7 +409,7 @@ public class Module implements IXposedHookLoadPackage {
 		// Construct filename
 		// username_imageId.jpg
 		descriptionType = ResourceHelper.getString(mContext, descriptionTypeId);
-		String toastMessage = ResourceHelper.getString(mContext, R.string.downloading, descriptionType);
+		String toastMessage = ResourceHelper.getString(mContext, R.string.Downloading, descriptionType);
 		Toast.makeText(mContext, toastMessage, Toast.LENGTH_SHORT).show();
 
 		Object mUser = getFieldByType(mMedia, User);
@@ -478,12 +477,11 @@ public class Module implements IXposedHookLoadPackage {
             mBuilder = new NotificationCompat.Builder(mContext);
             mBuilder.setContentTitle("" + User + "'s " + Desc)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setContentText("Downloading.....");
+                    .setContentText(ResourceHelper.getString(mContext, R.string.DownloadDots));
             if (Build.VERSION.SDK_INT > 11) {
                 mBuilder.setProgress(100, 0, false);
             }
             mNotifyManager.notify(id, mBuilder.build());
-
 
             try {
                 URL url = new URL((String) aurl[0]);
@@ -509,11 +507,10 @@ public class Module implements IXposedHookLoadPackage {
                 output.close();
                 input.close();
             } catch (Exception e) {
-                System.out.println("Error: " + e);
-                Toast.makeText(nContext, "Download failed.", Toast.LENGTH_LONG).show();
+                Toast.makeText(nContext, ResourceHelper.getString(mContext, R.string.Download_Failed), Toast.LENGTH_LONG).show();
                 mBuilder.setContentTitle("" + User + "'s " + Desc);
-                mBuilder.setContentText("Download failed.");
-                mBuilder.setTicker("Download failed.");
+                mBuilder.setContentText(ResourceHelper.getString(mContext, R.string.Download_Failed));
+                mBuilder.setTicker(ResourceHelper.getString(mContext, R.string.Download_Failed));
                 if (Build.VERSION.SDK_INT > 11) {
                     mBuilder.setProgress(0, 0, false);
                 }
@@ -534,11 +531,11 @@ public class Module implements IXposedHookLoadPackage {
 
         @Override
         protected void onPostExecute(String unused) {
-            Toast.makeText(mContext, "Download completed.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, ResourceHelper.getString(mContext, R.string.Download_Completed), Toast.LENGTH_LONG).show();
 
             mBuilder.setContentTitle("" + User + "'s " + Desc);
-            mBuilder.setContentText("Download completed.");
-            mBuilder.setTicker("Download completed.");
+            mBuilder.setContentText(ResourceHelper.getString(mContext, R.string.Download_Completed));
+            mBuilder.setTicker(ResourceHelper.getString(mContext, R.string.Download_Completed));
             mBuilder.setSmallIcon(android.R.drawable.ic_dialog_info);
             if (Build.VERSION.SDK_INT > 11) {
                 mBuilder.setProgress(0, 0, false);
@@ -574,7 +571,7 @@ public class Module implements IXposedHookLoadPackage {
 
             if (scan == 1) {
                 scan = 0;
-                Toast.makeText(nContext, "Download completed.", Toast.LENGTH_LONG).show();
+                Toast.makeText(nContext, ResourceHelper.getString(mContext, R.string.Download_Completed), Toast.LENGTH_LONG).show();
             }
         }
     }

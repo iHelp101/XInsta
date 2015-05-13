@@ -3,10 +3,31 @@
     <string name="app_name">XInsta</string>
 
     <!-- ListView -->
-    <string name="Save">Save Location</string>
-    <string name="Visibility">App Icon Visibility</string>
-    <string name="Revert">Revert Save Location To Default</string>
-    <string name="Update">Update Hooks</string>
+    <string name="Hide">Hide App</string>
+    <string name="Image">Image Location</string>
+    <string name="Save">SAVE LOCATIONS</string>
+    <string name="Show">Show App</string>
+    <string name="Update">UPDATE HOOKS</string>
+    <string name="Visibility">APP VISIBILITY</string>
+    <string name="Video">Video Location</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Download Completed</string>
+    <string name="Download_Failed">Download Failed</string>
+    <string name="DownloadDots">Downloading&#8230;&#8230;&#8230;</string>
+    <string name="Please">Please update your hooks via the module.</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Okay</string>
+    <string name="Warning">You can access the app via the Xposed Installer once it has been hidden.</string>
+
+    <!-- Toast Messages -->
+    <string name="Downloading">Dowloading %1$s</string>
+    <string name="Hooks_Latest">You already have the latest hooks.</string>
+    <string name="Hooks_Updated">Hooks have been updated.\nPlease kill the Instagram app.</string>
+    <string name="I_LocationChanged">Image save location reset to default.\nPlease kill the Instagram app.</string>
+    <string name="Incorrect_Location">Unable to save here.\nPlease select another location.</string>
+    <string name="V_LocationChanged">Video save location reset to default.\nPlease kill the Instagram app.</string>
 
     <!-- The Download button -->
     <string name="the_not_so_big_but_big_button">Download</string>
@@ -16,9 +37,6 @@
 
     <!-- Title in notification -->
     <string name="username_thing">%1$s\'s %2$s</string>
-
-    <!-- Toast message -->
-    <string name="downloading">Dowloading %1$s</string>
 
     <!-- Description in notification -->
     <string name="instagram_item">Instagram %1$s</string>
@@ -31,12 +49,6 @@
     <string name="direct_share_download_failed">DS Download Failed</string>
     <string name="mediatype_error">Failed to get MediaType. Downloading will not work with this version of Instagram, wait for an update</string>
 
-    <!-- Donation package process -->
-    <string name="requires_donation_package_title">Requires donation package</string>
-    <string name="requires_donation_package_message">This feature requires the Instagram Downloader donation package</string>
-    <string name="go_to_play_store">Go to Play Store</string>
-    <string name="play_store_not_found">Play Store not found</string>
-	
 	<string name="new_folder">New folder</string>
     <string name="create_folder_error">Failed to create folder</string>
     <string name="name">Name</string>
