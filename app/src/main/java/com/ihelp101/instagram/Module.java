@@ -478,9 +478,6 @@ public class Module implements IXposedHookLoadPackage {
             mBuilder.setContentTitle("" + User + "'s " + Desc)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
                     .setContentText(ResourceHelper.getString(mContext, R.string.DownloadDots));
-            if (Build.VERSION.SDK_INT > 11) {
-                mBuilder.setProgress(100, 0, false);
-            }
             mNotifyManager.notify(id, mBuilder.build());
 
             try {
@@ -511,22 +508,10 @@ public class Module implements IXposedHookLoadPackage {
                 mBuilder.setContentTitle("" + User + "'s " + Desc);
                 mBuilder.setContentText(ResourceHelper.getString(mContext, R.string.Download_Failed));
                 mBuilder.setTicker(ResourceHelper.getString(mContext, R.string.Download_Failed));
-                if (Build.VERSION.SDK_INT > 11) {
-                    mBuilder.setProgress(0, 0, false);
-                }
                 mBuilder.setSmallIcon(android.R.drawable.ic_dialog_info);
                 mBuilder.setAutoCancel(true);
             }
             return null;
-
-        }
-
-        @Override
-        protected void onProgressUpdate(String... progress) {
-            if (Build.VERSION.SDK_INT > 11) {
-                mBuilder.setProgress(100, Integer.parseInt(progress[0]), false);
-                mNotifyManager.notify(id, mBuilder.build());
-            }
         }
 
         @Override
@@ -537,9 +522,6 @@ public class Module implements IXposedHookLoadPackage {
             mBuilder.setContentText(ResourceHelper.getString(mContext, R.string.Download_Completed));
             mBuilder.setTicker(ResourceHelper.getString(mContext, R.string.Download_Completed));
             mBuilder.setSmallIcon(android.R.drawable.ic_dialog_info);
-            if (Build.VERSION.SDK_INT > 11) {
-                mBuilder.setProgress(0, 0, false);
-            }
             mBuilder.setAutoCancel(true);
 
             Intent notificationIntent = new Intent();

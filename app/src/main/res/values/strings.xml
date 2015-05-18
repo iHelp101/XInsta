@@ -14,7 +14,7 @@
     <!-- Module -->
     <string name="Download_Completed">Download Completed</string>
     <string name="Download_Failed">Download Failed</string>
-    <string name="DownloadDots">Downloading&#8230;&#8230;&#8230;</string>
+    <string name="DownloadDots">Downloading&#8230;</string>
     <string name="Please">Please update your hooks via the module.</string>
 
     <!-- Alert Dialog -->
