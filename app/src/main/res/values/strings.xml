@@ -3,37 +3,37 @@
     <string name="app_name">XInsta</string>
 
     <!-- ListView -->
-    <string name="Hide">Hide App</string>
-    <string name="Image">Image Location</string>
-    <string name="Save">SAVE LOCATIONS</string>
-    <string name="Show">Show App</string>
-    <string name="Update">UPDATE HOOKS</string>
-    <string name="Visibility">APP VISIBILITY</string>
-    <string name="Video">Video Location</string>
+    <string name="Hide">Ocultar App</string>
+    <string name="Image">Ubicación de la imagen</string>
+    <string name="Save">Ubicación para guardar</string>
+    <string name="Show">Mostrar App</string>
+    <string name="Update">ACTUALIZAR GANCHOS</string>
+    <string name="Visibility">ISIBILIDAD DE LA APP</string>
+    <string name="Video">Ubicación del video</string>
 
     <!-- Module -->
-    <string name="Download_Completed">Download Completed</string>
-    <string name="Download_Failed">Download Failed</string>
-    <string name="DownloadDots">Downloading&#8230;</string>
-    <string name="Please">Please update your hooks via the module.</string>
+    <string name="Download_Completed">Descarga completa</string>
+    <string name="Download_Failed">Error de descarga</string>
+    <string name="DownloadDots">Descargando&#8230;</string>
+    <string name="Please">Por favor, actualice sus ganchos a través del módulo.</string>
 
     <!-- Alert Dialog -->
-    <string name="Okay">Okay</string>
-    <string name="Warning">You can access the app via the Xposed Installer once it has been hidden.</string>
+    <string name="Okay">Listo</string>
+    <string name="Warning">Puede acceder a la aplicación a través de Xposed installer una vez que se ha ocultado.</string>
 
     <!-- Toast Messages -->
-    <string name="Downloading">Dowloading %1$s</string>
-    <string name="Hooks_Latest">You already have the latest hooks.</string>
-    <string name="Hooks_Updated">Hooks have been updated.\nPlease kill the Instagram app.</string>
-    <string name="I_LocationChanged">Image save location reset to default.\nPlease kill the Instagram app.</string>
-    <string name="Incorrect_Location">Unable to save here.\nPlease select another location.</string>
-    <string name="V_LocationChanged">Video save location reset to default.\nPlease kill the Instagram app.</string>
+    <string name="Downloading">Descargando %1$s</string>
+    <string name="Hooks_Latest">Ya tiene los últimos ganchos.</string>
+    <string name="Hooks_Updated">Ganchos han sido actualizados. \nPor favor, matar la aplicación Instagram.</string>
+    <string name="I_LocationChanged">Ubicación de la imagen reiniciar ubicación por defecto. \nPor favor, matar la aplicación Instagram.</string>
+    <string name="Incorrect_Location">No se puede guardar aquí. \nPor favor seleccione otra ubicación.</string>
+    <string name="V_LocationChanged">Ubicación del video reiniciar ubicación por defecto. \nPor favor, matar la aplicación Instagram.</string>
 
     <!-- The Download button -->
-    <string name="the_not_so_big_but_big_button">Download</string>
+    <string name="the_not_so_big_but_big_button">Descargar</string>
 
     <!-- Used if username wasn't obtained correctly or empty -->
-    <string name="someone_username_placeholder">Someone</string>
+    <string name="someone_username_placeholder">Alguien</string>
 
     <!-- Title in notification -->
     <string name="username_thing">%1$s\'s %2$s</string>
@@ -42,35 +42,35 @@
     <string name="instagram_item">Instagram %1$s</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
-    <string name="photo">photo</string>
-    <string name="video">video</string>
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
 
     <!-- Error messages -->
-    <string name="direct_share_download_failed">DS Download Failed</string>
-    <string name="mediatype_error">Failed to get MediaType. Downloading will not work with this version of Instagram, wait for an update</string>
+    <string name="direct_share_download_failed">Error Descarga DS</string>
+    <string name="mediatype_error">No se pudo obtener MediaType. Descarga no funcionará con esta versión de Instagram, esperar a una actualización</string>
 
-	<string name="new_folder">New folder</string>
-    <string name="create_folder_error">Failed to create folder</string>
-    <string name="name">Name</string>
-    <string name="go_back">Go back</string>
-    <string name="select_something_first">Please select something first</string>
+	<string name="new_folder">Nuevo folder</string>
+    <string name="create_folder_error">No se pudo crear la carpeta</string>
+    <string name="name">Nombre</string>
+    <string name="go_back">Regresar</string>
+    <string name="select_something_first">Por favor, seleccione algo primero</string>
 
     <plurals
         name="select_dir">
-        <item quantity="one">Select directory</item>
-        <item quantity="other">Select directories</item>
+        <item quantity="one">Seleccionar directorio</item>
+        <item quantity="other">Seleccione directorios</item>
     </plurals>
 
     <plurals
         name="select_file">
-        <item quantity="one">Select file</item>
-        <item quantity="other">Select files</item>
+        <item quantity="one">Seleccionar archivo</item>
+        <item quantity="other">Seleccione los archivos</item>
     </plurals>
 
     <plurals
         name="select_dir_or_file">
-        <item quantity="one">Select directory or file</item>
-        <item quantity="other">Select directories or files</item>
+        <item quantity="one">Seleccionar directorio o archivo</item>
+        <item quantity="other">Seleccione los directorios o archivos</item>
     </plurals>
 
 </resources>
