@@ -48,6 +48,16 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity-alias>
+
+        <receiver android:name=".Receiver">
+            <intent-filter>
+                <action android:name= "com.ihelp101.instagram.RECEIVE">
+                    <category android:name = "android.intent.category.DEFAULT" />
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".Service" android:exported="true"/>
     </application>
 
 </manifest>

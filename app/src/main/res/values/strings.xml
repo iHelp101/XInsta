@@ -5,6 +5,10 @@
     <!-- ListView -->
     <string name="Hide">Hide App</string>
     <string name="Image">Image Location</string>
+    <string name="Notification">DOWNLOAD NOTIFICATION</string>
+    <string name="NotificationShow">Show Download Notification</string>
+    <string name="NotificationHide">Hide Download Notification</string>
+    <string name="Recommended">Recommended</string>
     <string name="Save">SAVE LOCATIONS</string>
     <string name="Show">Show App</string>
     <string name="Update">UPDATE HOOKS</string>
@@ -22,12 +26,15 @@
     <string name="Warning">You can access the app via the Xposed Installer once it has been hidden.</string>
 
     <!-- Toast Messages -->
-    <string name="Downloading">Dowloading %1$s</string>
+    <string name="Copied">Comment Copied</string>
+    <string name="Downloading">Downloading %1$s</string>
     <string name="Hooks_Latest">You already have the latest hooks.</string>
     <string name="Hooks_Updated">Hooks have been updated.\nPlease kill the Instagram app.</string>
-    <string name="I_LocationChanged">Image save location reset to default.\nPlease kill the Instagram app.</string>
+    <string name="I_LocationChanged">Image save location reset to default.</string>
     <string name="Incorrect_Location">Unable to save here.\nPlease select another location.</string>
-    <string name="V_LocationChanged">Video save location reset to default.\nPlease kill the Instagram app.</string>
+    <string name="Notification_Changed">Download Notification Changed - %1$s</string>
+    <string name="Picture_Not">Please click the image and try again</string>
+    <string name="V_LocationChanged">Video save location reset to default.</string>
 
     <!-- The Download button -->
     <string name="the_not_so_big_but_big_button">Download</string>
@@ -47,7 +54,7 @@
 
     <!-- Error messages -->
     <string name="direct_share_download_failed">DS Download Failed</string>
-    <string name="mediatype_error">Failed to get MediaType. Downloading will not work with this version of Instagram, wait for an update</string>
+    <string name="mediatype_error">Failed to get MediaType. Downloading will not work with this version of Instagram, wait for an update.</string>
 
 	<string name="new_folder">New folder</string>
     <string name="create_folder_error">Failed to create folder</string>
