@@ -2,6 +2,7 @@
     package="com.ihelp101.instagram">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -49,15 +50,13 @@
             </intent-filter>
         </activity-alias>
 
-        <receiver android:name=".Receiver">
+        <receiver android:name=".Downloader">
             <intent-filter>
-                <action android:name= "com.ihelp101.instagram.RECEIVE">
+                <action android:name= "com.ihelp101.instagram.DOWNLOAD">
                     <category android:name = "android.intent.category.DEFAULT" />
                 </action>
             </intent-filter>
         </receiver>
-
-        <service android:name=".Service" android:exported="true"/>
     </application>
 
 </manifest>

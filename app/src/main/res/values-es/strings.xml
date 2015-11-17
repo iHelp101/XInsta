@@ -5,6 +5,9 @@
     <!-- ListView -->
     <string name="Hide">Ocultar App</string>
     <string name="Image">Ubicación de la imagen</string>
+    <string name="Notification">DOWNLOAD NOTIFICATION</string>
+    <string name="NotificationShow">Show Download Notification</string>
+    <string name="NotificationHide">Hide Download Notification</string>
     <string name="Recommended">Recommended</string>
     <string name="Save">Ubicación para guardar</string>
     <string name="Show">Mostrar App</string>
@@ -29,6 +32,7 @@
     <string name="Hooks_Updated">Ganchos han sido actualizados. \nPor favor, matar la aplicación Instagram.</string>
     <string name="I_LocationChanged">Ubicación de la imagen reiniciar ubicación por defecto. \nPor favor, matar la aplicación Instagram.</string>
     <string name="Incorrect_Location">No se puede guardar aquí. \nPor favor seleccione otra ubicación.</string>
+    <string name="Notification_Changed">Download Notification Changed - %1$s</string>
     <string name="Picture_Not">Please click the image and try again</string>
     <string name="V_LocationChanged">Ubicación del video reiniciar ubicación por defecto. \nPor favor, matar la aplicación Instagram.</string>
 

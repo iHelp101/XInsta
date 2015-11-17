@@ -15,20 +15,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -36,6 +26,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,27 +45,29 @@ public class Main extends ListActivity {
 
         @Override
         protected String doInBackground(String... uri) {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response;
-            String responseString = null;
+            String responseString = "Nope";
+
             try {
-                response = httpclient.execute(new HttpGet(uri[0]));
-                StatusLine statusLine = response.getStatusLine();
-                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    response.getEntity().writeTo(out);
-                    responseString = out.toString();
-                    out.close();
-                } else{
-                    //Closes the connection.
-                    response.getEntity().getContent().close();
-                    throw new IOException(statusLine.getReasonPhrase());
+                URL u = new URL(uri[0]);
+                URLConnection c = u.openConnection();
+                c.connect();
+                InputStream in = c.getInputStream();
+                final ByteArrayOutputStream bo = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                in.read(buffer);
+                bo.write(buffer);
+
+                responseString = bo.toString();
+
+                try {
+                    bo.close();
+                } catch (Exception e) {
+                    System.out.println("First: " +e);
                 }
-            } catch (ClientProtocolException e) {
-                //TODO Handle problems..
-            } catch (IOException e) {
-                //TODO Handle problems..
+            } catch (Exception e) {
+                System.out.println("Second: " +e);
             }
+
             return responseString;
         }
 
@@ -390,14 +386,13 @@ public class Main extends ListActivity {
                 } catch (IOException e) {
 
                 }
-                if (SaveLocation.equals("Image")) {
-                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.I_LocationChanged), Toast.LENGTH_LONG);
-                } else {
-                    toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.V_LocationChanged), Toast.LENGTH_LONG);
-                }
                 SaveLocation = "None";
             } else {
                 toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.Incorrect_Location), Toast.LENGTH_LONG);
+
+                TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+                if (v != null) v.setGravity(Gravity.CENTER);
+                toast.show();
 
                 Intent i = new Intent(com.ihelp101.instagram.Main.this, com.ihelp101.instagram.FilePickerActivity.class);
                 i.putExtra(com.ihelp101.instagram.FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
@@ -405,10 +400,6 @@ public class Main extends ListActivity {
                 i.putExtra(com.ihelp101.instagram.FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
                 startActivityForResult(i, FILE_CODE);
             }
-
-            TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-            if (v != null) v.setGravity(Gravity.CENTER);
-            toast.show();
         }
     }
 

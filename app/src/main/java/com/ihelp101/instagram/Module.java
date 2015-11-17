@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
@@ -42,12 +41,6 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -66,17 +59,13 @@ public class Module implements IXposedHookLoadPackage {
     private Class<?> dialogClass;
     private Context mContext;
     private Context nContext;
-    private int id = 1;
-    private NotificationCompat.Builder mBuilder;
-    private NotificationManager mNotifyManager;
 	private Object mCurrentMediaOptionButton;
 	private Object mCurrentDirectShareMediaOptionButton;
     private Object mUserName;
 
     private String directShareCheck = "Nope";
-    private String notificationCheck = "Show";
     private String firstHook;
-    private String getDirectory = Environment.getExternalStorageDirectory().toString().replace("1", "0");
+    private String getDirectory;
     private String Hooks = null;
     private String[] HooksArray;
     private String HookCheck = "No";
@@ -117,6 +106,8 @@ public class Module implements IXposedHookLoadPackage {
     private String USER_CLASS_NAME = "Nope";
     private String USERNAME_HOOK = "Nope";
     private String VIDEOTYPE_HOOK = "Nope";
+    private int versionCheck;
+    LoadPackageParam loadPackageParam;
 
     private static void log(String log) {
 		XposedBridge.log("XInsta: " + log);
@@ -124,148 +115,20 @@ public class Module implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
-        if (!lpparam.packageName.equals("com.instagram.android"))
-            return;
+        if (lpparam.packageName.equals("com.instagram.android")) {
+            loadPackageParam = lpparam;
 
-        // Thank you to KeepChat For the Following Code Snippet
-        // http://git.io/JJZPaw
-        Object activityThread = callStaticMethod(findClass("android.app.ActivityThread", null), "currentActivityThread");
-        final Context context = (Context) callMethod(activityThread, "getSystemContext");
+            getDirectory = Environment.getExternalStorageDirectory().toString();
 
-        final int versionCheck = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionCode;
-        //End Snippet
+            // Thank you to KeepChat For the Following Code Snippet
+            // http://git.io/JJZPaw
+            Object activityThread = callStaticMethod(findClass("android.app.ActivityThread", null), "currentActivityThread");
+            nContext = (Context) callMethod(activityThread, "getSystemContext");
 
-        nContext = context;
+            versionCheck = nContext.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionCode;
+            //End Snippet
 
-        //Hook Fetch
-        File file = new File(getDirectory + "/.Instagram/Hooks.txt");
-
-        StringBuilder text = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                text.append(line);
-            }
-            br.close();
-        }
-        catch (IOException e) {
-            HookCheck = "Yes";
-        }
-
-        final String[] split = text.toString().split(";");
-
-        //Image Fetch
-        File imagelocation = new File(getDirectory + "/.Instagram/Image.txt");
-
-        StringBuilder image = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(imagelocation));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                image.append(line);
-            }
-            br.close();
-        }
-        catch (IOException e) {
-            image.append("Instagram");
-        }
-
-        //Video Fetch
-        File videolocation = new File(getDirectory + "/.Instagram/Video.txt");
-
-        StringBuilder video = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(videolocation));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                video.append(line);
-            }
-            br.close();
-        }
-        catch (IOException e) {
-            video.append("Instagram");
-        }
-
-        try {
-            FEED_CLASS_NAME = split[1];
-            firstHook = split[1];
-            MEDIA_CLASS_NAME = split[2];
-            MEDIA_TYPE_CLASS_NAME = split[3];
-            USER_CLASS_NAME = split[4];
-            MEDIA_OPTIONS_BUTTON_CLASS_NAME = split[5];
-            DS_MEDIA_OPTIONS_BUTTON_CLASS_NAME = split[6];
-            DS_PERM_MORE_OPTIONS_DIALOG_CLASS_NAME = split[7];
-            MEDIA_OPTIONS_BUTTON_HOOK = split[8];
-            MEDIA_OPTIONS_BUTTON_HOOK2 = split[9];
-            PERM__HOOK = split[10];
-            PERM__HOOK2 = split[11];
-            mMEDIA_HOOK = split[12];
-            VIDEOTYPE_HOOK = split[13];
-            mMEDIA_VIDEO_HOOK = split[14];
-            mMEDIA_PHOTO_HOOK = split[15];
-            USERNAME_HOOK = split[16];
-            FULLNAME__HOOK = split[17];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            HookCheck = "Yes";
-        }
-
-        try {
-            IMAGE_HOOK_CLASS = split[18];
-            IMAGE_HOOK = split[19];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            oldCheck = "Yes";
-        }
-
-        try {
-            ITEMID_HOOK = split[20];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ITEMID_HOOK = "Nope";
-        }
-
-        try {
-            COMMENT_HOOK_CLASS = split[21];
-            COMMENT_HOOK = split[22];
-            COMMENT_HOOK_CLASS2 = split[23];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            commentCheck = "Yes";
-        }
-
-        try {
-            DS_DIALOG_CLASS_NAME = split[24];
-            DS_DIALOG_HOOK = split[25];
-            MODEL_HOOK = split[26];
-            ITEMID_DS_HOOK = split[27];
-            ITEMID_DS_HOOK2 = split[28];
-            directShareCheck = "Yes";
-        } catch (ArrayIndexOutOfBoundsException e) {
-            directShareCheck = "Nope";
-        }
-
-        final List<PackageInfo> packs = nContext.getPackageManager().getInstalledPackages(0);
-        for (int i = 0; i < packs.size(); i++) {
-            PackageInfo p = packs.get(i);
-            if (p.packageName.equals("com.instagram.android")) {
-                version = Integer.toString(p.versionCode);
-                version = version.substring(0, version.length() - 2);
-            }
-        }
-
-        log("Instagram Version Code: " + versionCheck);
-        log("Instagram First Hook: " + firstHook);
-        if (HookCheck.equals("Yes") || !version.equalsIgnoreCase(split[0])) {
-            UpdateHooks();
-        }
-        if (HookCheck.equals("Yes")) {
-            log(ResourceHelper.getString(nContext, R.string.Please));
-        } else {
-            hookInstagram(lpparam);
+            startHooks();
         }
 	}
 
@@ -394,133 +257,119 @@ public class Module implements IXposedHookLoadPackage {
 			userFullName = userName;
 		}
 
-        if (SAVE.equals("Instagram")) {
-            SAVE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram";
-            File directory =
-                    new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram");
-            if (!directory.exists())
-                directory.mkdirs();
-        } else {
-            File directory = new File(URI.create(SAVE).getPath());
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-        }
+        String notificationTitle = ResourceHelper.getString(mContext, R.string.username_thing, userFullName, descriptionType);;
+        notificationTitle = notificationTitle.substring(0,1).toUpperCase() + notificationTitle.substring(1);;
 
-        new DownloadFileAsync().execute(linkToDownload, SAVE, fileName, userFullName, descriptionType);
+        Intent intent = new Intent();
+        intent.setAction("com.ihelp101.instagram.DOWNLOAD");
+        intent.putExtra("Link", linkToDownload);
+        intent.putExtra("Save", SAVE);
+        intent.putExtra("File", fileName);
+        intent.putExtra("Notification", notificationTitle);
+        mContext.sendBroadcast(intent);
 	}
-
-    private class DownloadFileAsync extends AsyncTask<Object, String, String> {
-
-        String User = null;
-        String Desc = null;
-        String Location = null;
-        String fileName = null;
-        String Failed = "No";
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            notificationCheck = getNotification();
-
-            Random r = new Random();
-            int i1 = r.nextInt(80000000 - 65) + 65;
-            id = i1;
-        }
-
-        @Override
-        protected String doInBackground(Object... aurl) {
-            int count;
-            Location = aurl[1] + "/" + aurl[2];
-            Location = Location.replace("%20", " ");
-            Location = Location.replace("file://", "");
-            fileName = (String) aurl [2];
-            User = (String) aurl[3];
-            Desc = (String) aurl[4];
-
-            if (!notificationCheck.equals("Hide")) {
-                mNotifyManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-                mBuilder = new NotificationCompat.Builder(mContext);
-                mBuilder.setContentTitle("" + User + "'s " + Desc)
-                        .setSmallIcon(android.R.drawable.ic_dialog_info)
-                        .setContentText(ResourceHelper.getString(mContext, R.string.DownloadDots));
-                mNotifyManager.notify(id, mBuilder.build());
-            }
-
-            try {
-                URL url = new URL((String) aurl[0]);
-                URLConnection conexion = url.openConnection();
-                conexion.connect();
-
-                InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output = new FileOutputStream(Location);
-
-                byte data[] = new byte[1024];
-
-                while ((count = input.read(data)) != -1) {
-                    output.write(data, 0, count);
-                }
-
-                output.flush();
-                output.close();
-                input.close();
-            } catch (Exception e) {
-                log("Exception: " + e);
-                Failed = "Yes";
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String unused) {
-            Toast(ResourceHelper.getString(mContext, R.string.Download_Completed));
-
-            if (!notificationCheck.equals("Hide")) {
-                if (Failed.equals("Yes")) {
-                    mBuilder.setContentText(ResourceHelper.getString(mContext, R.string.Download_Failed));
-                    mBuilder.setTicker(ResourceHelper.getString(mContext, R.string.Download_Failed));
-                } else {
-                    mBuilder.setContentText(ResourceHelper.getString(mContext, R.string.Download_Completed));
-                    mBuilder.setTicker(ResourceHelper.getString(mContext, R.string.Download_Completed));
-                }
-
-                mBuilder.setContentTitle("" + User + "'s " + Desc);
-                mBuilder.setSmallIcon(android.R.drawable.ic_dialog_info);
-                mBuilder.setAutoCancel(true);
-
-                Intent notificationIntent = new Intent();
-                notificationIntent.setAction(Intent.ACTION_VIEW);
-
-                File file = new File(Location);
-                if (fileName.contains("jpg")) {
-                    notificationIntent.setDataAndType(Uri.fromFile(file), "image/*");
-                } else {
-                    notificationIntent.setDataAndType(Uri.fromFile(file), "video/*");
-                }
-                notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
-                        notificationIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-
-                mBuilder.setContentIntent(contentIntent);
-                mNotifyManager.notify(id, mBuilder.build());
-            }
-
-            MediaScannerConnection.scanFile(nContext,
-                    new String[]{Location}, null,
-                    new MediaScannerConnection.OnScanCompletedListener() {
-                        public void onScanCompleted(String path, Uri uri) {
-                            if (uri != null) {
-                                int scan = 1;
-                            }
-                        }
-                    });
-        }
-    }
 
     private void Toast (String message) {
             Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startHooks() {
+        final List<PackageInfo> packs = nContext.getPackageManager().getInstalledPackages(0);
+        for (int i = 0; i < packs.size(); i++) {
+            PackageInfo p = packs.get(i);
+            if (p.packageName.equals("com.instagram.android")) {
+                version = Integer.toString(p.versionCode);
+                version = version.substring(0, version.length() - 2);
+            }
+        }
+
+        //Hook Fetch
+        File file = new File(getDirectory + "/.Instagram/Hooks.txt");
+
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            HookCheck = "Yes";
+        }
+
+
+        final String[] split = text.toString().split(";");
+
+        try {
+            FEED_CLASS_NAME = split[1];
+            firstHook = split[1];
+            MEDIA_CLASS_NAME = split[2];
+            MEDIA_TYPE_CLASS_NAME = split[3];
+            USER_CLASS_NAME = split[4];
+            MEDIA_OPTIONS_BUTTON_CLASS_NAME = split[5];
+            DS_MEDIA_OPTIONS_BUTTON_CLASS_NAME = split[6];
+            DS_PERM_MORE_OPTIONS_DIALOG_CLASS_NAME = split[7];
+            MEDIA_OPTIONS_BUTTON_HOOK = split[8];
+            MEDIA_OPTIONS_BUTTON_HOOK2 = split[9];
+            PERM__HOOK = split[10];
+            PERM__HOOK2 = split[11];
+            mMEDIA_HOOK = split[12];
+            VIDEOTYPE_HOOK = split[13];
+            mMEDIA_VIDEO_HOOK = split[14];
+            mMEDIA_PHOTO_HOOK = split[15];
+            USERNAME_HOOK = split[16];
+            FULLNAME__HOOK = split[17];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            HookCheck = "Yes";
+        }
+
+        try {
+            IMAGE_HOOK_CLASS = split[18];
+            IMAGE_HOOK = split[19];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            oldCheck = "Yes";
+        }
+
+        try {
+            ITEMID_HOOK = split[20];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            ITEMID_HOOK = "Nope";
+        }
+
+        try {
+            COMMENT_HOOK_CLASS = split[21];
+            COMMENT_HOOK = split[22];
+            COMMENT_HOOK_CLASS2 = split[23];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            commentCheck = "Yes";
+        }
+
+        try {
+            DS_DIALOG_CLASS_NAME = split[24];
+            DS_DIALOG_HOOK = split[25];
+            MODEL_HOOK = split[26];
+            ITEMID_DS_HOOK = split[27];
+            ITEMID_DS_HOOK2 = split[28];
+            directShareCheck = "Yes";
+        } catch (ArrayIndexOutOfBoundsException e) {
+            directShareCheck = "Nope";
+        }
+
+        log("Instagram Version Code: " + versionCheck);
+        log("Instagram First Hook: " + firstHook);
+
+        if (HookCheck.equals("Yes") || !version.equalsIgnoreCase(split[0])) {
+            UpdateHooks();
+        }
+        if (HookCheck.equals("Yes")) {
+            log(ResourceHelper.getString(nContext, R.string.Please));
+        } else {
+            hookInstagram(loadPackageParam);
+        }
     }
 
     private void hookInstagram(final LoadPackageParam lpparam) {
@@ -724,11 +573,13 @@ public class Module implements IXposedHookLoadPackage {
                         log("Unable to determine media");
                         return;
                     }
+
                     try {
                         downloadMedia(mMedia, "Other");
                     } catch (Throwable t) {
                         Toast("Please contact iHelp101 on XDA.");
                     }
+
                     param.setResult(null);
                 }
             }
@@ -777,21 +628,24 @@ public class Module implements IXposedHookLoadPackage {
         Thread getHooks= new Thread() {
                 public void run() {
                     try {
-                        HttpClient httpclient = new DefaultHttpClient();
-                        HttpResponse response = httpclient.execute(new HttpGet("https://raw.githubusercontent.com/iHelp101/XInsta/master/Hooks.txt"));
-                        StatusLine statusLine = response.getStatusLine();
-                        if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-                            ByteArrayOutputStream out = new ByteArrayOutputStream();
-                            response.getEntity().writeTo(out);
-                            Hooks = out.toString();
-                            out.close();
-                        } else {
-                            //Closes the connection.
-                            response.getEntity().getContent().close();
-                            throw new IOException(statusLine.getReasonPhrase());
+                        URL u = new URL("https://raw.githubusercontent.com/iHelp101/XInsta/master/Hooks.txt");
+                        URLConnection c = u.openConnection();
+                        c.connect();
+                        InputStream in = c.getInputStream();
+                        final ByteArrayOutputStream bo = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[1024];
+                        in.read(buffer);
+                        bo.write(buffer);
+
+                        Hooks = bo.toString();
+
+                        try {
+                            bo.close();
+                        } catch (Exception e) {
+
                         }
-                    } catch (IOException e) {
-                        System.out.println(e);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             };
@@ -956,24 +810,6 @@ public class Module implements IXposedHookLoadPackage {
         catch (IOException e) {
             videoLocation = "Instagram";
         }
-    }
-
-    public String getNotification() {
-        //Notification Option Fetch
-        File notification = new File(getDirectory + "/.Instagram/Notification.txt");
-        String line;
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(notification));
-
-            line = br.readLine();
-            br.close();
-        }
-        catch (IOException e) {
-            line = "Show";
-        }
-
-        return line;
     }
 }
 
