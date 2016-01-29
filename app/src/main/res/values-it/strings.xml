@@ -5,6 +5,7 @@
     <!-- ListView -->
     <string name="Hide">Nascondi App</string>
     <string name="Image">Salvataggio Immagini</string>
+    <string name="Profile">Profile Icon Location</string>
     <string name="Notification">DOWNLOAD NOTIFICATION</string>
     <string name="NotificationShow">Show Download Notification</string>
     <string name="NotificationHide">Hide Download Notification</string>
@@ -33,6 +34,7 @@
     <string name="I_LocationChanged">Cartella di salvataggio immagini aggiornata. Chiudi Instagram e riavvialo.</string>
     <string name="Incorrect_Location">Impossibile salvare qui. Chiudi Instagram e riprova.</string>
     <string name="Notification_Changed">Download Notification Changed - %1$s</string>
+    <string name="P_LocationChanged">Profile icon save location reset to default.</string>
     <string name="Picture_Not">Clicca sull\'immgagine e riprova.</string>
     <string name="V_LocationChanged">Cartella di salvataggio video aggiornata. Chiudi Instagram e riavvialo.</string>
 
@@ -49,8 +51,8 @@
     <string name="instagram_item">%1$s di Instagram</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
-    <string name="photo">foto</string>
-    <string name="video">video</string>
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
 
     <!-- Error messages -->
     <string name="direct_share_download_failed">Download del DM fallito</string>

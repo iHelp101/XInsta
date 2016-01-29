@@ -5,6 +5,7 @@
     <!-- ListView -->
     <string name="Hide">Hide App</string>
     <string name="Image">Image Location</string>
+    <string name="Profile">Profile Icon Location</string>
     <string name="Notification">DOWNLOAD NOTIFICATION</string>
     <string name="NotificationShow">Show Download Notification</string>
     <string name="NotificationHide">Hide Download Notification</string>
@@ -33,6 +34,7 @@
     <string name="I_LocationChanged">Image save location reset to default.</string>
     <string name="Incorrect_Location">Unable to save here.\nPlease select another location.</string>
     <string name="Notification_Changed">Download Notification Changed - %1$s</string>
+    <string name="P_LocationChanged">Profile icon save location reset to default.</string>
     <string name="Picture_Not">Please click the image and try again</string>
     <string name="V_LocationChanged">Video save location reset to default.</string>
 
@@ -49,8 +51,8 @@
     <string name="instagram_item">Instagram %1$s</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
-    <string name="photo">photo</string>
-    <string name="video">video</string>
+    <string name="photo">Photo</string>
+    <string name="video">Video</string>
 
     <!-- Error messages -->
     <string name="direct_share_download_failed">DS Download Failed</string>

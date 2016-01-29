@@ -24,6 +24,7 @@
             android:name="com.ihelp101.instagram.Main"
             android:configChanges="orientation"
             android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,14 +50,11 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity-alias>
-
-        <receiver android:name=".Downloader">
-            <intent-filter>
-                <action android:name= "com.ihelp101.instagram.DOWNLOAD">
-                    <category android:name = "android.intent.category.DEFAULT" />
-                </action>
-            </intent-filter>
-        </receiver>
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
