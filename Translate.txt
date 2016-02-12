@@ -4,6 +4,7 @@ Example:
 Original - <string name="Hide">Hide App</string>
 Spanish - <string name="Hide">Ocultar App</string>
 
+Language - Which Language Are You Translating?
 
 <!-- ListView -->
     <string name="Hide">Hide App</string>
