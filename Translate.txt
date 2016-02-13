@@ -42,6 +42,7 @@ Language - Which Language Are You Translating?
 <string name="error_log">Send Error Logs</string>
 <string name="folder">Folder - Add Username</string>
 <string name="like">Like Button - Double Tap</string>
+<string name="translations">Translate XInsta</string>
 
 <!-- Module -->
 <string name="Download_Completed">Download Completed</string>
