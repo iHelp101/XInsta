@@ -38,6 +38,11 @@ Language - Which Language Are You Translating?
 <string name="Visibility">APP VISIBILITY</string>
 <string name="Video">Video Location</string>
 
+<!-- Menu Items !-->
+<string name="error_log">Send Error Logs</string>
+<string name="folder">Folder - Add Username</string>
+<string name="like">Like Button - Double Tap</string>
+
 <!-- Module -->
 <string name="Download_Completed">Download Completed</string>
 <string name="Download_Failed">Download Failed</string>
