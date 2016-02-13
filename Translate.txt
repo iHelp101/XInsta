@@ -6,6 +6,24 @@ Spanish - <string name="Hide">Ocultar App</string>
 
 Language - Which Language Are You Translating?
 
+<!-- Alert Dialog -->
+<string name="Okay">Okay</string>
+<string name="Warning">You can access the app via the Xposed Installer once it has been hidden.</string>
+
+<!-- Description in notification -->
+<string name="instagram_item">Instagram %1$s</string>
+
+<!-- Error messages -->
+<string name="direct_share_download_failed">DS Download Failed</string>
+<string name="mediatype_error">Failed to get MediaType. Downloading will not work with this version of Instagram, wait for an update.</string>
+
+<!-- File Browser -->
+<string name="nnf_new_folder">New folder</string>
+<string name="nnf_create_folder_error">Failed to create folder</string>
+<string name="nnf_name">Name</string>
+<string name="nnf_select_something_first">Please select something first</string>
+<string name="nnf_permission_external_write_denied">Permission to access filesystem denied</string>
+
 <!-- ListView -->
 <string name="Hide">Hide App</string>
 <string name="Image">Image Location</string>
@@ -26,9 +44,15 @@ Language - Which Language Are You Translating?
 <string name="DownloadDots">Downloading&#8230;</string>
 <string name="Please">Please update your hooks via the module.</string>
 
-<!-- Alert Dialog -->
-<string name="Okay">Okay</string>
-<string name="Warning">You can access the app via the Xposed Installer once it has been hidden.</string>
+<!-- Parameters for above (Downloading photo/video) -->
+<string name="photo">Photo</string>
+<string name="video">Video</string>
+
+<!-- The Download button -->
+<string name="the_not_so_big_but_big_button">Download</string>
+
+<!-- Title in notification -->
+<string name="username_thing">%1$s\'s %2$s</string>
 
 <!-- Toast Messages -->
 <string name="Copied">Comment Copied</string>
@@ -42,27 +66,5 @@ Language - Which Language Are You Translating?
 <string name="Picture_Not">Please click the image and try again</string>
 <string name="V_LocationChanged">Video save location reset to default.</string>
 
-<!-- The Download button -->
-<string name="the_not_so_big_but_big_button">Download</string>
-
 <!-- Used if username wasn't obtained correctly or empty -->
 <string name="someone_username_placeholder">Someone</string>
-
-<!-- Title in notification -->
-<string name="username_thing">%1$s\'s %2$s</string>
-
-<!-- Description in notification -->
-<string name="instagram_item">Instagram %1$s</string>
-
-<!-- Parameters for above (Downloading photo/video) -->
-<string name="photo">Photo</string>
-<string name="video">Video</string>
-
-<!-- Error messages -->
-<string name="direct_share_download_failed">DS Download Failed</string>
-<string name="mediatype_error">Failed to get MediaType. Downloading will not work with this version of Instagram, wait for an update.</string>
-<string name="nnf_new_folder">New folder</string>
-<string name="nnf_create_folder_error">Failed to create folder</string>
-<string name="nnf_name">Name</string>
-<string name="nnf_select_something_first">Please select something first</string>
-<string name="nnf_permission_external_write_denied">Permission to access filesystem denied</string>
