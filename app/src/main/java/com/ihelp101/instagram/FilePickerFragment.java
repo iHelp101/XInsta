@@ -1,57 +1,146 @@
 /*
- * Copyright (c) 2014 Jonas Kalderstam
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
 package com.ihelp101.instagram;
 
-import android.content.AsyncTaskLoader;
-import android.content.Loader;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.FileObserver;
+import android.support.annotation.NonNull;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.Loader;
+import android.support.v7.util.SortedList;
+import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
+/**
+ * An implementation of the picker which allows you to select a file from the internal/external
+ * storage (SD-card) on a device.
+ */
 public class FilePickerFragment extends AbstractFilePickerFragment<File> {
 
-    public FilePickerFragment() {}
+    protected static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    protected boolean showHiddenItems = false;
+
+    public FilePickerFragment() {
+    }
+
+    /**
+     * This method is used to dictate whether hidden files and folders should be shown or not
+     *
+     * @param showHiddenItems whether hidden items should be shown or not
+     */
+    public void showHiddenItems(boolean showHiddenItems){
+        this.showHiddenItems = showHiddenItems;
+    }
+
+    /**
+     * Returns if hidden items are shown or not
+     *
+     * @return true if hidden items are shown, otherwise false
+     */
+
+    public boolean areHiddenItemsShown(){
+        return showHiddenItems;
+    }
+
+    /**
+     * @return true if app has been granted permission to write to the SD-card.
+     */
+    @Override
+    protected boolean hasPermission() {
+        return PackageManager.PERMISSION_GRANTED ==
+                ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    /**
+     * Request permission to write to the SD-card.
+     */
+    protected void handlePermission() {
+//         Should we show an explanation?
+//        if (shouldShowRequestPermissionRationale(
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//             Explain to the user why we need permission
+//        }
+
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+    }
+
+    /**
+     * This the method that gets notified when permission is granted/denied. By default,
+     * a granted request will result in a refresh of the list.
+     *
+     * @param requestCode  the code you requested
+     * @param permissions  array of permissions you requested. empty if process was cancelled.
+     * @param grantResults results for requests. empty if process was cancelled.
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        // If arrays are empty, then process was cancelled
+        if (permissions.length == 0) {
+            // Treat this as a cancel press
+            if (mListener != null) {
+                mListener.onCancelled();
+            }
+        } else { // if (requestCode == PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (PackageManager.PERMISSION_GRANTED == grantResults[0]) {
+                // Do refresh
+                refresh();
+            } else {
+                Toast.makeText(getContext(), R.string.nnf_permission_external_write_denied,
+                        Toast.LENGTH_SHORT).show();
+                // Treat this as a cancel press
+                if (mListener != null) {
+                    mListener.onCancelled();
+                }
+            }
+        }
+    }
 
     /**
      * Return true if the path is a directory and not a file.
      *
-     * @param path
+     * @param path either a file or directory
+     * @return true if path is a directory, false if file
      */
     @Override
-    protected boolean isDir(final File path) {
+    public boolean isDir(final File path) {
         return path.isDirectory();
+    }
+
+    /**
+     * @param path either a file or directory
+     * @return filename of path
+     */
+    @Override
+    public String getName(File path) {
+        return path.getName();
     }
 
     /**
      * Return the path to the parent directory. Should return the root if
      * from is root.
      *
-     * @param from
+     * @param from either a file or directory
+     * @return the parent directory
      */
     @Override
-    protected File getParent(final File from) {
-        if (from.getParentFile() != null) {
+    public File getParent(final File from) {
+        if (from.getPath().equals(getRoot().getPath())) {
+            // Already at root, we can't go higher
+            return from;
+        } else if (from.getParentFile() != null) {
             if (from.isFile()) {
                 return getParent(from.getParentFile());
             } else {
@@ -65,67 +154,42 @@ public class FilePickerFragment extends AbstractFilePickerFragment<File> {
     /**
      * Convert the path to the type used.
      *
-     * @param path
+     * @param path either a file or directory
+     * @return File representation of the string path
      */
     @Override
-    protected File getPath(final String path) {
+    public File getPath(final String path) {
         return new File(path);
     }
 
     /**
-     * @param path
+     * @param path either a file or directory
      * @return the full path to the file
      */
     @Override
-    protected String getFullPath(final File path) {
+    public String getFullPath(final File path) {
         return path.getPath();
     }
 
     /**
-     * @param path
-     * @return the name of this file/folder
+     * Get the root path.
+     *
+     * @return the highest allowed path, which is "/" by default
      */
     @Override
-    protected String getName(final File path) {
-        return path.getName();
-    }
-
-    /**
-     * Get the root path (lowest allowed).
-     */
-    @Override
-    protected File getRoot() {
-        return Environment.getExternalStorageDirectory();
+    public File getRoot() {
+        return new File("/");
     }
 
     /**
      * Convert the path to a URI for the return intent
-     * @param file
-     * @return
+     *
+     * @param file either a file or directory
+     * @return a Uri
      */
     @Override
-    protected Uri toUri(final File file) {
+    public Uri toUri(final File file) {
         return Uri.fromFile(file);
-    }
-
-    /**
-     * @return a comparator that can sort the items alphabetically
-     */
-    @Override
-    protected Comparator<File> getComparator() {
-        return new Comparator<File>() {
-            @Override
-            public int compare(final File lhs, final File rhs) {
-                if (lhs.isDirectory() && !rhs.isDirectory()) {
-                    return -1;
-                } else if (rhs.isDirectory() && !lhs.isDirectory()) {
-                    return 1;
-                } else {
-                    return lhs.getName().toLowerCase().compareTo(rhs.getName()
-                            .toLowerCase());
-                }
-            }
-        };
     }
 
     /**
@@ -133,23 +197,44 @@ public class FilePickerFragment extends AbstractFilePickerFragment<File> {
      * and monitors changes.
      */
     @Override
-    protected Loader<List<File>> getLoader() {
-        return new AsyncTaskLoader<List<File>>(getActivity()) {
+    public Loader<SortedList<File>> getLoader() {
+        return new AsyncTaskLoader<SortedList<File>>(getActivity()) {
 
             FileObserver fileObserver;
 
             @Override
-            public List<File> loadInBackground() {
-                ArrayList<File> files = new ArrayList<File>();
-                File[] listFiles = currentPath.listFiles();
-                if(listFiles != null) {
+            public SortedList<File> loadInBackground() {
+                File[] listFiles = mCurrentPath.listFiles();
+                final int initCap = listFiles == null ? 0 : listFiles.length;
+
+                SortedList<File> files = new SortedList<>(File.class, new SortedListAdapterCallback<File>(getDummyAdapter()) {
+                    @Override
+                    public int compare(File lhs, File rhs) {
+                        return compareFiles(lhs, rhs);
+                    }
+
+                    @Override
+                    public boolean areContentsTheSame(File file, File file2) {
+                        return file.getAbsolutePath().equals(file2.getAbsolutePath()) && (file.isFile() == file2.isFile());
+                    }
+
+                    @Override
+                    public boolean areItemsTheSame(File file, File file2) {
+                        return areContentsTheSame(file, file2);
+                    }
+                }, initCap);
+
+
+                files.beginBatchedUpdates();
+                if (listFiles != null) {
                     for (File f : listFiles) {
-                        if ((mode == MODE_FILE || mode == MODE_FILE_AND_DIR)
-                                || f.isDirectory()) {
+                        if (isItemVisible(f)) {
                             files.add(f);
                         }
                     }
                 }
+                files.endBatchedUpdates();
+
                 return files;
             }
 
@@ -161,12 +246,12 @@ public class FilePickerFragment extends AbstractFilePickerFragment<File> {
                 super.onStartLoading();
 
                 // handle if directory does not exist. Fall back to root.
-                if (currentPath == null || !currentPath.isDirectory()) {
-                    currentPath = getRoot();
+                if (mCurrentPath == null || !mCurrentPath.isDirectory()) {
+                    mCurrentPath = getRoot();
                 }
 
                 // Start watching for changes
-                fileObserver = new FileObserver(currentPath.getPath(),
+                fileObserver = new FileObserver(mCurrentPath.getPath(),
                         FileObserver.CREATE |
                                 FileObserver.DELETE
                                 | FileObserver.MOVED_FROM | FileObserver.MOVED_TO
@@ -207,14 +292,53 @@ public class FilePickerFragment extends AbstractFilePickerFragment<File> {
      */
     @Override
     public void onNewFolder(final String name) {
-        File folder = new File(currentPath, name);
+        File folder = new File(mCurrentPath, name);
 
         if (folder.mkdir()) {
-            currentPath = folder;
+            mCurrentPath = folder;
             refresh();
         } else {
-            Toast.makeText(getActivity(), R.string.create_folder_error,
+            Toast.makeText(getActivity(), R.string.nnf_create_folder_error,
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Used by the list to determine whether a file should be displayed or not.
+     * Default behavior is to always display folders. If files can be selected,
+     * then files are also displayed. Set the showHiddenFiles property to show
+     * hidden file. Default behaviour is to hide hidden files. Override this method to enable other
+     * filtering behaviour, like only displaying files with specific extensions (.zip, .txt, etc).
+     *
+     * @param file to maybe add. Can be either a directory or file.
+     * @return True if item should be added to the list, false otherwise
+     */
+    protected boolean isItemVisible(final File file) {
+        if(!showHiddenItems && file.isHidden()){
+            return false;
+        }
+        return (isDir(file) || (mode == MODE_FILE || mode == MODE_FILE_AND_DIR));
+    }
+
+    /**
+     * Compare two files to determine their relative sort order. This follows the usual
+     * comparison interface. Override to determine your own custom sort order.
+     * <p/>
+     * Default behaviour is to place directories before files, but sort them alphabetically
+     * otherwise.
+     *
+     * @param lhs File on the "left-hand side"
+     * @param rhs File on the "right-hand side"
+     * @return -1 if if lhs should be placed before rhs, 0 if they are equal,
+     * and 1 if rhs should be placed before lhs
+     */
+    protected int compareFiles(File lhs, File rhs) {
+        if (lhs.isDirectory() && !rhs.isDirectory()) {
+            return -1;
+        } else if (rhs.isDirectory() && !lhs.isDirectory()) {
+            return 1;
+        } else {
+            return lhs.getName().compareToIgnoreCase(rhs.getName());
         }
     }
 }

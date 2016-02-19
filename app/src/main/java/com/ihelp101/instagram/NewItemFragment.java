@@ -1,38 +1,27 @@
 /*
- * Copyright (c) 2014 Jonas Kalderstam
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
 package com.ihelp101.instagram;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.DialogFragment;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 public abstract class NewItemFragment extends DialogFragment {
 
-    private String itemName = null;
-    private View okButton = null;
     private OnNewFolderListener listener = null;
 
     public NewItemFragment() {
@@ -46,71 +35,74 @@ public abstract class NewItemFragment extends DialogFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        setRetainInstance(true);
     }
 
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        getDialog().setTitle(getDialogTitle());
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(R.layout.nnf_dialog_folder_name)
+                .setTitle(R.string.nnf_new_folder)
+                .setNegativeButton(android.R.string.cancel,
+                        null)
+                .setPositiveButton(android.R.string.ok,
+                        null);
 
-        @SuppressLint("InflateParams") final View view =
-                inflater.inflate(R.layout.dialog_new_item, null);
+        final AlertDialog dialog = builder.create();
 
-        okButton = view.findViewById(R.id.button_ok);
-        okButton.setOnClickListener(new View.OnClickListener() {
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
-            public void onClick(final View v) {
-                if (listener != null) {
-                    listener.onNewFolder(itemName);
-                }
-                dismiss();
-            }
-        });
+            public void onShow(DialogInterface dialog1) {
+                final AlertDialog dialog = (AlertDialog) dialog1;
+                final EditText editText = (EditText) dialog.findViewById(R.id.edit_text);
 
-        view.findViewById(R.id.button_cancel)
-                .setOnClickListener(new View.OnClickListener() {
+                Button cancel = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                cancel.setOnClickListener(new View.OnClickListener() {
+
                     @Override
-                    public void onClick(final View v) {
-                        dismiss();
+                    public void onClick(View view) {
+                        dialog.cancel();
                     }
                 });
 
-        final EditText editText = (EditText) view.findViewById(R.id.edit_text);
-        if (itemName == null) {
-            okButton.setEnabled(false);
-        } else {
-            editText.setText(itemName);
-            validateItemName();
-        }
+                final Button ok = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                // Start disabled
+                ok.setEnabled(false);
+                ok.setOnClickListener(new View.OnClickListener() {
 
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(final CharSequence s, final int start,
-                    final int count, final int after) {
-            }
+                    @Override
+                    public void onClick(View view) {
+                        String itemName = editText.getText().toString();
+                        if (validateName(itemName)) {
+                            if (listener != null) {
+                                listener.onNewFolder(itemName);
+                            }
+                            dialog.dismiss();
+                        }
+                    }
+                });
 
-            @Override
-            public void onTextChanged(final CharSequence s, final int start,
-                    final int before, final int count) {
-            }
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(final CharSequence s, final int start,
+                                                  final int count, final int after) {
+                    }
 
-            @Override
-            public void afterTextChanged(final Editable s) {
-                itemName = s.toString();
-                validateItemName();
+                    @Override
+                    public void onTextChanged(final CharSequence s, final int start,
+                                              final int before, final int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(final Editable s) {
+                        ok.setEnabled(validateName(s.toString()));
+                    }
+                });
             }
         });
 
-        return view;
-    }
 
-    protected abstract int getDialogTitle();
-
-    private void validateItemName() {
-        if (okButton != null) {
-            okButton.setEnabled(validateName(itemName));
-        }
+        return dialog;
     }
 
     protected abstract boolean validateName(final String itemName);
@@ -122,6 +114,6 @@ public abstract class NewItemFragment extends DialogFragment {
          *
          * @param name The name of the folder the user wishes to create.
          */
-        public void onNewFolder(final String name);
+        void onNewFolder(final String name);
     }
 }

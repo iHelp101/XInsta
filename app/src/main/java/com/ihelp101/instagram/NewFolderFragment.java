@@ -1,42 +1,30 @@
 /*
- * Copyright (c) 2014 Jonas Kalderstam
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
 package com.ihelp101.instagram;
 
 
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 
-public class NewFolderFragment extends com.ihelp101.instagram.NewItemFragment {
+public class NewFolderFragment extends NewItemFragment {
 
     private static final String TAG = "new_folder_fragment";
-    public static void showDialog(final FragmentManager fm, final NewItemFragment.OnNewFolderListener listener) {
-        NewItemFragment d = new com.ihelp101.instagram.NewFolderFragment();
+
+    public static void showDialog(final FragmentManager fm, final OnNewFolderListener listener) {
+        NewItemFragment d = new NewFolderFragment();
         d.setListener(listener);
         d.show(fm, TAG);
     }
 
     @Override
     protected boolean validateName(final String itemName) {
-        return itemName != null && !itemName.isEmpty()
-                && !itemName.contains("/");
-    }
-
-    @Override
-    protected int getDialogTitle() {
-        return R.string.new_folder;
+        return !TextUtils.isEmpty(itemName)
+                && !itemName.contains("/")
+                && !itemName.equals(".")
+                && !itemName.equals("..");
     }
 }

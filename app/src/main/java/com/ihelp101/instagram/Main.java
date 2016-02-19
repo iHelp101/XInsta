@@ -15,43 +15,32 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import de.robv.android.xposed.XposedBridge;
 
 public class Main extends ListActivity {
 
@@ -97,21 +86,7 @@ public class Main extends ListActivity {
                 }
             }
 
-            File file = new File(getDirectory + "/.Instagram/Hooks.txt");
-
-            StringBuilder text = new StringBuilder();
-
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line;
-
-                while ((line = br.readLine()) != null) {
-                    text.append(line);
-                }
-                br.close();
-            } catch (IOException e) {
-
-            }
+            String text = Helper.getHooks();
 
             String toast = getResources().getString(R.string.Hooks_Updated);
 
@@ -138,7 +113,7 @@ public class Main extends ListActivity {
                 if (version.equals(finalCheck) && !data.isEmpty()) {
                     data = data.replace("<p>", "");
                     data = data.replace("</p>", "");
-                    if (data.trim().equals(text.toString().trim())) {
+                    if (data.trim().equals(text.trim())) {
                         toast = getResources().getString(R.string.Hooks_Latest);
                     } else {
                         Hooks(data);
@@ -151,7 +126,7 @@ public class Main extends ListActivity {
                         fallback = fallback.replace("<p>", "");
                         fallback = fallback.replace("</p>", "");
                         fallback = fallback.replaceAll("[0-9]", "");
-                        String SavedHooks = text.toString().replaceAll("[0-9]", "");
+                        String SavedHooks = text.replaceAll("[0-9]", "");
                         if (fallback.trim().equals(SavedHooks.trim())) {
                             toast = getResources().getString(R.string.Hooks_Latest);
                         } else {
@@ -168,7 +143,6 @@ public class Main extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mAdapter = new ListView(Main.this);
         updateListView();
 
@@ -191,74 +165,20 @@ public class Main extends ListActivity {
 
     public void listAction() {
         String Position = currentAction;
-        if (Position.equals(getResources().getString(R.string.Hide))) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
-            builder.setMessage(getResources().getString(R.string.Warning));
-            builder.setPositiveButton(getResources().getString(R.string.Okay), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    UiUtils.setActivityVisibleInDrawer(Main.this, false);
-
-                    mAdapter = new ListView(Main.this);
-                    mAdapter.addSectionHeaderItem(getResources().getString(R.string.Visibility));
-                    mAdapter.addItem(UiUtils.getActivityVisibleInDrawer(Main.this) ? getResources().getString(R.string.Hide) : getResources().getString(R.string.Show));
-                    mAdapter.addSectionHeaderItem(getResources().getString(R.string.Save));
-                    mAdapter.addItem(getResources().getString(R.string.Image));
-                    mAdapter.addItem(getResources().getString(R.string.Profile));
-                    mAdapter.addItem(getResources().getString(R.string.Video));
-                    mAdapter.addSectionHeaderItem(getResources().getString(R.string.Update));
-                    mAdapter.addItem("GitHub");
-                    mAdapter.addItem("Pastebin");
-                    mAdapter.addItem("Alternate Source");
-                    mAdapter.addSectionHeaderItem(getResources().getString(R.string.Recommended));
-                    mAdapter.addItem("Zoom For Instagram");
-                    setListAdapter(mAdapter);
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-        if (Position.equals(getResources().getString(R.string.Show))) {
-            UiUtils.setActivityVisibleInDrawer(Main.this, true);
-            updateListView();
-        }
-        if (Position.equals(getResources().getString(R.string.NotificationShow))) {
-            setNotification("Show");
-            updateListView();
-        }
-        if (Position.equals(getResources().getString(R.string.NotificationHide))) {
-            setNotification("Hide");
-            updateListView();
-        }
         if (Position.equals(getResources().getString(R.string.Image))) {
             SaveLocation = "Image";
 
-            //Image Fetch
-            final File imagelocation = new File(getDirectory + "/.Instagram/Image.txt");
+            String saveLocation = Helper.getImage();
+            saveLocation = saveLocation.replace("file://", "").replaceAll("%20", " ");
 
-            StringBuilder image = new StringBuilder();
-
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(imagelocation));
-                String line;
-
-                while ((line = br.readLine()) != null) {
-                    image.append(line);
-                }
-                br.close();
-            } catch (Exception e) {
-                image.append("Instagram");
-            }
-
-            String imageLocation = image.toString();
-            imageLocation = imageLocation.replace("file://", "");
+            System.out.println("Save: " +saveLocation);
 
             Intent i = new Intent(Main.this, FilePickerActivity.class);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
             i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-            if (!imageLocation.equals("Instagram")) {
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH, imageLocation);
+            if (!saveLocation.equals("Instagram")) {
+                i.putExtra(FilePickerActivity.EXTRA_START_PATH, saveLocation);
             } else {
                 i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram");
             }
@@ -267,32 +187,15 @@ public class Main extends ListActivity {
         if (Position.equals(getResources().getString(R.string.Profile))) {
             SaveLocation = "Profile";
 
-            //Image Fetch
-            final File imagelocation = new File(getDirectory + "/.Instagram/Profile.txt");
-
-            StringBuilder image = new StringBuilder();
-
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(imagelocation));
-                String line;
-
-                while ((line = br.readLine()) != null) {
-                    image.append(line);
-                }
-                br.close();
-            } catch (Exception e) {
-                image.append("Instagram");
-            }
-
-            String imageLocation = image.toString();
-            imageLocation = imageLocation.replace("file://", "");
+            String saveLocation = Helper.getProfile();
+            saveLocation = saveLocation.replace("file://", "").replaceAll("%20", " ");
 
             Intent i = new Intent(Main.this, FilePickerActivity.class);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
             i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-            if (!imageLocation.equals("Instagram")) {
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH, imageLocation);
+            if (!saveLocation.equals("Instagram")) {
+                i.putExtra(FilePickerActivity.EXTRA_START_PATH, saveLocation);
             } else {
                 i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram");
             }
@@ -301,32 +204,15 @@ public class Main extends ListActivity {
         if (Position.equals(getResources().getString(R.string.Video))) {
             SaveLocation = "Video";
 
-            //Video Fetch
-            File videolocation = new File(getDirectory + "/.Instagram/Video.txt");
-
-            StringBuilder video = new StringBuilder();
-
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(videolocation));
-                String line;
-
-                while ((line = br.readLine()) != null) {
-                    video.append(line);
-                }
-                br.close();
-            } catch (Exception e) {
-                video.append("Instagram");
-            }
-
-            String videoLocation = video.toString();
-            videoLocation = videoLocation.replace("file://", "");
+            String saveLocation = Helper.getVideo();
+            saveLocation = saveLocation.replace("file://", "").replaceAll("%20", " ");
 
             Intent i = new Intent(Main.this, FilePickerActivity.class);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
             i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-            if (!videoLocation.equals("Instagram")) {
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH, videoLocation);
+            if (!saveLocation.equals("Instagram")) {
+                i.putExtra(FilePickerActivity.EXTRA_START_PATH, saveLocation);
             } else {
                 i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram");
             }
@@ -362,10 +248,28 @@ public class Main extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
-        if (getFolder().equals("Yes")) {
+        if (Helper.getFolder().equals("Yes")) {
             menu.findItem(R.id.folder).setChecked(true);
         } else {
             menu.findItem(R.id.folder).setChecked(false);
+        }
+
+        if (Helper.getLike().equals("Hide")) {
+            menu.findItem(R.id.like).setChecked(true);
+        } else {
+            menu.findItem(R.id.like).setChecked(false);
+        }
+
+        if (Helper.getNotification().equals("Hide")) {
+            menu.findItem(R.id.notification_hide).setChecked(true);
+        } else {
+            menu.findItem(R.id.notification_hide).setChecked(false);
+        }
+
+        if (UiUtils.getActivityVisibleInDrawer(Main.this)) {
+            menu.findItem(R.id.hide_app).setChecked(false);
+        } else {
+            menu.findItem(R.id.hide_app).setChecked(true);
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -374,7 +278,7 @@ public class Main extends ListActivity {
     public boolean onOptionsItemSelected(final MenuItem menuItem) {
         String clicked = (String) menuItem.getTitle();
 
-        if (clicked.equals("Send Error Logs")) {
+        if (clicked.equals(getResources().getString(R.string.error_log))) {
             try {
                 sendErrorLog();
             } catch (Exception e) {
@@ -382,45 +286,82 @@ public class Main extends ListActivity {
             }
         }
 
-        if (clicked.equals("Folder - Add Username")) {
+        if (clicked.equals(getResources().getString(R.string.translations))) {
+            try {
+                sendTranslation();
+            } catch (Exception e) {
+            }
+        }
+
+        if (clicked.equals(getResources().getString(R.string.folder))) {
             if (menuItem.isChecked()) {
                 menuItem.setChecked(false);
-                setFolder("No");
+                Helper.setFolder("No");
             } else {
                 menuItem.setChecked(true);
-                setFolder("Yes");
+                Helper.setFolder("Yes");
+            }
+        }
+
+        if (clicked.equals(getResources().getString(R.string.Hide))) {
+            if (menuItem.isChecked()) {
+                menuItem.setChecked(false);
+                UiUtils.setActivityVisibleInDrawer(Main.this, true);
+            } else {
+                menuItem.setChecked(true);
+                menuItem.setChecked(false);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+                builder.setMessage(getResources().getString(R.string.Warning));
+                builder.setPositiveButton(getResources().getString(R.string.Okay), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        UiUtils.setActivityVisibleInDrawer(Main.this, false);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        }
+
+
+        if (clicked.equals(getResources().getString(R.string.NotificationHide))) {
+            if (menuItem.isChecked()) {
+                menuItem.setChecked(false);
+                Helper.setNotification("Show");
+            } else {
+                menuItem.setChecked(true);
+                Helper.setNotification("Hide");
+            }
+        }
+
+
+        if (clicked.equals(getResources().getString(R.string.like))) {
+            if (menuItem.isChecked()) {
+                menuItem.setChecked(false);
+                Helper.setLike("Show");
+            } else {
+                menuItem.setChecked(true);
+                Helper.setLike("Hide");
             }
         }
 
         return false;
     }
 
-
     public void RevertSaveLocation(String fileName) {
-        try {
-            File root = new File(getDirectory, ".Instagram");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            File gpxfile = new File(root, fileName);
-            FileWriter writer = new FileWriter(gpxfile);
-            writer.append("Instagram");
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-
-        }
 
         String toast;
 
-        if (fileName.equals("Image.txt")) {
+        if (fileName.equals("Image")) {
+            Helper.setImage("Instagram");
             toast= getResources().getString(R.string.I_LocationChanged);
-        } else if (fileName.equals("Profile.txt")) {
+        } else if (fileName.equals("Profile")) {
+            Helper.setProfile("Instagram");
             toast = getResources().getString(R.string.P_LocationChanged);
         } else {
+            Helper.setVideo("Instagram");
             toast = getResources().getString(R.string.V_LocationChanged);
         }
-
 
         setToast(toast);
     }
@@ -433,9 +374,9 @@ public class Main extends ListActivity {
         }
         if (resultCode == 1337) {
             if (SaveLocation.equals("Image")) {
-                RevertSaveLocation("Image.txt");
+                RevertSaveLocation("Image");
             } else {
-                RevertSaveLocation("Video.txt");
+                RevertSaveLocation("Video");
             }
         }
         if (requestCode == FILE_CODE && resultCode == Main.RESULT_OK) {
@@ -468,178 +409,52 @@ public class Main extends ListActivity {
 
             String toast;
 
-            if (Location.toString().contains("/storage/")) {
-                try {
-                    File root = new File(getDirectory, ".Instagram");
-                    if (!root.exists()) {
-                        root.mkdirs();
-                    }
-                    File gpxfile = new File(root, "Image.txt");
-
+            try {
+                if (Location.toString().contains("/storage/") || Location.toString().contains("/mnt/") || Location.toString().contains("/sdcard/")) {
                     if (SaveLocation.equals("Image")) {
-                        gpxfile = new File(root, "Image.txt");
+                        Helper.setImage(Location.toString());
                     }
                     if (SaveLocation.equals("Profile")) {
-                        gpxfile = new File(root, "Profile.txt");
+                        Helper.setProfile(Location.toString());
                     }
                     if (SaveLocation.equals("Video")) {
-                        gpxfile = new File(root, "Video.txt");
+                        Helper.setVideo(Location.toString());
                     }
 
-                    FileWriter writer = new FileWriter(gpxfile);
-                    writer.append(Location.toString());
-                    writer.flush();
-                    writer.close();
-                } catch (IOException e) {
+                    SaveLocation = "None";
+                } else {
+                    toast = getResources().getString(R.string.Incorrect_Location);
 
+                    setToast(toast);
+
+                    Intent i = new Intent(Main.this, FilePickerActivity.class);
+                    i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+                    i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
+                    i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
+                    startActivityForResult(i, FILE_CODE);
                 }
-                SaveLocation = "None";
-            } else {
-                toast = getResources().getString(R.string.Incorrect_Location);
-
-                setToast(toast);
-
-                Intent i = new Intent(Main.this, FilePickerActivity.class);
-                i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
-                i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
-                i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-                startActivityForResult(i, FILE_CODE);
+            } catch (Exception e) {
             }
         }
     }
 
     public void Hooks(String data) {
         try {
-            File root = new File(getDirectory, ".Instagram");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            File gpxfile = new File(root, "Hooks.txt");
-            FileWriter writer = new FileWriter(gpxfile);
-            writer.append(data);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-
-        }
-
-
-        File file = new File(getDirectory, ".Instagram/Image.txt");
-        if (!file.exists()) {
-            try {
-                File root = new File(getDirectory, ".Instagram");
-                if (!root.exists()) {
-                    root.mkdirs();
-                }
-                File gpxfile = new File(root, "Image.txt");
-                FileWriter writer = new FileWriter(gpxfile);
-                writer.append("Instagram");
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-
-            }
-        }
-
-        file = new File(getDirectory, ".Instagram/Video.txt");
-        if (!file.exists()) {
-            try {
-                File root = new File(getDirectory, ".Instagram");
-                if (!root.exists()) {
-                    root.mkdirs();
-                }
-                File gpxfile = new File(root, "Video.txt");
-                FileWriter writer = new FileWriter(gpxfile);
-                writer.append("Instagram");
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-
-            }
-        }
-    }
-
-    public String getFolder() {
-        //Notification Option Fetch
-        File notification = new File(getDirectory + "/.Instagram/Folder.txt");
-        String line;
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(notification));
-
-            line = br.readLine();
-            br.close();
-        } catch (IOException e) {
-            line = "Show";
-        }
-
-        return line;
-    }
-
-    public void setFolder(String status) {
-        try {
-            File root = new File(getDirectory, ".Instagram");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            File gpxfile = new File(root, "Folder.txt");
-            FileWriter writer = new FileWriter(gpxfile);
-            writer.append(status);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-
-        }
-    }
-
-    public String getNotification() {
-        //Image Fetch
-        final File location = new File(getDirectory + "/.Instagram/Notification.txt");
-
-        StringBuilder status = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(location));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                status.append(line);
-            }
-            br.close();
+            Helper.setHooks(data);
         } catch (Exception e) {
-            status.append("Show");
+
         }
-        return status.toString();
     }
 
-    public void setNotification(String status) {
+    public void setFolder(String data) {
         try {
-            File root = new File(getDirectory, ".Instagram");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            File gpxfile = new File(root, "Notification.txt");
-            FileWriter writer = new FileWriter(gpxfile);
-            writer.append(status);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-
+            Helper.setFolder(data);
+        } catch (Exception e) {
         }
-
-        setToast(getResources().getString(R.string.Notification_Changed));
     }
 
     public void updateListView() {
         mAdapter = new ListView(Main.this);
-        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Visibility));
-        mAdapter.addItem(UiUtils.getActivityVisibleInDrawer(Main.this) ? getResources().getString(R.string.Hide) : getResources().getString(R.string.Show));
-        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Notification));
-        if (getNotification().equals("Hide")) {
-            mAdapter.addItem(getResources().getString(R.string.NotificationShow));
-        } else {
-            mAdapter.addItem(getResources().getString(R.string.NotificationHide));
-        }
         mAdapter.addSectionHeaderItem(getResources().getString(R.string.Save));
         mAdapter.addItem(getResources().getString(R.string.Image));
         mAdapter.addItem(getResources().getString(R.string.Profile));
@@ -683,6 +498,32 @@ public class Main extends ListActivity {
         startActivity(Intent.createChooser(intent, "Email"));
     }
 
+    public void sendTranslation() {
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    URL u = new URL("https://raw.githubusercontent.com/iHelp101/XInsta/master/Translate.txt");
+                    URLConnection c = u.openConnection();
+                    c.connect();
+
+                    InputStream inputStream = c.getInputStream();
+
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"XInsta@ihelp101.com"});
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "XInsta - Translation");
+                    intent.putExtra(Intent.EXTRA_TEXT, convertStreamToString(inputStream));
+
+                    startActivity(Intent.createChooser(intent, "Email"));
+                } catch (Exception e) {
+                    setError("Translation - " +e);
+                }
+            }
+        });
+
+        thread.start();
+    }
 
     private static String convertStreamToString(InputStream is) throws UnsupportedEncodingException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
@@ -734,17 +575,11 @@ public class Main extends ListActivity {
     }
 
     public void setToast(String message) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            Snackbar.make(Main.this.getListView(), message, Snackbar.LENGTH_SHORT).show();
-        } else {
-            Toast toast = Toast.makeText(Main.this, message, Toast.LENGTH_SHORT);
-            TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
-            if (v != null) v.setGravity(Gravity.CENTER);
-            toast.show();
-        }
+        Toast toast = Toast.makeText(Main.this, message, Toast.LENGTH_SHORT);
+        TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
+        if (v != null) v.setGravity(Gravity.CENTER);
+        toast.show();
     }
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

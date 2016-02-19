@@ -1,18 +1,7 @@
 /*
- * Copyright (c) 2014 Jonas Kalderstam
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
 package com.ihelp101.instagram;
@@ -20,24 +9,14 @@ package com.ihelp101.instagram;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,8 +48,8 @@ import java.util.List;
  *
  * @param <T>
  */
-public abstract class AbstractFilePickerActivity<T> extends Activity
-        implements com.ihelp101.instagram.AbstractFilePickerFragment.OnFilePickedListener {
+public abstract class AbstractFilePickerActivity<T> extends AppCompatActivity
+        implements AbstractFilePickerFragment.OnFilePickedListener {
     public static final String EXTRA_START_PATH =
             "nononsense.intent" + ".START_PATH";
     public static final String EXTRA_MODE = "nononsense.intent.MODE";
@@ -80,24 +59,22 @@ public abstract class AbstractFilePickerActivity<T> extends Activity
     public static final String EXTRA_ALLOW_MULTIPLE =
             "android.intent.extra" + ".ALLOW_MULTIPLE";
     public static final String EXTRA_PATHS = "nononsense.intent.PATHS";
-    public static final int MODE_FILE = com.ihelp101.instagram.AbstractFilePickerFragment.MODE_FILE;
+    public static final int MODE_FILE = AbstractFilePickerFragment.MODE_FILE;
     public static final int MODE_FILE_AND_DIR =
-            com.ihelp101.instagram.AbstractFilePickerFragment.MODE_FILE_AND_DIR;
-    public static final int MODE_DIR = com.ihelp101.instagram.AbstractFilePickerFragment.MODE_DIR;
+            AbstractFilePickerFragment.MODE_FILE_AND_DIR;
+    public static final int MODE_DIR = AbstractFilePickerFragment.MODE_DIR;
     protected static final String TAG = "filepicker_fragment";
     protected String startPath = null;
-    protected int mode = com.ihelp101.instagram.AbstractFilePickerFragment.MODE_FILE;
+    protected int mode = AbstractFilePickerFragment.MODE_FILE;
     protected boolean allowCreateDir = false;
     protected boolean allowMultiple = false;
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        setupFauxDialog();
-        setupActionBar();
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_filepicker);
+        setContentView(R.layout.nnf_activity_filepicker);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -109,9 +86,9 @@ public abstract class AbstractFilePickerActivity<T> extends Activity
                     intent.getBooleanExtra(EXTRA_ALLOW_MULTIPLE, allowMultiple);
         }
 
-        FragmentManager fm = getFragmentManager();
-        com.ihelp101.instagram.AbstractFilePickerFragment<T> fragment =
-                (com.ihelp101.instagram.AbstractFilePickerFragment<T>) fm.findFragmentByTag(TAG);
+        FragmentManager fm = getSupportFragmentManager();
+        AbstractFilePickerFragment<T> fragment =
+                (AbstractFilePickerFragment<T>) fm.findFragmentByTag(TAG);
 
         if (fragment == null) {
             fragment =
@@ -127,63 +104,9 @@ public abstract class AbstractFilePickerActivity<T> extends Activity
         setResult(Activity.RESULT_CANCELED);
     }
 
-    protected void setupFauxDialog() {
-        // Check if this should be a dialog
-        TypedValue tv = new TypedValue();
-        if (!getTheme().resolveAttribute(R.attr.isDialog, tv, true) ||
-            tv.data == 0) {
-            return;
-        }
-
-        // Should be a dialog; set up the window parameters.
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.width = getResources()
-                .getDimensionPixelSize(R.dimen.configure_dialog_width);
-        params.height = Math.min(getResources()
-                .getDimensionPixelSize(R.dimen.configure_dialog_max_height),
-                dm.heightPixels * 3 / 4);
-        params.alpha = 1.0f;
-        params.dimAmount = 0.5f;
-        getWindow().setAttributes(params);
-    }
-
-    protected void setupActionBar() {
-        getActionBar().setTitle(getWindowTitle());
-    }
-
-    protected abstract com.ihelp101.instagram.AbstractFilePickerFragment<T> getFragment(
+    protected abstract AbstractFilePickerFragment<T> getFragment(
             final String startPath, final int mode, final boolean allowMultiple,
             final boolean allowCreateDir);
-
-    /**
-     * @return the title to apply to the window
-     */
-    protected String getWindowTitle() {
-        final int res;
-        switch (mode) {
-            case com.ihelp101.instagram.AbstractFilePickerFragment.MODE_DIR:
-                res = R.plurals.select_dir;
-                break;
-            case com.ihelp101.instagram.AbstractFilePickerFragment.MODE_FILE_AND_DIR:
-                res = R.plurals.select_dir_or_file;
-                break;
-            case AbstractFilePickerFragment.MODE_FILE:
-            default:
-                res = R.plurals.select_file;
-                break;
-        }
-
-        final int count;
-        if (allowMultiple) {
-            count = 99;
-        } else {
-            count = 1;
-        }
-
-        return getResources().getQuantityString(res, count);
-    }
 
     @Override
     public void onSaveInstanceState(Bundle b) {
@@ -216,7 +139,7 @@ public abstract class AbstractFilePickerActivity<T> extends Activity
             }
             i.setClipData(clip);
         } else {
-            ArrayList<String> paths = new ArrayList<String>();
+            ArrayList<String> paths = new ArrayList<>();
             for (Uri file : files) {
                 paths.add(file.toString());
             }
@@ -230,12 +153,6 @@ public abstract class AbstractFilePickerActivity<T> extends Activity
     @Override
     public void onCancelled() {
         setResult(Activity.RESULT_CANCELED);
-        finish();
-    }
-
-    @Override
-    public void onReset() {
-        setResult(1337);
         finish();
     }
 }

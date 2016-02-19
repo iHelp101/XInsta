@@ -20,4 +20,6 @@
     <color name="grey">#e6e6e6</color>
     <color name="dark_grey">#4d4d4d</color>
     <color name="action_select">#6d6d6d</color>
+    <color name="nnf_light_separator_color">#1e000000</color>
+    <color name="nnf_dark_separator_color">#1effffff</color>
 </resources>
