@@ -36,6 +36,7 @@ Language - Which Language Are You Translating?
 <string name="NotificationShow">Show Download Notification</string>
 <string name="NotificationHide">Hide Download Notification</string>
 <string name="Show">Show App</string>
+<string name="Suggestion">Hide Suggestions</string>
 
 <!-- Module -->
 <string name="Download_Completed">Download Completed</string>
