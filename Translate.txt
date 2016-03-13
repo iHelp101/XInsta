@@ -12,6 +12,17 @@ Language - Which Language Are You Translating?
 <string name="Okay">Okay</string>
 <string name="Warning">You can access the app via the Xposed Installer once it has been hidden.</string>
 
+<!-- Date -->
+<string name="am">AM/PM</string>
+<string name="day">Day</string>
+<string name="hour">Hour</string>
+<string name="minute">Minute</string>
+<string name="month">Month</string>
+<string name="second">Second</string>
+<string name="space">---SPACE---</string>
+<string name="space2">---SPACE2---</string>
+<string name="year">Year</string>
+
 <!-- File Browser -->
 <string name="nnf_new_folder">New folder</string>
 <string name="nnf_create_folder_error">Failed to create folder</string>
@@ -28,6 +39,7 @@ Language - Which Language Are You Translating?
 <string name="Video">Video Location</string>
 
 <!-- Menu Items !-->
+<string name="date">Date Formatting</string>
 <string name="error_log">Send Error Logs</string>
 <string name="folder">Folder - Add Username</string>
 <string name="like">Disable Like Button - Double Tap</string>
