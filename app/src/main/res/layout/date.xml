@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="4dp">
+    <com.ihelp101.instagram.LinearLayoutListView
+        android:id="@+id/pane1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/listview1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.ihelp101.instagram.LinearLayoutListView>
+</LinearLayout>

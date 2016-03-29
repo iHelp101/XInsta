@@ -3,6 +3,7 @@ package com.ihelp101.instagram;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.ClipData;
@@ -25,16 +26,13 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
@@ -47,9 +45,32 @@ public class Main extends ListActivity {
     private ListView mAdapter;
     private String version = "123";
     private static int FILE_CODE = 0;
-    String SaveLocation = "None";
+    String saveLocation = "None";
+    String saveSD;
     String currentAction;
-    String getDirectory = Environment.getExternalStorageDirectory().toString().replace("1", "0");
+    String getDirectory = Environment.getExternalStorageDirectory().toString();
+
+    boolean isSDCard(String saveLocation) {
+        boolean result = false;
+        try {
+            File root = new File(saveLocation, ".Instagram");
+            if (!root.exists()) {
+                root.mkdirs();
+            }
+            File gpxfile = new File(root, "SD.txt");
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append("SD Card Check");
+            writer.flush();
+            writer.close();
+
+            result = false;
+        } catch (FileNotFoundException e) {
+            result = true;
+        } catch (Exception e) {
+        }
+
+        return result;
+    }
 
     class RequestTask extends AsyncTask<String, String, String> {
 
@@ -64,7 +85,7 @@ public class Main extends ListActivity {
 
                 InputStream inputStream = c.getInputStream();
 
-                responseString = convertStreamToString(inputStream);
+                responseString = Helper.convertStreamToString(inputStream);
             } catch (Exception e) {
                 responseString = "Nope";
             }
@@ -86,7 +107,7 @@ public class Main extends ListActivity {
                 }
             }
 
-            String text = Helper.getHooks();
+            String text = Helper.getSetting("Hooks");
 
             String toast = getResources().getString(R.string.Hooks_Updated);
 
@@ -100,6 +121,7 @@ public class Main extends ListActivity {
                 max++;
             }
 
+
             for (String data : html) {
                 count++;
 
@@ -110,13 +132,14 @@ public class Main extends ListActivity {
                     finalCheck = PasteVersion[0];
                 }
 
+
                 if (version.equals(finalCheck) && !data.isEmpty()) {
                     data = data.replace("<p>", "");
                     data = data.replace("</p>", "");
                     if (data.trim().equals(text.trim())) {
                         toast = getResources().getString(R.string.Hooks_Latest);
                     } else {
-                        Hooks(data);
+                        Helper.setSetting("Hooks", data);
                     }
                     matched = "Yes";
                 } else {
@@ -130,13 +153,90 @@ public class Main extends ListActivity {
                         if (fallback.trim().equals(SavedHooks.trim())) {
                             toast = getResources().getString(R.string.Hooks_Latest);
                         } else {
-                            Hooks(fallback);
+                            Helper.setSetting("Hooks", fallback);
                             toast = getResources().getString(R.string.Hooks_Updated);
                         }
                     }
                 }
             }
             setToast(toast);
+        }
+    }
+
+    boolean appInstalledOrNot(String uri) {
+        PackageManager pm = getPackageManager();
+        boolean app_installed;
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            app_installed = false;
+        }
+        return app_installed;
+    }
+
+    public void checkPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(Main.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            } else {
+                listAction();
+            }
+        } else {
+            listAction();
+        }
+    }
+
+    void listAction() {
+        if (currentAction.equals(getResources().getString(R.string.Image)) || currentAction.equals(getResources().getString(R.string.Profile)) || currentAction.equals(getResources().getString(R.string.Video))) {
+            saveLocation = "Image";
+            if (currentAction.equals(getResources().getString(R.string.Profile))) {
+                saveLocation = "Profile";
+            } else if (currentAction.equals(getResources().getString(R.string.Video))) {
+                saveLocation = "Video";
+            }
+
+            String save = Helper.getSaveLocation(saveLocation);
+            save = save.replace("file://", "").replaceAll("%20", " ");
+
+            if (save.contains("com.android.externalstorage.documents") && android.os.Build.VERSION.SDK_INT >= 21) {
+                save = save.split(";")[1];
+            }
+
+            Intent i = new Intent(Main.this, FilePickerActivity.class);
+            i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+            i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
+            i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
+            if (!save.equals("Instagram")) {
+                i.putExtra(FilePickerActivity.EXTRA_START_PATH, save);
+            } else {
+                i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram");
+            }
+            startActivityForResult(i, FILE_CODE);
+        }
+        if (currentAction.equals("GitHub")) {
+            new RequestTask().execute("https://raw.githubusercontent.com/iHelp101/XInsta/master/Hooks.txt");
+        }
+        if (currentAction.equals("Pastebin")) {
+            new RequestTask().execute("http://pastebin.com/raw.php?i=sTXbUFcx");
+        }
+        if (currentAction.equals("Alternate Source")) {
+            new RequestTask().execute("http://www.snapprefs.com/xinsta/Hooks.txt");
+        }
+        if (currentAction.equals("Zoom For Instagram")) {
+            boolean appInstalled = appInstalledOrNot("com.Taptigo.XposedModules.IgZoom");
+            if (appInstalled) {
+                Intent intent = new Intent("de.robv.android.xposed.installer.OPEN_SECTION");
+                intent.setPackage("de.robv.android.xposed.installer");
+                intent.putExtra("section", "modules");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://repo.xposed.info/module/com.Taptigo.XposedModules.IgZoom"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
         }
     }
 
@@ -163,107 +263,32 @@ public class Main extends ListActivity {
         });
     }
 
-    public void listAction() {
-        String Position = currentAction;
-        if (Position.equals(getResources().getString(R.string.Image))) {
-            SaveLocation = "Image";
-
-            String saveLocation = Helper.getImage();
-            saveLocation = saveLocation.replace("file://", "").replaceAll("%20", " ");
-
-            System.out.println("Save: " +saveLocation);
-
-            Intent i = new Intent(Main.this, FilePickerActivity.class);
-            i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
-            i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
-            i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-            if (!saveLocation.equals("Instagram")) {
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH, saveLocation);
-            } else {
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram");
-            }
-            startActivityForResult(i, FILE_CODE);
-        }
-        if (Position.equals(getResources().getString(R.string.Profile))) {
-            SaveLocation = "Profile";
-
-            String saveLocation = Helper.getProfile();
-            saveLocation = saveLocation.replace("file://", "").replaceAll("%20", " ");
-
-            Intent i = new Intent(Main.this, FilePickerActivity.class);
-            i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
-            i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
-            i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-            if (!saveLocation.equals("Instagram")) {
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH, saveLocation);
-            } else {
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram");
-            }
-            startActivityForResult(i, FILE_CODE);
-        }
-        if (Position.equals(getResources().getString(R.string.Video))) {
-            SaveLocation = "Video";
-
-            String saveLocation = Helper.getVideo();
-            saveLocation = saveLocation.replace("file://", "").replaceAll("%20", " ");
-
-            Intent i = new Intent(Main.this, FilePickerActivity.class);
-            i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
-            i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
-            i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
-            if (!saveLocation.equals("Instagram")) {
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH, saveLocation);
-            } else {
-                i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram");
-            }
-            startActivityForResult(i, FILE_CODE);
-        }
-        if (Position.equals("GitHub")) {
-            new RequestTask().execute("https://raw.githubusercontent.com/iHelp101/XInsta/master/Hooks.txt");
-        }
-        if (Position.equals("Pastebin")) {
-            new RequestTask().execute("http://pastebin.com/raw.php?i=sTXbUFcx");
-        }
-        if (Position.equals("Alternate Source")) {
-            new RequestTask().execute("http://www.snapprefs.com/xinsta/Hooks.txt");
-        }
-        if (Position.equals("Zoom For Instagram")) {
-            boolean appInstalled = appInstalledOrNot("com.Taptigo.XposedModules.IgZoom");
-            if (appInstalled) {
-                Intent intent = new Intent("de.robv.android.xposed.installer.OPEN_SECTION");
-                intent.setPackage("de.robv.android.xposed.installer");
-                intent.putExtra("section", "modules");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("http://repo.xposed.info/module/com.Taptigo.XposedModules.IgZoom"));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
-        if (Helper.getFolder().equals("Yes")) {
+        if (Helper.getSettings("Folder")) {
             menu.findItem(R.id.folder).setChecked(true);
         } else {
             menu.findItem(R.id.folder).setChecked(false);
         }
 
-        if (Helper.getLike().equals("Hide")) {
+        if (Helper.getSettings("Like")) {
             menu.findItem(R.id.like).setChecked(true);
         } else {
             menu.findItem(R.id.like).setChecked(false);
         }
 
-        if (Helper.getNotification().equals("Hide")) {
+        if (Helper.getSettings("Notification")) {
             menu.findItem(R.id.notification_hide).setChecked(true);
         } else {
             menu.findItem(R.id.notification_hide).setChecked(false);
+        }
+
+        if (Helper.getSettings("Push")) {
+            menu.findItem(R.id.push).setChecked(true);
+        } else {
+            menu.findItem(R.id.push).setChecked(false);
         }
 
         if (UiUtils.getActivityVisibleInDrawer(Main.this)) {
@@ -272,13 +297,24 @@ public class Main extends ListActivity {
             menu.findItem(R.id.hide_app).setChecked(true);
         }
 
+        if (Helper.getSettings("Suggestion")) {
+            menu.findItem(R.id.suggestion).setChecked(true);
+        } else {
+            menu.findItem(R.id.suggestion).setChecked(false);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(final MenuItem menuItem) {
         String clicked = (String) menuItem.getTitle();
 
-        if (clicked.equals(getResources().getString(R.string.error_log))) {
+        if (clicked.equals(getResources().getString(R.string.Date))) {
+            Intent myIntent = new Intent(getApplicationContext(), com.ihelp101.instagram.Date.class);
+            startActivity(myIntent);
+        }
+
+        if (clicked.equals(getResources().getString(R.string.Error_log))) {
             try {
                 sendErrorLog();
             } catch (Exception e) {
@@ -286,20 +322,23 @@ public class Main extends ListActivity {
             }
         }
 
-        if (clicked.equals(getResources().getString(R.string.translations))) {
-            try {
-                sendTranslation();
-            } catch (Exception e) {
+        if (clicked.equals(getResources().getString(R.string.Like))) {
+            if (menuItem.isChecked()) {
+                menuItem.setChecked(false);
+                Helper.setSetting("Like", Boolean.toString(menuItem.isChecked()));
+            } else {
+                menuItem.setChecked(true);
+                Helper.setSetting("Like", Boolean.toString(menuItem.isChecked()));
             }
         }
 
-        if (clicked.equals(getResources().getString(R.string.folder))) {
+        if (clicked.equals(getResources().getString(R.string.Folder))) {
             if (menuItem.isChecked()) {
                 menuItem.setChecked(false);
-                Helper.setFolder("No");
+                Helper.setSetting("Folder", Boolean.toString(menuItem.isChecked()));
             } else {
                 menuItem.setChecked(true);
-                Helper.setFolder("Yes");
+                Helper.setSetting("Folder", Boolean.toString(menuItem.isChecked()));
             }
         }
 
@@ -323,62 +362,60 @@ public class Main extends ListActivity {
             }
         }
 
-
         if (clicked.equals(getResources().getString(R.string.NotificationHide))) {
             if (menuItem.isChecked()) {
                 menuItem.setChecked(false);
-                Helper.setNotification("Show");
+                Helper.setSetting("Notification", Boolean.toString(menuItem.isChecked()));
             } else {
                 menuItem.setChecked(true);
-                Helper.setNotification("Hide");
+                Helper.setSetting("Notification", Boolean.toString(menuItem.isChecked()));
             }
         }
 
-
-        if (clicked.equals(getResources().getString(R.string.like))) {
+        if (clicked.equals(getResources().getString(R.string.Push))) {
             if (menuItem.isChecked()) {
                 menuItem.setChecked(false);
-                Helper.setLike("Show");
+                Helper.setSetting("Push", Boolean.toString(menuItem.isChecked()));
             } else {
                 menuItem.setChecked(true);
-                Helper.setLike("Hide");
+                Helper.setSetting("Push", Boolean.toString(menuItem.isChecked()));
+            }
+        }
+
+        if (clicked.equals(getResources().getString(R.string.Suggestion))) {
+            if (menuItem.isChecked()) {
+                menuItem.setChecked(false);
+                Helper.setSetting("Suggestion", Boolean.toString(menuItem.isChecked()));
+            } else {
+                menuItem.setChecked(true);
+                Helper.setSetting("Suggestion", Boolean.toString(menuItem.isChecked()));
+            }
+        }
+
+        if (clicked.equals(getResources().getString(R.string.Translations))) {
+            try {
+                sendTranslation();
+            } catch (Exception e) {
             }
         }
 
         return false;
     }
 
-    public void RevertSaveLocation(String fileName) {
-
-        String toast;
-
-        if (fileName.equals("Image")) {
-            Helper.setImage("Instagram");
-            toast= getResources().getString(R.string.I_LocationChanged);
-        } else if (fileName.equals("Profile")) {
-            Helper.setProfile("Instagram");
-            toast = getResources().getString(R.string.P_LocationChanged);
-        } else {
-            Helper.setVideo("Instagram");
-            toast = getResources().getString(R.string.V_LocationChanged);
-        }
-
-        setToast(toast);
-    }
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 0) {
-            SaveLocation = "None";
+            saveLocation = "None";
         }
-        if (resultCode == 1337) {
-            if (SaveLocation.equals("Image")) {
-                RevertSaveLocation("Image");
-            } else {
-                RevertSaveLocation("Video");
+        if (requestCode == 12 && resultCode == Activity.RESULT_OK) {
+            Helper.setSetting(saveLocation, data.getDataString() + ";" + saveSD);
+            if (android.os.Build.VERSION.SDK_INT >= 19) {
+                getContentResolver().takePersistableUriPermission(data.getData(), Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             }
+            saveLocation = "None";
         }
+
         if (requestCode == FILE_CODE && resultCode == Main.RESULT_OK) {
             Uri Location = null;
             if (data.getBooleanExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)) {
@@ -411,17 +448,16 @@ public class Main extends ListActivity {
 
             try {
                 if (Location.toString().contains("/storage/") || Location.toString().contains("/mnt/") || Location.toString().contains("/sdcard/")) {
-                    if (SaveLocation.equals("Image")) {
-                        Helper.setImage(Location.toString());
+                    if (!isSDCard(Location.getPath())) {
+                        Helper.setSetting(saveLocation, Location.getPath() + "/");
+                        saveLocation = "None";
+                    } else if (!Helper.getSaveLocation(saveLocation).contains("com.android.externalstorage.documents")){
+                        saveSD = Location.getPath() + "/";
+                        startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), 12);
+                    } else {
+                        Helper.setSetting(saveLocation, Helper.getSaveLocation(saveLocation).split(";")[0] + ";" + Location.getPath() + "/");
+                        saveLocation = "None";
                     }
-                    if (SaveLocation.equals("Profile")) {
-                        Helper.setProfile(Location.toString());
-                    }
-                    if (SaveLocation.equals("Video")) {
-                        Helper.setVideo(Location.toString());
-                    }
-
-                    SaveLocation = "None";
                 } else {
                     toast = getResources().getString(R.string.Incorrect_Location);
 
@@ -438,49 +474,7 @@ public class Main extends ListActivity {
         }
     }
 
-    public void Hooks(String data) {
-        try {
-            Helper.setHooks(data);
-        } catch (Exception e) {
-
-        }
-    }
-
-    public void setFolder(String data) {
-        try {
-            Helper.setFolder(data);
-        } catch (Exception e) {
-        }
-    }
-
-    public void updateListView() {
-        mAdapter = new ListView(Main.this);
-        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Save));
-        mAdapter.addItem(getResources().getString(R.string.Image));
-        mAdapter.addItem(getResources().getString(R.string.Profile));
-        mAdapter.addItem(getResources().getString(R.string.Video));
-        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Update));
-        mAdapter.addItem("GitHub");
-        mAdapter.addItem("Pastebin");
-        mAdapter.addItem("Alternate Source");
-        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Recommended));
-        mAdapter.addItem("Zoom For Instagram");
-        setListAdapter(mAdapter);
-    }
-
-    private boolean appInstalledOrNot(String uri) {
-        PackageManager pm = getPackageManager();
-        boolean app_installed;
-        try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
-            app_installed = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            app_installed = false;
-        }
-        return app_installed;
-    }
-
-    public void sendErrorLog() {
+    void sendErrorLog() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"XInsta@ihelp101.com"});
@@ -498,7 +492,7 @@ public class Main extends ListActivity {
         startActivity(Intent.createChooser(intent, "Email"));
     }
 
-    public void sendTranslation() {
+    void sendTranslation() {
         Thread thread = new Thread(new Runnable(){
             @Override
             public void run() {
@@ -513,7 +507,7 @@ public class Main extends ListActivity {
                     intent.setType("text/plain");
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"XInsta@ihelp101.com"});
                     intent.putExtra(Intent.EXTRA_SUBJECT, "XInsta - Translation");
-                    intent.putExtra(Intent.EXTRA_TEXT, convertStreamToString(inputStream));
+                    intent.putExtra(Intent.EXTRA_TEXT, Helper.convertStreamToString(inputStream));
 
                     startActivity(Intent.createChooser(intent, "Email"));
                 } catch (Exception e) {
@@ -523,26 +517,6 @@ public class Main extends ListActivity {
         });
 
         thread.start();
-    }
-
-    private static String convertStreamToString(InputStream is) throws UnsupportedEncodingException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return sb.toString();
     }
 
     public void setError(String status) {
@@ -566,19 +540,27 @@ public class Main extends ListActivity {
         }
     }
 
-    public void checkPermission() {
-        if (ContextCompat.checkSelfPermission(Main.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED | ContextCompat.checkSelfPermission(Main.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(Main.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        } else {
-            listAction();
-        }
-    }
 
     public void setToast(String message) {
         Toast toast = Toast.makeText(Main.this, message, Toast.LENGTH_SHORT);
         TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
         if (v != null) v.setGravity(Gravity.CENTER);
         toast.show();
+    }
+
+    void updateListView() {
+        mAdapter = new ListView(Main.this);
+        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Save));
+        mAdapter.addItem(getResources().getString(R.string.Image));
+        mAdapter.addItem(getResources().getString(R.string.Profile));
+        mAdapter.addItem(getResources().getString(R.string.Video));
+        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Update));
+        mAdapter.addItem("GitHub");
+        mAdapter.addItem("Pastebin");
+        mAdapter.addItem("Alternate Source");
+        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Recommended));
+        mAdapter.addItem("Zoom For Instagram");
+        setListAdapter(mAdapter);
     }
 
     @Override

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="resicon">
+        <item>@android:drawable/ic_dialog_alert</item>
+        <item>@android:drawable/ic_dialog_dialer</item>
+        <item>@android:drawable/ic_dialog_email</item>
+        <item>@android:drawable/ic_dialog_info</item>
+        <item>@android:drawable/ic_dialog_map</item>
+        <item>@android:drawable/ic_menu_camera</item>
+        <item>@android:drawable/ic_menu_compass</item>
+        <item>@android:drawable/ic_menu_gallery</item>
+        <item>@android:drawable/ic_menu_my_calendar</item>
+        <item>@android:drawable/ic_menu_myplaces</item>
+        <item>@android:drawable/ic_menu_slideshow</item>
+        <item>@android:drawable/ic_menu_today</item>
+    </array>
+    <array name="restext">
+        <item>"alert"</item>
+        <item>"dialer"</item>
+        <item>"email"</item>
+        <item>"info"</item>
+        <item>"map"</item>
+        <item>"camera"</item>
+        <item>"compass"</item>
+        <item>"gallery"</item>
+        <item>"calendar"</item>
+        <item>"myplaces"</item>
+        <item>"slideshow"</item>
+        <item>"today"</item>
+    </array>
+</resources>

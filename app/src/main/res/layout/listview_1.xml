@@ -11,7 +11,7 @@
         android:gravity="center_vertical"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FF000000" />
+        android:textColor="#FF000000"/>
     <TextView
         android:id="@+id/text"
         android:layout_width="fill_parent"
@@ -21,5 +21,5 @@
         android:padding="5dp"
         android:layout_marginLeft="25dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#FF000000" />
+        android:textColor="#FF000000"/>
 </RelativeLayout>

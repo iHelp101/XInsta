@@ -19,7 +19,10 @@ import android.widget.Toast;
 public class Permission extends Activity {
 
     String linkToDownload;
+    String fileName;
+    String fileType;
     String notificationTitle;
+    String userName;
     String SAVE;
 
     @Override
@@ -30,8 +33,11 @@ public class Permission extends Activity {
         Intent intent = getIntent();
 
         linkToDownload = intent.getStringExtra("URL");
-        SAVE = intent.getStringExtra("SAVE");
+        fileName = intent.getStringExtra("Filename");
+        fileType = intent.getStringExtra("Filetype");
         notificationTitle = intent.getStringExtra("Notification");
+        userName = intent.getStringExtra("User");
+        SAVE = intent.getStringExtra("SAVE");
     }
 
     @Override
@@ -43,8 +49,11 @@ public class Permission extends Activity {
                     downloadIntent.setPackage("com.ihelp101.instagram");
                     downloadIntent.setAction("com.ihelp101.instagram.DOWNLOAD");
                     downloadIntent.putExtra("URL", linkToDownload);
-                    downloadIntent.putExtra("SAVE", SAVE);
+                    downloadIntent.putExtra("Filename", fileName);
+                    downloadIntent.putExtra("Filetype", fileType);
                     downloadIntent.putExtra("Notification", notificationTitle);
+                    downloadIntent.putExtra("User", userName);
+                    downloadIntent.putExtra("SAVE", SAVE);
                     startService(downloadIntent);
                     finish();
                 } else {

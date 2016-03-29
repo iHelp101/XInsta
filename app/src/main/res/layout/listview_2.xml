@@ -13,5 +13,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#FFF"
         android:textStyle="bold"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:textAllCaps="true"/>
 </LinearLayout>

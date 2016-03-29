@@ -5,6 +5,17 @@
     <string name="Okay">Okay</string>
     <string name="Warning">You can access the app via the Xposed Installer once it has been hidden.</string>
 
+    <!-- Date -->
+    <string name="am">AM/PM</string>
+    <string name="day">Day</string>
+    <string name="hour">Hour</string>
+    <string name="minute">Minute</string>
+    <string name="month">Month</string>
+    <string name="second">Second</string>
+    <string name="space">---SPACE---</string>
+    <string name="space2">---SPACE2---</string>
+    <string name="year">Year</string>
+
     <!-- File Browser -->
     <string name="nnf_new_folder">New folder</string>
     <string name="nnf_create_folder_error">Failed to create folder</string>
@@ -21,14 +32,16 @@
     <string name="Video">Video Location</string>
 
     <!-- Menu Items !-->
-    <string name="error_log">Send Error Logs</string>
-    <string name="folder">Folder - Add Username</string>
-    <string name="like">Disable Like Button - Double Tap</string>
-    <string name="translations">Translate XInsta</string>
+    <string name="Date">Date Formatting</string>
+    <string name="Error_log">Send Error Logs</string>
+    <string name="Folder">Folder - Add Username</string>
+    <string name="Like">Disable Like Button</string>
+    <string name="Translations">Translate XInsta</string>
     <string name="Hide">Hide App</string>
-    <string name="NotificationShow">Show Download Notification</string>
     <string name="NotificationHide">Hide Download Notification</string>
+    <string name="Push">Push Notification - Auto Download</string>
     <string name="Show">Show App</string>
+    <string name="Suggestion">Hide Suggestions</string>
 
     <!-- Module -->
     <string name="Download_Completed">Download Completed</string>
