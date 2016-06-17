@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Okay</string>
+    <string name="Warning">Puoi accedere al menu di questa app attraverso Xposed Installer qualora venga nascosta.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Day</string>
+    <string name="Hour">Hour</string>
+    <string name="Minute">Minute</string>
+    <string name="Month">Month</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Second</string>
+    <string name="Space">---SPACE---</string>
+    <string name="Year">Year</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Nuova cartella</string>
+    <string name="nnf_create_folder_error">Impossibile creare la cartella</string>
+    <string name="nnf_name">Nome</string>
+    <string name="nnf_select_something_first">Selezionare almeno un elemento</string>
+    <string name="nnf_permission_external_write_denied">Permission to access filesystem denied</string>
+
+    <!-- ListView -->
+    <string name="Image">Salvataggio Immagini</string>
+    <string name="Profile">Profile Icon Location</string>
+    <string name="Recommended">Consigliato</string>
+    <string name="Save">SCEGLI CARTELLE</string>
+    <string name="Update">AGGIORNA HOOKS</string>
+    <string name="Video">Salvataggio Video</string>
+
+    <!-- Menu Items !-->
+    <string name="Change">Change Separator</string>
+    <string name="Comment">Copy Comment On Tap</string>
+    <string name="Contact">Contact Developer</string>
+    <string name="Customization">Customization</string>
+    <string name="Date">Date Formatting</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">Send Error Logs</string>
+    <string name="Folder">Folder - Add Username</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Hide">Nascondi App</string>
+    <string name="Like">Disable Like Button - Double Tap</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">Hide Download Notification</string>
+    <string name="Push">Push Notification</string>
+    <string name="Show">Mostra App</string>
+    <string name="Suggestion">Hide Suggestions</string>
+    <string name="Translations">Translate XInsta</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Salvataggio Completato</string>
+    <string name="Download_Failed">Salvataggio Non Riuscito</string>
+    <string name="DownloadDots">Salvataggio in corso&#8230;</string>
+    <string name="Please">Aggiorna gli hook attraverso il modulo.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Download</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%2$s di %1$s\'s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Il commento è stato copiato</string>
+    <string name="Downloading">Downloading %1$s</string>
+    <string name="Hooks_Latest">Hai già gli hook più recenti.</string>
+    <string name="Hooks_Updated">Gli hook sono stati aggiornati. Chiudi Instagram per renderli effettivi.</string>
+    <string name="I_LocationChanged">Cartella di salvataggio immagini aggiornata. Chiudi Instagram e riavvialo.</string>
+    <string name="Incorrect_Location">Impossibile salvare qui. Chiudi Instagram e riprova.</string>
+    <string name="P_LocationChanged">Profile icon save location reset to default.</string>
+    <string name="Picture_Not">Clicca sull\'immgagine e riprova.</string>
+    <string name="V_LocationChanged">Cartella di salvataggio video aggiornata. Chiudi Instagram e riavvialo.</string>
+</resources>

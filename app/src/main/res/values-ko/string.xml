@@ -1,0 +1,79 @@
+<resources>
+<string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">알겠습니다.</string>
+    <string name="Warning">앱 아이콘이 숨겨진 후 Xposed Installer를 통해 앱을 실행할 수 있습니다.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Day</string>
+    <string name="Hour">Hour</string>
+    <string name="Minute">Minute</string>
+    <string name="Month">Month</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Second</string>
+    <string name="Space">---SPACE---</string>
+    <string name="Year">Year</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">새 폴더</string>
+    <string name="nnf_create_folder_error">폴더생성 실패</string>
+    <string name="nnf_name">이름</string>
+    <string name="nnf_select_something_first">먼저 선택해주십시오</string>
+    <string name="nnf_permission_external_write_denied">파일시스템 접근 권한 거부됨</string>
+
+    <!-- ListView -->
+    <string name="Image">이미지 저장위치</string>
+    <string name="Profile">프로필 사진 저장위치</string>
+    <string name="Recommended">추천됨</string>
+    <string name="Save">저장 위치</string>
+    <string name="Update">후크 업데이트</string>
+    <string name="Video">비디오 저장위치</string>
+
+    <!-- Menu Items !-->
+    <string name="Change">Change Separator</string>
+    <string name="Comment">Copy Comment On Tap</string>
+    <string name="Contact">Contact Developer</string>
+    <string name="Customization">Customization</string>
+    <string name="Date">Date Formatting</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">오류 기록 보내기</string>
+    <string name="Folder">유저명을 폴더이름으로</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Hide">앱 숨기기</string>
+    <string name="Like">두드려서 좋아요 비활성</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">다운로드 알림 숨기기</string>
+    <string name="Push">Push Notification</string>
+    <string name="Show">앱 보이기</string>
+    <string name="Suggestion">Hide Suggestions</string>
+    <string name="Translations">XInsta 번역</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">다운로드 완료</string>
+    <string name="Download_Failed">다운로드 실패</string>
+    <string name="DownloadDots">내려받는 중&#8230;</string>
+    <string name="Please">Xinsta앱에서 후크를 업데이트하세요</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">사진</string>
+    <string name="video">비디오</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">다운로드</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">댓글 복사됨</string>
+    <string name="Downloading">다운받는중 %1$s</string>
+    <string name="Hooks_Latest">후크가 이미 최신 버전입니다.</string>
+    <string name="Hooks_Updated">후크가 업데이트 되었습니다.\n인스타그램 앱을 종료해주세요.</string>
+    <string name="I_LocationChanged">사진 저장위치가 초기화되었습니다.</string>
+    <string name="Incorrect_Location">이곳에 저장할 수 없습니다.\n다른 위치를 선택해주세요.</string>
+    <string name="P_LocationChanged">프로필 사진 저장위치가 초기화되었습니다.</string>
+    <string name="Picture_Not">이미지를 선택하고 다시시도해주십시오.</string>
+    <string name="V_LocationChanged">비디오 저장위치가 초기화되었습니다.</string>
+</resources>

@@ -1,0 +1,80 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">ठिक है</string>
+    <string name="Warning">छुप्पी हुए ऐप को आप अक्सपोसड इनस्तोलर मे पायेंगे.</string>
+
+    <!-- Date -->
+    <string name="AM">एेम/पीम</string>
+    <string name="Day">दिन</string>
+    <string name="Hour">घंटा</string>
+    <string name="Minute">मिनीट</string>
+    <string name="Month">महिना</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">सेकंड</string>
+    <string name="Space">---जगहा---</string>
+    <string name="Year">साल</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">नया फोल्डर</string>
+    <string name="nnf_create_folder_error">नही बना फोल्डर</string>
+    <string name="nnf_name">Name</string>
+    <string name="nnf_select_something_first">पेहले कुछ चुनीये</string>
+    <string name="nnf_permission_external_write_denied">अणुमति नही </string>
+
+    <!-- ListView -->
+    <string name="Image">चेहरे की फौतो को सेव करने की जगहा</string>
+    <string name="Profile">फोतो की जगहा चुनिये </string>
+    <string name="Recommended">आवशकत</string>
+    <string name="Save">सेव करने की जगहा</string>
+    <string name="Update">अपडैेटस</string>
+    <string name="Video">वीडीयो की जगहा</string>
+
+
+    <!-- Menu Items !-->
+    <string name="Change">Change Separator</string>
+    <string name="Comment">Copy Comment On Tap</string>
+    <string name="Contact">Contact Developer</string>
+    <string name="Customization">Customization</string>
+    <string name="Date">दिन का फोरमेट</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">ऐरर लौग बेजे</string>
+    <string name="Folder">फोल्डर  - युसर का नाम</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Like"> बंद करे डबल टेप लाईक</string>
+    <string name="Translations">परीवरटन XInsta</string>
+    <string name="Hide">ऐप छुपाना</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">डाउुनलोड नोटीफीकेशन छुपाये</string>
+    <string name="Push">Push Notification - Download</string>
+    <string name="Show">ऐप दिखा</string>
+    <string name="Suggestion">सूझाव</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">डाउुनलोड खतम</string>
+    <string name="Download_Failed">डाउुनलोड नही हुआ</string>
+    <string name="DownloadDots">डाउुनलोड डोतस&#8230;</string>
+    <string name="Please">एपडेट जरुर करे</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">फौटो</string>
+    <string name="video">विडियो</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Download</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">कमेन्ट कोपि</string>
+    <string name="Downloading">डाउुनलोड होरा हैं %1$s</string>
+    <string name="Hooks_Latest">अपडेट की जरुरत नही.</string>
+    <string name="Hooks_Updated">अपडेट हो गया . ईन्सतागराम बन्द करे</string>
+    <string name="I_LocationChanged">चेहरे की फौतो को सेव करने की जगहा, पेहले वाली.</string>
+    <string name="Incorrect_Location">सेव नही हो रही.\nकही और सेव करे.</string>
+    <string name="P_LocationChanged">फौतो को सेव करने की जगहा, पेहले वाली.</string>
+    <string name="Picture_Not">फिरसे कोशीश करे</string>
+    <string name="V_LocationChanged">वीडीयो को सेव करने की जगहा, पेहले वाली.</string>
+</resources>
