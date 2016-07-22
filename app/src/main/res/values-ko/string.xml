@@ -39,14 +39,17 @@
     <string name="Date">Date Formatting</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">오류 기록 보내기</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">유저명을 폴더이름으로</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">앱 숨기기</string>
     <string name="Like">두드려서 좋아요 비활성</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">다운로드 알림 숨기기</string>
     <string name="Push">Push Notification</string>
     <string name="Show">앱 보이기</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">Hide Suggestions</string>
     <string name="Translations">XInsta 번역</string>
 

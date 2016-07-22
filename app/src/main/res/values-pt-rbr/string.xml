@@ -39,14 +39,17 @@
     <string name="Date">Date Formatting</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">Enviar Registro de Erros</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">Pastas por Usuários</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Ocultar App</string>
     <string name="Like">Botão de curtir - Clique Duplo </string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Ocultar Notificação de Download</string>
     <string name="Push">Push Notification</string>
     <string name="Show">Mostrar App</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">Hide Suggestions</string>
     <string name="Translations">Traduza o Xinsta</string>
 

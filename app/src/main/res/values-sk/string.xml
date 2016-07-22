@@ -39,14 +39,17 @@
     <string name="Date">Formátovanie dátumu</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">Poslať záznam chýb</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">Priečinok - Pridať užívateľské meno</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Skryť aplikáciu</string>
     <string name="Like">Zakázať Like tlačidlo - Dvojité kliknutie</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Skryť upozornenia sťahovania</string>
     <string name="Push">Push Notification - Download</string>
     <string name="Show">Ukázať aplikáciu</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">Skryť odporúčania</string>
     <string name="Translations">Preložiť XInsta</string>
 

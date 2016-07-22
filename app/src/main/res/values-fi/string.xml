@@ -40,14 +40,17 @@
     <string name="Date">Date Formatting</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">Lähetä virheraportti</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">Lisää käyttäjänimi kansion nimeen</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Piilota sovellus</string>
     <string name="Like">Poista kaksoisnapautuksella tykkääminen käytöstä</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Piilota ilmoitus latauksesta</string>
     <string name="Push">Push Notification</string>
     <string name="Show">Näytä sovellus</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">Hide Suggestions</string>
     <string name="Translations">Käännä XInsta</string>
 

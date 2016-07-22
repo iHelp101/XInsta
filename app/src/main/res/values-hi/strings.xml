@@ -40,16 +40,19 @@
     <string name="Date">दिन का फोरमेट</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">ऐरर लौग बेजे</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">फोल्डर  - युसर का नाम</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Like"> बंद करे डबल टेप लाईक</string>
-    <string name="Translations">परीवरटन XInsta</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Hide">ऐप छुपाना</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">डाउुनलोड नोटीफीकेशन छुपाये</string>
     <string name="Push">Push Notification - Download</string>
     <string name="Show">ऐप दिखा</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">सूझाव</string>
+    <string name="Translations">परीवरटन XInsta</string>
 
     <!-- Module -->
     <string name="Download_Completed">डाउुनलोड खतम</string>

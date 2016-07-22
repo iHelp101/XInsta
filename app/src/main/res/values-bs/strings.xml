@@ -40,14 +40,17 @@
     <string name="Date">Formatação de Data</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">Enviar Relatório de Erros</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">Pasta - Adicionar Usuário</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Sakrij aplikaciju</string>
     <string name="Like">Desabilitar Botão Curtir - Toque Duplo</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Esconder Notificação de Download</string>
     <string name="Push">Push Notification</string>
     <string name="Show">Exibir App</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">Esconder Sugestões</string>
     <string name="Translations">Traduza XInsta</string>
 

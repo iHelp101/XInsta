@@ -40,14 +40,17 @@
     <string name="Date">Tarih Formatı</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">Hata Kaydını Gönder</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">Klasör - Kullacı adı ekle</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Uyglmyı gizle</string>
     <string name="Like">Bğnme btnnu dvredışı bırak</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Kaydetme bldrimini gizle</string>
     <string name="Push">Bildirim al</string>
     <string name="Show">Uyglmyı göster</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">Önerileri gizle</string>
     <string name="Translations">XInstayı Çevir</string>
 

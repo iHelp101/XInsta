@@ -40,14 +40,17 @@
     <string name="Date">Datos formatavimas</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">Išsiųsti klaidos įrašus</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">Aplankas - Pridėti vartotojo vardą</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Paslėpti programą</string>
     <string name="Like">Išjungti patinka mygtuką - Dvigubą paspaudimą</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Paslėpti atsisiuntimo notifikaciją</string>
     <string name="Push">Push Notification - Download</string>
     <string name="Show">Rodyti programą</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">Slėpti pasiūlymus</string>
     <string name="Translations">Išversti XInsta</string>
 

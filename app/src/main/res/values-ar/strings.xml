@@ -39,14 +39,17 @@
     <string name="Date">تنسيق التاريخ</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">إرسال تقارير الأخطاء</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">ملف - إضافة - اسم المستخدم</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">إخفاء التطبيق</string>
     <string name="Like">منع اللايك بضغطتين</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">إخفاء شعار التنزيل</string>
     <string name="Push">Push Notification - Download</string>
     <string name="Show">إظهار التطبيق</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">إخفاء الإقتراحات</string>
     <string name="Translations">ترجمة اكس انستا</string>
 

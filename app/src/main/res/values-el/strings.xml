@@ -40,14 +40,17 @@
     <string name="Date">Μορφή Ημερομηνίας</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">Αποστολή Καταγραφών Σφαλμάτων</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">Φακελος - Εισάγετε Όνομα Χρήστη</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Απόκρυψη Εφαρμογής</string>
     <string name="Like">Απενεργοποιηση Κουμπιου "Μου Αρέσει" - Διπλό Πάτημα</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Απόκρυψη Ειδοποιήσεων Λήψης</string>
     <string name="Push">Push Notification</string>
     <string name="Show">Εμφάνιση Εφαρμογής</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">Απόκρυψη Προτεινόμενων</string>
     <string name="Translations">Μεταφράστε το XInsta</string>
 

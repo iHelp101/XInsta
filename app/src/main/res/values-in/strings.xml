@@ -7,14 +7,14 @@
 
     <!-- Date -->
     <string name="AM">AM/PM</string>
-    <string name="Day">Day</string>
-    <string name="Hour">Hour</string>
-    <string name="Minute">Minute</string>
-    <string name="Month">Month</string>
+    <string name="Day">Hari</string>
+    <string name="Hour">Jam</string>
+    <string name="Minute">Menit</string>
+    <string name="Month">Bulan</string>
     <string name="Reset">Reset</string>
-    <string name="Second">Second</string>
+    <string name="Second">Detik</string>
     <string name="Space">---SPACE---</string>
-    <string name="Year">Year</string>
+    <string name="Year">Tahun</string>
 
     <!-- File Browser -->
     <string name="nnf_new_folder">Folder baru</string>
@@ -39,14 +39,17 @@
     <string name="Date">Date Formatting</string>
     <string name="Default">Default Hook Source</string>
     <string name="Error_log">Kirim Catatan Kesalahan</string>
+    <string name="File">File - Change Date Format</string>
     <string name="Folder">Folder - Tambah Nama pengguna</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Sembunyikan App</string>
     <string name="Like">Matikan Tombol Suka - Sentuh Ganda</string>
+    <string name="Logging">Disable Xposed Logging</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Sembunyikan Pemberitahuan Unduh</string>
     <string name="Push">Push Notification</string>
     <string name="Show">Tampilkan App</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Suggestion">Hide Suggestions</string>
     <string name="Translations">Terjemahkan XInsta</string>
 

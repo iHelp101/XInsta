@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:title="@string/Contact">
     <menu>
         <group android:checkableBehavior="single">
@@ -16,22 +17,20 @@
         <menu>
             <item android:title="@string/Comment"
                 android:id="@+id/comment"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/Date"
                 android:id="@+id/date"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 app:actionLayout="@layout/menu_switch"/>
             <group android:checkableBehavior="single">
                 <item android:id="@+id/like"
                     android:title="@string/Like"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    app:actionLayout="@layout/menu_switch"/>
+                <item android:title="@string/Sound"
                     app:actionLayout="@layout/menu_switch"/>
                 <item android:id="@+id/follow"
                     android:title="@string/Follow"/>
                 <item android:id="@+id/suggestion"
                     android:title="@string/Suggestion"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     app:actionLayout="@layout/menu_switch"/>
             </group>
         </menu>
@@ -39,25 +38,24 @@
     <item android:title="@string/Misc">
         <menu>
             <item android:title="@string/Default"/>
+            <item android:title="@string/Logging"
+                app:actionLayout="@layout/menu_switch"/>
+            <item android:title="@string/File"
+                app:actionLayout="@layout/menu_switch"/>
             <item android:id="@+id/folder"
                 android:title="@string/Folder"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:id="@+id/hide_app"
                 android:title="@string/Hide"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:id="@+id/notification_hide"
                 android:title="@string/NotificationHide"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:id="@+id/onetap"
                 android:title="One Tap Video Download"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:id="@+id/push"
                 android:title="@string/Push"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:title="Special Thanks"/>
         </menu>
