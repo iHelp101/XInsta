@@ -6,9 +6,9 @@ Spanish - <string name="Hide">Ocultar App</string>
 
 Language - Which Language Are You Translating?
 
-<string name="app_name">XInsta</string>
+    <string name="app_name">XInsta</string>
 
-<!-- Alert Dialog -->
+    <!-- Alert Dialog -->
     <string name="Okay">Okay</string>
     <string name="Warning">You can access the app via the Xposed Installer once it has been hidden.</string>
 
@@ -52,11 +52,13 @@ Language - Which Language Are You Translating?
     <string name="Hide">Hide App</string>
     <string name="Like">Disable Like Button</string>
     <string name="Logging">Disable Xposed Logging</string>
+    <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Hide Download Notification</string>
     <string name="Push">Push Notification - Download</string>
     <string name="Show">Show App</string>
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Story">Disable Stories Timer</string>
     <string name="Suggestion">Hide Suggestions</string>
     <string name="Translations">Translate XInsta</string>
 
