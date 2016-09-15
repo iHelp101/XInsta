@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
+import de.robv.android.xposed.XposedBridge;
+
 
 public class Date extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,6 +34,14 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
     static Context mContext;
 
     String hour24;
+    static String day;
+    static String hour;
+    static String minute;
+    static String month;
+    static String second;
+    static String space;
+    static String year;
+    static String AM;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -48,6 +58,26 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
         mContext = getApplicationContext();
 
         hour24 = "24 " + getResources().getString(R.string.Hour);
+
+        try {
+            day = Helper.getResourceString(getApplicationContext(), R.string.Day);
+            hour = Helper.getResourceString(getApplicationContext(), R.string.Hour);
+            minute = Helper.getResourceString(getApplicationContext(), R.string.Minute);
+            month = Helper.getResourceString(getApplicationContext(), R.string.Month);
+            second = Helper.getResourceString(getApplicationContext(), R.string.Second);
+            space = Helper.getResourceString(getApplicationContext(), R.string.Space);
+            year = Helper.getResourceString(getApplicationContext(), R.string.Year);
+            AM = Helper.getResourceString(getApplicationContext(), R.string.AM);
+        } catch (Throwable t) {
+            day = getResources().getString(R.string.Day);
+            hour = getResources().getString(R.string.Hour);
+            minute = getResources().getString(R.string.Minute);
+            month = getResources().getString(R.string.Month);
+            second = getResources().getString(R.string.Second);
+            space = getResources().getString(R.string.Space);
+            year = getResources().getString(R.string.Year);
+            AM = getResources().getString(R.string.AM);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,53 +113,10 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         drawerLayout.closeDrawers();
 
-        if (clicked.equals("+")) {
-            String originalString = Helper.getData(getApplicationContext());
-
-            String[] lists = Helper.getSetting("Date").split(";");
-
-            if (Helper.getSetting("Date").equals("Instagram")) {
-                lists = originalString.split(";");
-            }
-
-            for (String name : originalString.split(";")) {
-                for (String name2 : lists) {
-                    if (name.equals(name2)) {
-                        originalString = originalString.replace(name + ";", "");
-                    }
-                }
-            }
-
-            final String[] finalString = originalString.split(";");
-
-            if (!finalString[0].equals("")) {
-                new AlertDialog.Builder(this)
-                        .setSingleChoiceItems(finalString, 0, null)
-                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-
-                                ArrayList<String> arrayList = null;
-                                arrayList.add(finalString[((AlertDialog) dialog).getListView().getCheckedItemPosition()]);
-                                String saveString = "";
-
-                                for (int i = 0; i < arrayList.size(); i++) {
-                                    saveString = saveString + arrayList.get(i) + ";";
-                                }
-
-                                Helper.setSetting("Date", saveString);
-
-                                setupNav();
-                                updateListView();
-                            }
-                        }).show();
-            }
-        }
-
         if (clicked.equals(getResources().getString(R.string.Change))) {
             AlertDialog.Builder builder = new AlertDialog.Builder(Date.this);
 
-            java.util.Date date = new java.util.Date(System.currentTimeMillis());
+            final java.util.Date date = new java.util.Date(System.currentTimeMillis());
             TimeZone timeZone = TimeZone.getDefault();
             DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
             format.setTimeZone(timeZone);
@@ -138,11 +125,11 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
             final CharSequence items[] = {dateFormat, dateFormat.replace("/", "-"), dateFormat.replace("/", ".")};
 
             int itemSelected;
-            if (Helper.getSetting("Seperator").equals("Instagram") || Helper.getSetting("Seperator").equals("/")) {
+            if (Helper.getSetting("Separator").equals("Instagram") || Helper.getSetting("Separator").equals("/")) {
                 itemSelected = 0;
-            } else if (Helper.getSetting("Seperator").equals("-")) {
+            } else if (Helper.getSetting("Separator").equals("-")) {
                 itemSelected = 1;
-            } else if (Helper.getSetting("Seperator").equals(".")) {
+            } else if (Helper.getSetting("Separator").equals(".")) {
                 itemSelected = 2;
             } else {
                 itemSelected = 0;
@@ -151,8 +138,21 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
             builder.setSingleChoiceItems(items, itemSelected, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                        Helper.setSetting("Seperator", String.valueOf(items[which].toString().replaceAll("[0-9]", "").charAt(0)));
-                        dialog.dismiss();
+                    String dateFormat = Helper.getSetting("Date");
+
+                    if (!Helper.getSetting("Date").contains("/")){
+                        dateFormat = dateFormat.replace(Helper.getSetting("Separator"), String.valueOf(items[which].toString().replaceAll("[0-9]", "").charAt(0)));
+                    } else {
+                        dateFormat = dateFormat.replace("/", String.valueOf(items[which].toString().replaceAll("[0-9]", "").charAt(0)));
+                    }
+
+                    if (dateFormat.substring(0,1).equals("/")) {
+                        dateFormat = dateFormat.substring(1);
+                    }
+
+                    Helper.setSetting("Date", dateFormat);
+                    Helper.setSetting("Separator", String.valueOf(items[which].toString().replaceAll("[0-9]", "").charAt(0)));
+                    dialog.dismiss();
                 }
             });
 
@@ -162,8 +162,50 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
 
         if (clicked.equals(getResources().getString(R.string.Reset))) {
             String originalString = Helper.getData(getApplicationContext());
+            String saveString = "";
 
-            Helper.setSetting("Date", originalString);
+            for (int i = 0; i < originalString.split(";").length; i++) {
+                String dateOption = originalString.split(";")[i];
+                if (dateOption.equals(day)) {
+                    dateOption = "/dd";
+                }
+                if (dateOption.equals(hour)) {
+                    if (Helper.getSettings("Hour")) {
+                        dateOption = "HH:";
+                    } else {
+                        dateOption = "hh:";
+                    }
+                }
+                if (dateOption.equals(minute)) {
+                    dateOption = "mm:";
+                }
+                if (dateOption.equals(month)) {
+                    dateOption = "/MM";
+                }
+                if (dateOption.equals(second)) {
+                    dateOption = "ss:";
+                }
+                if (dateOption.equals(space)) {
+                    dateOption = " ";
+                }
+                if (dateOption.equals(year)) {
+                    dateOption = "/yyyy";
+                }
+                if (dateOption.equals(AM)) {
+                    dateOption = "a";
+                }
+                saveString = saveString + dateOption + ";";
+            }
+
+            if (!Helper.getSetting("Separator").equals("Instagram")) {
+                saveString = saveString.replace("/", Helper.getSetting("Separator"));
+            }
+
+            if (saveString.substring(0,1).equals("/")) {
+                saveString = saveString.substring(1);
+            }
+
+            Helper.setSetting("Date", saveString);
 
             setupNav();
             updateListView();
@@ -176,7 +218,26 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getTitle().equals("+")) {
-            String originalString = Helper.getData(getApplicationContext());
+            String originalString;
+
+            if (Helper.getSettings("Hour")) {
+                if (!Helper.getSetting("Separator").equals("Instagram")) {
+                    originalString = "/MM;/dd;/yyyy; ;HH:;mm:;ss:;a;";
+                    originalString = originalString.replace("/", Helper.getSetting("Separator"));
+                } else {
+                    originalString = "/MM;/dd;/yyyy; ;HH:;mm:;ss:;a;";
+                }
+            } else {
+                if (!Helper.getSetting("Separator").equals("Instagram")) {
+                    originalString = "/MM;/dd;/yyyy; ;hh:;mm:;ss:;a;";
+                    originalString = originalString.replace("/", Helper.getSetting("Separator"));
+                } else {
+                    originalString = "/MM;/dd;/yyyy; ;hh:;mm:;ss:;a;";
+                }
+            }
+
+            String actualString = Helper.getData(getApplicationContext());
+            String separator = "/";
 
             String[] lists = Helper.getSetting("Date").split(";");
 
@@ -188,26 +249,126 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
                 for (String name2 : lists) {
                     if (name.equals(name2)) {
                         originalString = originalString.replace(name + ";", "");
+
+                        if (!Helper.getSetting("Separator").equals("Instagram")) {
+                            separator = Helper.getSetting("Separator");
+                        }
+
+                        if (name.equals(separator + "dd")) {
+                            try {
+                                name = Helper.getResourceString(mContext, R.string.Day);
+                            } catch (Throwable t) {
+                                name = mContext.getResources().getString(R.string.Day);
+                            }
+                        }
+                        if (name.equals("hh:") || name.equals("HH:")) {
+                            try {
+                                name = Helper.getResourceString(mContext, R.string.Hour);
+                            } catch (Throwable t) {
+                                name = mContext.getResources().getString(R.string.Hour);
+                            }
+                        }
+                        if (name.equals("mm:")) {
+                            try {
+                                name = Helper.getResourceString(mContext, R.string.Minute);
+                            } catch (Throwable t) {
+                                name = mContext.getResources().getString(R.string.Minute);
+                            }
+                        }
+                        if (name.equals(separator + "MM")) {
+                            try {
+                                name = Helper.getResourceString(mContext, R.string.Month);
+                            } catch (Throwable t) {
+                                name = mContext.getResources().getString(R.string.Month);
+                            }
+                        }
+                        if (name.equals("ss:")) {
+                            try {
+                                name = Helper.getResourceString(mContext, R.string.Second);
+                            } catch (Throwable t) {
+                                name = mContext.getResources().getString(R.string.Second);
+                            }
+                        }
+                        if (name.equals(" ")) {
+                            try {
+                                name = Helper.getResourceString(mContext, R.string.Space);
+                            } catch (Throwable t) {
+                                name = mContext.getResources().getString(R.string.Space);
+                            }
+                        }
+                        if (name.equals(separator + "yyyy")) {
+                            try {
+                                name = Helper.getResourceString(mContext, R.string.Year);
+                            } catch (Throwable t) {
+                                name = mContext.getResources().getString(R.string.Year);
+                            }
+                        }
+                        if (name.equals("a")) {
+                            try {
+                                name = Helper.getResourceString(mContext, R.string.AM);
+                            } catch (Throwable t) {
+                                name = mContext.getResources().getString(R.string.AM);
+                            }
+                        }
+                        actualString = actualString.replace(name + ";", "");
                     }
                 }
             }
 
             final String[] finalString = originalString.split(";");
+            final String[] actualStringString = actualString.split(";");
 
             if (!finalString[0].equals("")) {
                 new AlertDialog.Builder(this)
-                        .setSingleChoiceItems(finalString, 0, null)
+                        .setSingleChoiceItems(actualStringString, 0, null)
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
 
                                 List list = AdapterDrag.mData;
-                                list.add(finalString[((AlertDialog) dialog).getListView().getCheckedItemPosition()]);
+                                list.add(actualStringString[((AlertDialog) dialog).getListView().getCheckedItemPosition()]);
 
                                 String saveString = "";
 
                                 for (int i = 0; i < list.size(); i++) {
-                                    saveString = saveString + list.get(i) + ";";
+                                    String dateOption = list.get(i).toString();
+                                    if (dateOption.equals(day)) {
+                                        dateOption = "/dd";
+                                    }
+                                    if (dateOption.equals(hour)) {
+                                        if (Helper.getSettings("Hour")) {
+                                            dateOption = "HH:";
+                                        } else {
+                                            dateOption = "hh:";
+                                        }
+                                    }
+                                    if (dateOption.equals(minute)) {
+                                        dateOption = "mm:";
+                                    }
+                                    if (dateOption.equals(month)) {
+                                        dateOption = "/MM";
+                                    }
+                                    if (dateOption.equals(second)) {
+                                        dateOption = "ss:";
+                                    }
+                                    if (dateOption.equals(space)) {
+                                        dateOption = " ";
+                                    }
+                                    if (dateOption.equals(year)) {
+                                        dateOption = "/yyyy";
+                                    }
+                                    if (dateOption.equals(AM)) {
+                                        dateOption = "a";
+                                    }
+                                    saveString = saveString + dateOption + ";";
+                                }
+
+                                if (!Helper.getSetting("Separator").equals("Instagram")) {
+                                    saveString = saveString.replace("/", Helper.getSetting("Separator"));
+                                }
+
+                                if (saveString.substring(0,1).equals("/")) {
+                                    saveString = saveString.substring(1);
                                 }
 
                                 Helper.setSetting("Date", saveString);
@@ -246,13 +407,23 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
                     item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            String clicked = menuTitle;
-                            if (hour24.contains(clicked)) {
+                            if (hour24.contains(menuTitle)) {
                                 Helper.setSetting("Hour", Boolean.toString(item.isChecked()));
+                                String dateFormat = Helper.getSetting("Date");
+                                if (item.isChecked()) {
+                                    dateFormat = dateFormat.replace("hh:", "HH:");
+                                } else {
+                                    dateFormat = dateFormat.replace("HH:", "hh:");
+                                }
+
+                                if (dateFormat.substring(0,1).equals("/")) {
+                                    dateFormat = dateFormat.substring(1);
+                                }
+                                Helper.setSetting("Date", dateFormat);
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.Change))) {
-                                Helper.setSetting("Seperator", Boolean.toString(item.isChecked()));
+                            if (menuTitle.equals(getResources().getString(R.string.Change))) {
+                                Helper.setSetting("Separator", Boolean.toString(item.isChecked()));
                             }
                         }
                     });
@@ -275,6 +446,62 @@ public class Date extends AppCompatActivity implements NavigationView.OnNavigati
             mAdapter = new AdapterDrag(mContext, R.id.text);
 
             for (String name : lists) {
+                if (name.contains("dd")) {
+                    try {
+                        name = Helper.getResourceString(mContext, R.string.Day);
+                    } catch (Throwable t) {
+                        name = mContext.getResources().getString(R.string.Day);
+                    }
+                }
+                if (name.equals("hh:") || name.equals("HH:")) {
+                    try {
+                        name = Helper.getResourceString(mContext, R.string.Hour);
+                    } catch (Throwable t) {
+                        name = mContext.getResources().getString(R.string.Hour);
+                    }
+                }
+                if (name.equals("mm:")) {
+                    try {
+                        name = Helper.getResourceString(mContext, R.string.Minute);
+                    } catch (Throwable t) {
+                        name = mContext.getResources().getString(R.string.Minute);
+                    }
+                }
+                if (name.contains("MM")) {
+                    try {
+                        name = Helper.getResourceString(mContext, R.string.Month);
+                    } catch (Throwable t) {
+                        name = mContext.getResources().getString(R.string.Month);
+                    }
+                }
+                if (name.equals("ss:")) {
+                    try {
+                        name = Helper.getResourceString(mContext, R.string.Second);
+                    } catch (Throwable t) {
+                        name = mContext.getResources().getString(R.string.Second);
+                    }
+                }
+                if (name.equals(" ")) {
+                    try {
+                        name = Helper.getResourceString(mContext, R.string.Space);
+                    } catch (Throwable t) {
+                        name = mContext.getResources().getString(R.string.Space);
+                    }
+                }
+                if (name.contains("yyyy")) {
+                    try {
+                        name = Helper.getResourceString(mContext, R.string.Year);
+                    } catch (Throwable t) {
+                        name = mContext.getResources().getString(R.string.Year);
+                    }
+                }
+                if (name.equals("a")) {
+                    try {
+                        name = Helper.getResourceString(mContext, R.string.AM);
+                    } catch (Throwable t) {
+                        name = mContext.getResources().getString(R.string.AM);
+                    }
+                }
                 mAdapter.addItem(name);
             }
 

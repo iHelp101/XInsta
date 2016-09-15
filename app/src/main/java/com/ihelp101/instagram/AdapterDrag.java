@@ -76,9 +76,9 @@ public class AdapterDrag extends BaseAdapter implements DragNDropAdapter {
         }
         holder.textView.setText(mData.get(position));
 
-        TextView textView = (TextView) convertView.findViewById(R.id.delete);
+        final TextView delete = (TextView) convertView.findViewById(R.id.delete);
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List originalList = new ArrayList();
@@ -94,7 +94,45 @@ public class AdapterDrag extends BaseAdapter implements DragNDropAdapter {
 
                 for (int i = 0; i < originalList.size(); ++i) {
                     addItem(originalList.get(i).toString());
-                    saveString = saveString + originalList.get(i).toString() + ";";
+                    String dateOption = originalList.get(i).toString();
+                    if (dateOption.equals(Date.day)) {
+                        dateOption = "/dd";
+                    }
+
+                    if (dateOption.equals(Date.hour)) {
+                        if (Helper.getSettings("Hour")) {
+                            dateOption = "HH:";
+                        } else {
+                            dateOption = "hh:";
+                        }
+                    }
+                    if (dateOption.equals(Date.minute)) {
+                        dateOption = "mm:";
+                    }
+                    if (dateOption.equals(Date.month)) {
+                        dateOption = "/MM";
+                    }
+                    if (dateOption.equals(Date.second)) {
+                        dateOption = "ss:";
+                    }
+                    if (dateOption.equals(Date.space)) {
+                        dateOption = " ";
+                    }
+                    if (dateOption.equals(Date.year)) {
+                        dateOption = "/yyyy";
+                    }
+                    if (dateOption.equals(Date.AM)) {
+                        dateOption = "a";
+                    }
+                    saveString = saveString + dateOption + ";";
+                }
+
+                if (!Helper.getSetting("Separator").equals("Instagram")) {
+                    saveString = saveString.replace("/", Helper.getSetting("Separator"));
+                }
+
+                if (saveString.substring(0,1).equals("/")) {
+                    saveString = saveString.substring(1);
                 }
 
                 Helper.setSetting("Date", saveString);
@@ -119,7 +157,8 @@ public class AdapterDrag extends BaseAdapter implements DragNDropAdapter {
 
         List originalList = new ArrayList();
         for (int i = 0; i < mData.size(); ++i) {
-            originalList.add(mData.get(i));
+            String dateOption = mData.get(i);
+            originalList.add(dateOption);
         }
 
         Collections.swap(originalList, startPosition, endPosition);
@@ -129,8 +168,45 @@ public class AdapterDrag extends BaseAdapter implements DragNDropAdapter {
         String saveString = "";
 
         for (int i = 0; i < originalList.size(); ++i) {
+            String dateOption = originalList.get(i).toString();
+            if (dateOption.equals(Date.day)) {
+                dateOption = "/dd";
+            }
+            if (dateOption.equals(Date.hour)) {
+                if (Helper.getSettings("Hour")) {
+                    dateOption = "HH:";
+                } else {
+                    dateOption = "hh:";
+                }
+            }
+            if (dateOption.equals(Date.minute)) {
+                dateOption = "mm:";
+            }
+            if (dateOption.equals(Date.month)) {
+                dateOption = "/MM";
+            }
+            if (dateOption.equals(Date.second)) {
+                dateOption = "ss:";
+            }
+            if (dateOption.equals(Date.space)) {
+                dateOption = " ";
+            }
+            if (dateOption.equals(Date.year)) {
+                dateOption = "/yyyy";
+            }
+            if (dateOption.equals(Date.AM)) {
+                dateOption = "a";
+            }
             addItem(originalList.get(i).toString());
-            saveString = saveString + originalList.get(i).toString() + ";";
+            saveString = saveString + dateOption + ";";
+        }
+
+        if (!Helper.getSetting("Separator").equals("Instagram")) {
+            saveString = saveString.replace("/", Helper.getSetting("Separator"));
+        }
+
+        if (saveString.substring(0,1).equals("/")){
+            saveString = saveString.substring(1);
         }
 
         Helper.setSetting("Date", saveString);

@@ -6,7 +6,6 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,7 +14,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -29,6 +27,7 @@ import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
 import android.app.*;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,6 +37,8 @@ import android.content.res.XModuleResources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -49,6 +50,12 @@ import android.util.Base64;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,18 +71,19 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LayoutInflated;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageResources, IXposedHookZygoteInit, Listen {
+public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageResources, Listen {
 
     Boolean hookCheck;
     CharSequence[] mMenuOptions = null;
-    CharSequence[] mDirectShareMenuOptions = null;
-    CharSequence[] mProfileOptions = null;
     public static Context mContext;
     public static Context nContext;
+    public static Context oContext;
     Object mCurrentMediaOptionButton;
     Object mCurrentDirectShareMediaOptionButton;
     Object mUserName;
+    Object miniFeedModel;
     Object model;
+    Object storiesModel;
 
     String directShareCheck = "Nope";
     String fileType;
@@ -88,27 +96,42 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
     String fileName;
     String notificationTitle;
     String oldCheck = "No";
-    String userName;
+    String userName = "";
     String version = "123";
 
     String ACCOUNT_HOOK_CLASS;
     String COMMENT_HOOK;
     String COMMENT_HOOK_CLASS;
     String COMMENT_HOOK_CLASS2;
+    String COMMENT_HOOK_CLASS3;
     String DS_DIALOG_CLASS;
     String DS_MEDIA_OPTIONS_BUTTON_CLASS;
     String DS_PERM_MORE_OPTIONS_DIALOG_CLASS;
     String FEED_CLASS_NAME;
     String FOLLOW_HOOK;
+    String FOLLOW_HOOK_2;
     String FOLLOW_HOOK_CLASS;
+    String FOLLOW_LIST_CLASS;
     String FULLNAME__HOOK;
     String IMAGE_HOOK_CLASS;
     String ITEMID_HOOK;
     String LIKE_HOOK_CLASS;
+    String LOCK_HOOK;
+    String LOCK_HOOK2;
+    String LOCK_HOOK3;
+    String LOCK_HOOK4;
+    String LOCK_HOOK5;
+    String LOCK_HOOK6;
+    String LOCK_HOOK7;
+    String LOCK_HOOK8;
+    String LOCK_HOOK9;
+    String LOCK_HOOK_CLASS;
     String MEDIA_CLASS_NAME;
     String MEDIA_OPTIONS_BUTTON_CLASS;
     String MEDIA_PHOTO_HOOK;
     String MEDIA_VIDEO_HOOK;
+    String MINI_FEED_HOOK_CLASS;
+    String MINI_FEED_HOOK_CLASS2;
     String NOTIFICATION_CLASS;
     String PERM__HOOK;
     String PROFILE_HOOK_3;
@@ -116,23 +139,31 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
     String PROFILE_HOOK_CLASS;
     String PROFILE_HOOK_CLASS2;
     String SAVE = "Instagram";
+    String SHARE_HOOK_CLASS;
+    String SLIDE_HOOK;
+    String SLIDE_HOOK_CLASS;
+    String STORY_HOOK;
+    String STORY_HOOK_CLASS;
+    String STORY_HOOK_CLASS2;
+    String STORY_TIME_HOOK;
+    String STORY_TIME_HOOK2;
+    String STORY_TIME_HOOK_CLASS;
+    String STORY_TIME_HOOK_CLASS2;
     String SUGGESTION_HOOK_CLASS;
-    String TIME_HOOK;
+    String TAGGED_HOOK_CLASS;
+    String TIME_HOOK_CLASS;
     String USER_CLASS_NAME;
     String USERNAME_HOOK;
-    String VIDEO_CLASS;
+    String VIDEO_HOOK;
+    String VIDEO_HOOK_CLASS;
 
     Bitmap icon;
     int count = 0;
-    int id = 1;
+    int Freeze = 0;
     int versionCheck;
     LoadPackageParam loadPackageParam;
-    NotificationCompat.Builder mBuilder;
-    NotificationManager mNotifyManager;
+    String userNameTagged = "";
     TextView followerCount;
-    XModuleResources hookedIcon;
-
-    private static String MODULE_PATH = null;
 
     boolean appInstalledOrNot(String uri) {
         PackageManager pm = nContext.getPackageManager();
@@ -222,13 +253,23 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
 
     class Download extends AsyncTask<String, String, String> {
 
+        String link;
+        String save;
+        String title;
+
+        NotificationCompat.Builder mBuilder;
+        NotificationManager mNotifyManager;
         int downloadFailed = 1;
+        int id = 1;
 
         @Override
         protected String doInBackground(String... uri) {
             String responseString = "Nope";
 
             try {
+                link = uri[0];
+                save = uri[1];
+                title = uri[2];
                 downloadFailed = 1;
                 Random r = new Random();
                 id = r.nextInt(9999999 - 65) + 65;
@@ -253,38 +294,56 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 byte[] decodedByte = Base64.decode(iconString, 0);
                 icon = BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
 
+                String downloading;
+
+                try {
+                    downloading = Helper.getResourceString(mContext, R.string.DownloadDots);
+                } catch (Throwable t) {
+                    downloading = "Downloading...";
+                }
+
                 if (!Helper.getSettings("Notification")) {
                     mNotifyManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(mContext);
-                    mBuilder.setContentTitle(notificationTitle)
-                            .setContentText(Helper.getString(mContext, R.string.DownloadDots))
+                    mBuilder.setContentTitle(title)
+                            .setContentText(downloading)
                             .setSmallIcon(android.R.drawable.ic_dialog_info)
                             .setLargeIcon(icon);
                     mNotifyManager.notify(id, mBuilder.build());
                 }
 
-                URL url = new URL (linkToDownload);
+                URL url = new URL(link);
+
                 URLConnection connection = url.openConnection();
+                connection.setRequestProperty("User-Agent", "Instagram");
+                connection.setConnectTimeout(10000);
                 connection.connect();
 
-                InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output;
+                InputStream input = connection.getInputStream();
 
-                output = new FileOutputStream(SAVE);
+                OutputStream output = new FileOutputStream(save);
 
                 byte data[] = new byte[1024];
 
-                while ((count = input.read(data)) >= 0) {
+                while ((count = input.read(data)) != -1) {
                     output.write(data, 0, count);
                 }
 
                 output.flush();
+
                 output.close();
                 input.close();
 
-
                 if (!Helper.getSettings("Notification")) {
-                    mBuilder.setContentText(Helper.getString(mContext, R.string.Download_Completed)).setTicker(Helper.getString(mContext, R.string.Download_Completed));
+                    String downloadComplete;
+
+                    try {
+                        downloadComplete = Helper.getResourceString(mContext, R.string.Download_Completed);
+                    } catch (Throwable t) {
+                        downloadComplete = "Download Complete";
+                    }
+
+                    mBuilder.setContentText(downloadComplete).setTicker(downloadComplete);
 
                     mBuilder.setContentTitle(mBuilder.mContentTitle)
                             .setSmallIcon(android.R.drawable.ic_dialog_info)
@@ -294,8 +353,8 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                     Intent notificationIntent = new Intent();
                     notificationIntent.setAction(Intent.ACTION_VIEW);
 
-                    File file = new File(SAVE);
-                    if (SAVE.contains("jpg")) {
+                    File file = new File(save);
+                    if (save.contains("jpg")) {
                         notificationIntent.setDataAndType(Uri.fromFile(file), "image/*");
                     } else {
                         notificationIntent.setDataAndType(Uri.fromFile(file), "video/*");
@@ -308,11 +367,20 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 }
             } catch (Throwable t) {
                 downloadFailed = 2;
-                setError("Download Error: " + t);
+                setError("Download Error - " + t);
                 if (!Helper.getSettings("Notification")) {
-                    mBuilder.setContentText(Helper.getString(mContext, R.string.Download_Failed))
-                            .setTicker(Helper.getString(mContext, R.string.Download_Failed))
-                            .setContentTitle(notificationTitle)
+
+                    String downloadFailed;
+
+                    try {
+                        downloadFailed = Helper.getResourceString(mContext, R.string.Download_Failed);
+                    } catch (Throwable t2) {
+                        downloadFailed = "Download Failed";
+                    }
+
+                    mBuilder.setContentText(downloadFailed)
+                            .setTicker(downloadFailed)
+                            .setContentTitle(title)
                             .setSmallIcon(android.R.drawable.ic_dialog_alert)
                             .setLargeIcon(icon)
                             .setAutoCancel(true);
@@ -328,55 +396,41 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (downloadFailed == 1) {
-                Toast(Helper.getString(mContext, R.string.Download_Completed));
-            } else {
-                Toast(Helper.getString(mContext, R.string.Download_Failed));
-            }
-        }
-    }
 
-    class RequestTask extends AsyncTask<String, String, String> {
-        @Override
-        protected String doInBackground(String... uri) {
-            String responseString = "Nope";
+                String downloadComplete;
 
-            try {
-                URL u = new URL("https://www.instagram.com/" + uri[0] + "/media/");
-                URLConnection c = u.openConnection();
-                c.connect();
-
-                InputStream inputStream = c.getInputStream();
-                String JSONInfo = Helper.convertStreamToString(inputStream);
-
-                JSONObject jsonObject = new JSONObject(JSONInfo);
-
-                String descriptionType = jsonObject.getJSONArray("items").getJSONObject(0).getString("type");
-                userName = uri[0];
-
-                if (descriptionType.equals("video")) {
-                    descriptionType = Helper.getString(mContext, R.string.video);
-                    String fileExtension = ".mp4";
-                    fileName = userName + "_" + jsonObject.getJSONArray("items").getJSONObject(0).getString("id") + fileExtension;
-                    fileType = "Video";
-
-                    linkToDownload = jsonObject.getJSONArray("items").getJSONObject(0).getJSONObject("videos").getJSONObject("standard_resolution").getString("url");
-                    linkToDownload = linkToDownload.replace("750x750", "");
-                    linkToDownload = linkToDownload.replace("640x640", "");
-                    linkToDownload = linkToDownload.replace("480x480", "");
-                    linkToDownload = linkToDownload.replace("320x320", "");
-
-                    notificationTitle = Helper.getString(mContext, R.string.username_thing, userName, descriptionType);
-                    notificationTitle = notificationTitle.substring(0,1).toUpperCase() + notificationTitle.substring(1);
-
-                    SAVE = Helper.getSaveLocation(fileType);
-
-                    downloadOrPass();
+                try {
+                    downloadComplete = Helper.getResourceString(mContext, R.string.Download_Completed);
+                } catch (Throwable t) {
+                    downloadComplete = "Download Complete";
                 }
-            } catch (Exception e) {
-                setError("Video Fetch Failed: " + e);
-            }
 
-            return responseString;
+                Toast(downloadComplete);
+
+                try {
+                    MediaScannerConnection.scanFile(mContext,
+                            new String[]{save}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                public void onScanCompleted(String path, Uri uri) {
+                                    if (uri != null) {
+                                        int scan = 1;
+                                    }
+                                }
+                            });
+                } catch (Throwable t) {
+                    setError("Scan Failed - " +t);
+                }
+            } else {
+                String downloadFailed;
+
+                try {
+                    downloadFailed = Helper.getResourceString(mContext, R.string.Download_Failed);
+                } catch (Throwable t2) {
+                    downloadFailed = "Download Failed";
+                }
+
+                Toast(downloadFailed);
+            }
         }
     }
 
@@ -390,118 +444,46 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
         }
     }
 
-    String checkSave() {
-        String saveLocation = SAVE;
-
-        try {
-            if (SAVE.equals("Instagram")) {
-                saveLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram/";
-                if (Helper.getSettings("Folder")) {
-                    saveLocation = saveLocation + userName + "/";
-                }
-                File directory = new File(URI.create(saveLocation).getPath());
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-            } else {
-                if (Helper.getSettings("Folder")) {
-                    saveLocation = saveLocation + userName + "/";
-                }
-                File directory = new File(URI.create(saveLocation).getPath());
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-            }
-        } catch (Exception e) {
-            setError("Save Location Check Failed: " + e);
-            saveLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram/";
-        }
-
-        return (saveLocation + fileName).replace("%20", " ");
-    }
-
-    String checkSaveProfile() {
-        String saveLocation = SAVE;
-
-        try {
-            if (SAVE.equals("Instagram")) {
-                saveLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram/";
-                if (Helper.getSettings("Folder")) {
-                    saveLocation = saveLocation + userName + "/";
-                }
-                File directory = new File(URI.create(saveLocation).getPath());
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-            } else {
-                if (Helper.getSettings("Folder")) {
-                    saveLocation = saveLocation + userName + "/";
-                }
-                File directory = new File(URI.create(saveLocation).getPath());
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-            }
-        }  catch (Exception e) {
-            setError("Profile Save Location Check Failed: " +e);
-            saveLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram/";
-        }
-        return (saveLocation + fileName).replace("%20", " ");
-    }
-
-    String dateFormat(Long epochTime) {
-        String dateFormat = Helper.getSetting("Date");
-
-        Date date = new Date(epochTime * 1000L);
-        TimeZone timeZone = TimeZone.getDefault();
-
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Month) + ";", "/MM");
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Day) + ";", "/dd");
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Year) + ";", "/yyyy");
-        if (Helper.getSettings("Hour")) {
-            dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Hour) + ";", "kk:");
-        } else {
-            dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Hour) + ";", "hh:");
-        }
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Minute) + ";", "mm:");
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Second) + ";", "ss:");
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.AM) + ";", "");
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Space) + ";", " ");
-        dateFormat = dateFormat.substring(1);
-
-        if (dateFormat.substring(dateFormat.length() - 1).equals(":")) {
-            dateFormat = dateFormat.substring(0, dateFormat.length() - 1);
-        }
-
-        if (Helper.getSetting("Date").contains(Helper.getString(nContext, R.string.AM))) {
-            dateFormat = dateFormat + " a";
-        }
-
-        if (!Helper.getSetting("Seperator").equals("Instagram")) {
-            dateFormat = dateFormat.replace("/", Helper.getSetting("Seperator"));
-        }
-
-        DateFormat format = new SimpleDateFormat(dateFormat);
-        format.setTimeZone(timeZone);
-
-        return format.format(date);
-    }
-
     String getDate (Long epochTime) {
-        String dateFormat = Helper.getSetting("File");
+        try {
+            String dateFormat = Helper.getSetting("File");
 
-        Date date = new Date(epochTime * 1000L);
-        TimeZone timeZone = TimeZone.getDefault();
+            Date date = new Date(epochTime * 1000L);
+            TimeZone timeZone = TimeZone.getDefault();
 
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Month), "MM");
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Day), "dd");
-        dateFormat = dateFormat.replace(Helper.getString(nContext, R.string.Year), "yyyy");
-        dateFormat = dateFormat.replaceAll("/", "");
+            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Month), "MM");
+            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Day), "dd");
+            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Year), "yyyy");
+            dateFormat = dateFormat.replaceAll("/", "");
 
-        DateFormat format = new SimpleDateFormat(dateFormat);
-        format.setTimeZone(timeZone);
+            DateFormat format = new SimpleDateFormat(dateFormat);
+            format.setTimeZone(timeZone);
 
-        return format.format(date);
+            return format.format(date);
+        } catch (Throwable t) {
+            return "Instagram";
+        }
+    }
+
+    String getDateProfileIcon (Long epochTime) {
+        try {
+            String dateFormat = Helper.getSetting("File");
+
+            Date date = new Date(epochTime);
+            TimeZone timeZone = TimeZone.getDefault();
+
+            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Month), "MM");
+            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Day), "dd");
+            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Year), "yyyy");
+            dateFormat = dateFormat.replaceAll("/", "");
+
+            DateFormat format = new SimpleDateFormat(dateFormat);
+            format.setTimeZone(timeZone);
+
+            return format.format(date);
+        } catch (Throwable t) {
+            return "Instagram";
+        }
     }
 
     void checkMarshmallowPermission() {
@@ -514,6 +496,9 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             br.close();
         } catch (Throwable t) {
             if (android.os.Build.VERSION.SDK_INT >= 23) {
+                NotificationCompat.Builder mBuilder;
+                NotificationManager mNotifyManager;
+
                 mNotifyManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
                 mBuilder = new NotificationCompat.Builder(mContext);
                 mBuilder.setContentTitle("Storage Permission Denied").setContentText("Click to open App Settings").setSmallIcon(android.R.drawable.ic_dialog_info).setAutoCancel(true);
@@ -524,9 +509,24 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 mBuilder.setContentIntent(contentIntent);
-                mNotifyManager.notify(id, mBuilder.build());
+                mNotifyManager.notify(3273, mBuilder.build());
             }
         }
+    }
+
+    void copyComment(String string) {
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Clip", string);
+        clipboard.setPrimaryClip(clip);
+        String copied;
+
+        try {
+            copied = Helper.getResourceString(AndroidAppHelper.currentApplication().getApplicationContext(), R.string.Copied);
+        } catch (Throwable t) {
+            copied = "Comment Copied";
+        }
+
+        Toast(copied);
     }
 
     void downloadOrPass() {
@@ -537,23 +537,14 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
         if (!SAVE.toLowerCase().contains("com.android.externalstorage.documents")) {
             SAVE = Helper.getSaveLocation(fileType);
             if (fileType.equals("Profile")) {
-                SAVE = checkSaveProfile();
+                SAVE = Helper.checkSaveProfile(SAVE, userName, fileName);
             } else {
-                SAVE = checkSave();
+                SAVE = Helper.checkSave(SAVE, userName, fileName);
             }
 
-            new Download().execute();
+            new Download().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, linkToDownload, SAVE, notificationTitle);
         } else {
-            Intent downloadIntent = new Intent();
-            downloadIntent.setPackage("com.ihelp101.instagram");
-            downloadIntent.setAction("com.ihelp101.instagram.PASS");
-            downloadIntent.putExtra("URL", linkToDownload);
-            downloadIntent.putExtra("SAVE", SAVE);
-            downloadIntent.putExtra("Notification", notificationTitle);
-            downloadIntent.putExtra("Filename", fileName);
-            downloadIntent.putExtra("Filetype", fileType);
-            downloadIntent.putExtra("User", userName);
-            mContext.startService(downloadIntent);
+            Helper.passDownload(linkToDownload, SAVE, notificationTitle, fileName, fileType, userName, mContext);
         }
     }
 
@@ -567,7 +558,6 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             linkToDownload = (String) getObjectField(mMedia, MEDIA_VIDEO_HOOK);
             filenameExtension = "mp4";
             fileType = "Video";
-            descriptionType = "video";
             descriptionTypeId = R.string.video;
 
             if (linkToDownload.equals("None")) {
@@ -591,7 +581,6 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
 
                 filenameExtension = "mp4";
                 fileType = "Video";
-                descriptionType = "video";
                 descriptionTypeId = R.string.video;
 
                 if (linkToDownload.equals("None")) {
@@ -606,44 +595,77 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
 
                         linkToDownload = (String) getObjectField(photo, XposedHelpers.findFirstFieldByExactType(Image, String.class).getName());
                     } catch (Throwable t2) {
-                        Toast("Please contact iHelp101 on XDA.");
                         setError("Photo Hook Invalid - " + t2);
+                        sendError();
                         return;
                     }
                 } else {
                     try {
                         linkToDownload = (String) getObjectField(mMedia, MEDIA_PHOTO_HOOK);
                     } catch (Throwable t2) {
-                        Toast("Please contact iHelp101 on XDA.");
                         setError("Link To Download Hook Invalid (Photo) - " + t2);
+                        sendError();
                         return;
                     }
                 }
                 filenameExtension = "jpg";
                 fileType = "Image";
-                descriptionType = "photo";
                 descriptionTypeId = R.string.photo;
             }
         }
 
-        if (descriptionType.equals("photo")) {
-            SAVE = Helper.getString(mContext, R.string.Image);
-        } else {
-            SAVE = Helper.getString(mContext, R.string.Video);
+        try {
+            userNameTagged = "";
+            Object feedObject = XposedHelpers.getObjectField(mMedia, XposedHelpers.findFirstFieldByExactType(mMedia.getClass(), XposedHelpers.findClass(TAGGED_HOOK_CLASS, loadPackageParam.classLoader)).getName());
+            ArrayList arrayList = (ArrayList) XposedHelpers.getObjectField(feedObject, XposedHelpers.findFirstFieldByExactType(feedObject.getClass(), ArrayList.class).getName());
+
+            for (int i = 0; i < arrayList.size(); i++) {
+                Object object = arrayList.get(i);
+                Field[] fields = object.getClass().getDeclaredFields();
+
+                for (Field field : fields) {
+                    if (field.toString().contains("UserInfo")) {
+                        Object object1 = XposedHelpers.getObjectField(object, field.getName());
+                        userNameTagged = userNameTagged + XposedHelpers.getObjectField(object1, XposedHelpers.findFirstFieldByExactType(object1.getClass(), String.class).getName()) + ";";
+                    }
+                }
+            }
+        } catch (NullPointerException e) {
+        } catch (Throwable t) {
+            setError("Tagged Failed - " +t);
         }
+
+        linkToDownload = linkToDownload.replace("750x750", "");
+        linkToDownload = linkToDownload.replace("640x640", "");
+        linkToDownload = linkToDownload.replace("480x480", "");
+        linkToDownload = linkToDownload.replace("320x320", "");
 
 		// Construct filename
 		// username_imageId.jpg
-		descriptionType = Helper.getString(mContext, descriptionTypeId);
-		String toastMessage = Helper.getString(mContext, R.string.Downloading, descriptionType);
-        Toast(toastMessage);
+        try {
+            descriptionType = Helper.getResourceString(mContext, descriptionTypeId);
+        } catch (Throwable t) {
+            descriptionType = fileType;
+        }
+
+        String downloading;
+
+        try {
+            downloading = Helper.getResourceString(mContext, R.string.Downloading, descriptionType);
+        } catch (Throwable t) {
+            downloading = "Downloading " + descriptionType;
+        }
+
+        if (userNameTagged.isEmpty()) {
+            Toast(downloading);
+        }
 
 		Object mUser;
         try {
             mUser = getFieldByType(mMedia, findClass(USER_CLASS_NAME, loadPackageParam.classLoader));
         } catch (Throwable t) {
-            Toast("Please contact iHelp101 on XDA.");
             setError("mUser Hook Invalid - " + USER_CLASS_NAME);
+            sendError();
             return;
         }
 
@@ -653,14 +675,14 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
 
 		String userFullName;
 
-		try {
+        try {
             userName = (String) getObjectField(mUser, USERNAME_HOOK);
             userFullName = (String) getObjectField(mUser, FULLNAME__HOOK);
-		} catch (Throwable t) {
+        } catch (Throwable t) {
             setError("Failed to get User from Media, using placeholders");
             userName = "username_placeholder";
             userFullName = "Unknown name";
-		}
+        }
 
         String itemId;
 
@@ -681,8 +703,6 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 itemId = sdf.format(new Date());
             }
         }
-
-
 
         if (!Helper.getSetting("File").equals("Instagram") && !where.equals("Direct")) {
             try {
@@ -708,15 +728,24 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
 			userFullName = userName;
 		}
 
-        notificationTitle = Helper.getString(mContext, R.string.username_thing, userFullName, descriptionType);
+        if (!userNameTagged.isEmpty()) {
+            userFullName = userName;
+        }
+
+        try {
+            notificationTitle = Helper.getResourceString(mContext, R.string.username_thing, userFullName, descriptionType);
+        } catch (Throwable t) {
+            notificationTitle = userName + "'s " + descriptionType;
+        }
         notificationTitle = notificationTitle.substring(0,1).toUpperCase() + notificationTitle.substring(1);
 
-        linkToDownload = linkToDownload.replace("750x750", "");
-        linkToDownload = linkToDownload.replace("640x640", "");
-        linkToDownload = linkToDownload.replace("480x480", "");
-        linkToDownload = linkToDownload.replace("320x320", "");
-
         SAVE = Helper.getSaveLocation(fileType);
+
+        if (!userNameTagged.isEmpty()) {
+            userNameTagged = userNameTagged + userName + ";";
+            taggedUserAlert(downloading);
+            return;
+        }
 
         try {
             if (fileType.equals("Video") && Helper.getSettings("OneTap") && appInstalledOrNot("com.phantom.onetapvideodownload")) {
@@ -729,15 +758,15 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 mContext.startService(intent);
             } else {
                 if (fileType.equals("Profile")) {
-                    SAVE = checkSaveProfile();
+                    SAVE = Helper.checkSaveProfile(SAVE, userName, fileName);
                 } else {
-                    SAVE = checkSave();
+                    SAVE = Helper.checkSave(SAVE, userName, fileName);
                 }
 
                 downloadOrPass();
             }
         } catch (Exception e) {
-            setError("Failed To Send Download Broadcast - " +e);
+            setError("Failed To Send DownlPassoad Broadcast - " +e);
         }
 	}
 
@@ -746,13 +775,10 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
         if (!resparam.packageName.equals("com.instagram.android"))
             return;
 
-        hookedIcon = XModuleResources.createInstance(MODULE_PATH, resparam.res);
-
         resparam.res.hookLayout("com.instagram.android", "layout", "row_profile_scoreboard_header", new XC_LayoutInflated() {
             @Override
             public void handleLayoutInflated(XC_LayoutInflated.LayoutInflatedParam liparam) throws Throwable {
                 followerCount = (TextView) liparam.view.findViewById(liparam.res.getIdentifier("row_profile_header_textview_following_count", "id", "com.instagram.android"));
-
             }
         });
     }
@@ -774,55 +800,36 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             setError("Instagram Version Code: " + versionCheck);
             setError("Device Codename: " + Build.MODEL);
             setError("Android Version: " + Build.VERSION.RELEASE);
+
             try {
                 PackageInfo pinfo = nContext.getPackageManager().getPackageInfo("com.ihelp101.instagram", 0);
                 setError("XInsta Version " + pinfo.versionName);
             } catch (Exception e) {
             }
+
             startHooks();
-        }
-    }
-
-    void hookAccountOptions() {
-        try {
-            Class<?> Account = findClass(ACCOUNT_HOOK_CLASS, loadPackageParam.classLoader);
-            Method[] methods = XposedHelpers.findMethodsByExactParameters(Account, boolean.class);
-
-            XposedHelpers.findAndHookMethod(Account, methods[0].getName(), new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                    param.setResult(true);
-                }
-            });
-        } catch (Throwable t) {
-            setError("Account Options Failed - " + t.toString());
         }
     }
 
     void hookComments() {
         try {
-            final Class<?> Comments = XposedHelpers.findClass(COMMENT_HOOK_CLASS, loadPackageParam.classLoader);
+            Class<?> support = XposedHelpers.findClass(COMMENT_HOOK_CLASS, loadPackageParam.classLoader);
+            Class<?> support2 = XposedHelpers.findClass(COMMENT_HOOK_CLASS2, loadPackageParam.classLoader);
 
-            Method[] methods = XposedHelpers.findMethodsByExactParameters(Comments, boolean.class, findClass(COMMENT_HOOK_CLASS2, loadPackageParam.classLoader));
-
-
-            findAndHookMethod(findClass(COMMENT_HOOK_CLASS, loadPackageParam.classLoader), methods[0].getName(), findClass(COMMENT_HOOK_CLASS2, loadPackageParam.classLoader), new XC_MethodHook() {
+            XposedHelpers.findAndHookConstructor(COMMENT_HOOK_CLASS3, loadPackageParam.classLoader, support, int.class, support2, new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    Object pj = param.args[0];
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+
+                    Object pj = param.args[2];
                     mContext = AndroidAppHelper.currentApplication().getApplicationContext();
 
                     if (Helper.getSettings("Comment")) {
-                        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) AndroidAppHelper.currentApplication().getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                        android.content.ClipData clip = android.content.ClipData.newPlainText("Clip", (String) getObjectField(pj, "d"));
-                        clipboard.setPrimaryClip(clip);
-                        Toast(Helper.getString(AndroidAppHelper.currentApplication().getApplicationContext(), R.string.Copied));
+                        copyComment((String) getObjectField(pj, "d"));
                     }
                 }
             });
-        } catch (Throwable t) {
+
             try {
                 final Class<?> Comments = XposedHelpers.findClass(COMMENT_HOOK_CLASS, loadPackageParam.classLoader);
 
@@ -836,22 +843,58 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                         mContext = AndroidAppHelper.currentApplication().getApplicationContext();
 
                         if (Helper.getSettings("Comment")) {
-                            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) AndroidAppHelper.currentApplication().getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                            android.content.ClipData clip = android.content.ClipData.newPlainText("Clip", (String) getObjectField(pj, "d"));
-                            clipboard.setPrimaryClip(clip);
-                            Toast(Helper.getString(AndroidAppHelper.currentApplication().getApplicationContext(), R.string.Copied));
+                            copyComment((String) getObjectField(pj, "d"));
+                        }
+                    }
+                });
+            } catch (Throwable t) {
+            }
+        } catch (Throwable t) {
+            try {
+                final Class<?> Comments = XposedHelpers.findClass(COMMENT_HOOK_CLASS, loadPackageParam.classLoader);
+
+                Method[] methods = XposedHelpers.findMethodsByExactParameters(Comments, boolean.class, findClass(COMMENT_HOOK_CLASS2, loadPackageParam.classLoader));
+
+                findAndHookMethod(Comments, methods[0].getName(), findClass(COMMENT_HOOK_CLASS2, loadPackageParam.classLoader), new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        Object pj = param.args[0];
+                        mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+
+                        if (Helper.getSettings("Comment")) {
+                            copyComment((String) getObjectField(pj, "d"));
                         }
                     }
                 });
             } catch (Throwable t2) {
-                setError("Comment Check Failed - " + t2.toString());
+                try {
+                    final Class<?> Comments = XposedHelpers.findClass(COMMENT_HOOK_CLASS, loadPackageParam.classLoader);
+
+                    Method[] methods = XposedHelpers.findMethodsByExactParameters(Comments, void.class, findClass(COMMENT_HOOK_CLASS2, loadPackageParam.classLoader));
+
+                    XposedHelpers.findAndHookMethod(Comments, methods[0].getName(), COMMENT_HOOK_CLASS2, new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            super.afterHookedMethod(param);
+                            Object pj = param.args[0];
+                            mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+
+                            if (Helper.getSettings("Comment")) {
+                                copyComment((String) getObjectField(pj, "d"));
+                            }
+                        }
+                    });
+                } catch (Throwable t3) {
+                    setError("Comment Failed - " +t3);
+                }
             }
         }
     }
 
     void hookDate() {
         try {
-            if (TIME_HOOK.equals("Nope") && !Helper.getSetting("Date").equals("Instagram")) {
+            if (TIME_HOOK_CLASS.equals("Nope") && !Helper.getSetting("Date").equals("Instagram")) {
                 final Class<?> Time = XposedHelpers.findClass(MEDIA_CLASS_NAME, loadPackageParam.classLoader);
                 Method[] methods = XposedHelpers.findMethodsByExactParameters(Time, CharSequence.class, Context.class);
 
@@ -859,24 +902,116 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
-                        param.setResult(dateFormat((Long) XposedHelpers.getObjectField(param.thisObject, (XposedHelpers.findFirstFieldByExactType(Time, long.class)).getName())));
+                        try {
+                            String dateFormat = Helper.getSetting("Date");
+                            Long epochTime = (Long) XposedHelpers.getObjectField(param.thisObject, (XposedHelpers.findFirstFieldByExactType(Time, long.class)).getName());
+
+                            Date date = new Date(epochTime * 1000L);
+                            TimeZone timeZone = TimeZone.getDefault();
+
+                            dateFormat = dateFormat.replaceAll(";", "");
+
+                            if (dateFormat.substring(dateFormat.length() - 1).equals(":")) {
+                                dateFormat = dateFormat.substring(0, dateFormat.length() - 1);
+                                dateFormat = dateFormat.replaceAll("a", " a");
+                            } else if (dateFormat.contains(":a")) {
+                                dateFormat = dateFormat.replaceAll(":a", " a");
+                            } else {
+                                dateFormat = dateFormat.replaceAll("a", " a");
+                            }
+
+                            if (dateFormat.substring(0, 1).equals(Helper.getSetting("Separator"))) {
+                                dateFormat = dateFormat.substring(1, dateFormat.length());
+                            }
+
+                            DateFormat format = new SimpleDateFormat(dateFormat);
+                            format.setTimeZone(timeZone);
+
+                            param.setResult(format.format(date));
+                        } catch (Throwable t) {
+                            setError("Date Failed - " + t);
+                        }
                     }
                 });
             } else if (!Helper.getSetting("Date").equals("Instagram")) {
-                final Class<?> Time = XposedHelpers.findClass(TIME_HOOK, loadPackageParam.classLoader);
-                Method[] methods = XposedHelpers.findMethodsByExactParameters(Time, String.class, Context.class, long.class);
+                try {
+                    final Class<?> Time = XposedHelpers.findClass(TIME_HOOK_CLASS, loadPackageParam.classLoader);
+                    Method[] methods = XposedHelpers.findMethodsByExactParameters(Time, String.class, Context.class, long.class);
 
-                XposedHelpers.findAndHookMethod(Time, methods[1].getName(), Context.class, long.class, new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        super.afterHookedMethod(param);
-                        param.setResult(dateFormat((Long) param.args[1]));
+                    XposedHelpers.findAndHookMethod(Time, methods[1].getName(), Context.class, long.class, new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            super.afterHookedMethod(param);
+                            String dateFormat = Helper.getSetting("Date");
+                            Long epochTime = (Long) param.args[1];
+
+                            Date date = new Date(epochTime * 1000L);
+                            TimeZone timeZone = TimeZone.getDefault();
+
+                            dateFormat = dateFormat.replaceAll(";", "");
+
+                            if (dateFormat.substring(dateFormat.length() - 1).equals(":")) {
+                                dateFormat = dateFormat.substring(0, dateFormat.length() - 1);
+                                dateFormat = dateFormat.replaceAll("a", " a");
+                            } else if (dateFormat.contains(":a")) {
+                                dateFormat = dateFormat.replaceAll(":a", " a");
+                            } else {
+                                dateFormat = dateFormat.replaceAll("a", " a");
+                            }
+
+                            if (dateFormat.substring(0, 1).equals(Helper.getSetting("Separator"))) {
+                                dateFormat = dateFormat.substring(1, dateFormat.length());
+                            }
+
+                            DateFormat format = new SimpleDateFormat(dateFormat);
+                            format.setTimeZone(timeZone);
+
+                            param.setResult(format.format(date));
+                        }
+                    });
+                } catch (Throwable t2) {
+                    try {
+                        final Class<?> Time = XposedHelpers.findClass(TIME_HOOK_CLASS, loadPackageParam.classLoader);
+                        Method[] methods = XposedHelpers.findMethodsByExactParameters(Time, String.class, Context.class, long.class);
+
+                        XposedHelpers.findAndHookMethod(Time, methods[0].getName(), Context.class, long.class, new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                super.afterHookedMethod(param);
+                                String dateFormat = Helper.getSetting("Date");
+                                Long epochTime = (Long) param.args[1];
+
+                                Date date = new Date(epochTime * 1000L);
+                                TimeZone timeZone = TimeZone.getDefault();
+
+                                dateFormat = dateFormat.replaceAll(";", "");
+
+                                if (dateFormat.substring(dateFormat.length() - 1).equals(":")) {
+                                    dateFormat = dateFormat.substring(0, dateFormat.length() - 1);
+                                    dateFormat = dateFormat.replaceAll("a", " a");
+                                } else if (dateFormat.contains(":a")) {
+                                    dateFormat = dateFormat.replaceAll(":a", " a");
+                                } else {
+                                    dateFormat = dateFormat.replaceAll("a", " a");
+                                }
+
+                                if (dateFormat.substring(0, 1).equals(Helper.getSetting("Separator"))) {
+                                    dateFormat = dateFormat.substring(1, dateFormat.length());
+                                }
+
+                                DateFormat format = new SimpleDateFormat(dateFormat);
+                                format.setTimeZone(timeZone);
+
+                                param.setResult(format.format(date));
+                            }
+                        });
+                    } catch (Throwable t3) {
+                        setError("Date Failed2 - " + t3);
                     }
-                });
+                }
             }
-        } catch(Throwable t){
-            setError("Time Hooks Failed: " + t);
-            setError("Time Hooks Class: " + MEDIA_CLASS_NAME);
+        } catch (Throwable t) {
+            setError("Date Failed3 - " +t);
         }
     }
 
@@ -896,11 +1031,20 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 findAndHookMethod(findClass(DS_PERM_MORE_OPTIONS_DIALOG_CLASS, loadPackageParam.classLoader), methods[0].getName(), DialogInterface.class, int.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        CharSequence localCharSequence = mDirectShareMenuOptions[(Integer) param.args[1]];
+                        CharSequence localCharSequence = mMenuOptions[(Integer) param.args[1]];
                         if (mContext == null) {
                             mContext = ((Dialog) param.args[0]).getContext();
                         }
-                        if (Helper.getString(nContext, R.string.the_not_so_big_but_big_button).equals(localCharSequence)) {
+
+                        String downloadCheck;
+
+                        try {
+                            downloadCheck = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button);
+                        } catch (Throwable t) {
+                            downloadCheck = "Download";
+                        }
+
+                        if (downloadCheck.equals(localCharSequence)) {
                             Object mMedia = null;
 
                             Field[] mCurrentMediaOptionButtonFields =
@@ -936,20 +1080,22 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
 
                 findAndHookMethod(findClass(DS_PERM_MORE_OPTIONS_DIALOG_CLASS, loadPackageParam.classLoader), methods[0].getName(), DialogInterface.class, int.class, new XC_MethodHook() {
                     @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        Field menuOptionsField = XposedHelpers.findFirstFieldByExactType(param.thisObject.getClass(), ArrayList.class);
-                        ArrayList arrayList = (ArrayList) menuOptionsField.get(param.thisObject);
-                        arrayList.add("Download");
-                        menuOptionsField.set(param.thisObject, arrayList);
-                        ArrayList mProfileList = (ArrayList) menuOptionsField.get(param.thisObject);
-
-                        String localCharSequence = mProfileList.get((Integer) param.args[1]).toString();
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        String localCharSequence = mMenuOptions[(Integer) param.args[1]].toString();
 
                         if (mContext == null) {
                             mContext = ((Dialog) param.args[0]).getContext();
                         }
 
-                        if (Helper.getString(nContext, R.string.the_not_so_big_but_big_button).equals(localCharSequence)) {
+                        String downloadCheck;
+
+                        try {
+                            downloadCheck = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button);
+                        } catch (Throwable t) {
+                            downloadCheck = "Download";
+                        }
+
+                        if (downloadCheck.equals(localCharSequence)) {
                             Object mMedia = null;
 
                             try {
@@ -982,11 +1128,11 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                                 try {
                                     downloadMedia(mMedia, "Direct");
                                 } catch (Throwable t) {
-                                    Toast("Please contact iHelp101 on XDA.");
+                                    setError("Direct Download Failed - " +t);
+                                    sendError();
                                 }
                             } catch (Throwable t) {
-                                setError("Directshare Image/Video Minimized: " +t);
-                                Toast(Helper.getString(nContext, R.string.Picture_Not));
+                                setError("Directshare Image/Video Minimized - " +t);
                             }
 
                             param.setResult(null);
@@ -994,7 +1140,6 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                     }
                 });
             }
-
         } catch (Throwable t) {
             setError("Directshare Hooks Invalid - " +t.toString());
         }
@@ -1007,15 +1152,9 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     CharSequence[] string = (CharSequence[]) param.args[0];
                     android.content.DialogInterface.OnClickListener onClickListener = (android.content.DialogInterface.OnClickListener) param.args[1];
-                    ArrayList<String> array = new ArrayList<String>();
-                    for (CharSequence sq : string)
-                        array.add(sq.toString());
 
-                    if (onClickListener.getClass().getName().equals(DS_PERM_MORE_OPTIONS_DIALOG_CLASS) && !array.contains(Helper.getString(nContext, R.string.the_not_so_big_but_big_button))) {
-                        array.add(Helper.getString(nContext, R.string.the_not_so_big_but_big_button));
-                        CharSequence[] newResult = new CharSequence[array.size()];
-                        array.toArray(newResult);
-                        param.args[0] = newResult;
+                    if (onClickListener.getClass().getName().equals(DS_PERM_MORE_OPTIONS_DIALOG_CLASS)) {
+                        param.args[0] = injectDownload(string, "Other");
                     }
                 }
             });
@@ -1029,17 +1168,52 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             Class<?> Media = findClass(MEDIA_OPTIONS_BUTTON_CLASS, loadPackageParam.classLoader);
             Method[] methods = XposedHelpers.findMethodsByExactParameters(Media, CharSequence[].class);
 
-            findAndHookMethod(findClass(MEDIA_OPTIONS_BUTTON_CLASS, loadPackageParam.classLoader), methods[0].getName(), injectDownloadIntoCharSequenceHook);
             findAndHookMethod(findClass(MEDIA_OPTIONS_BUTTON_CLASS, loadPackageParam.classLoader), methods[0].getName(), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    mContext = AndroidAppHelper.currentApplication().getApplicationContext();
                     mCurrentMediaOptionButton = param.thisObject;
 
-                    mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+                    CharSequence[] result;
+                    try {
+                        result = (CharSequence[]) param.getResult();
+                    } catch (Throwable t) {
+                        setError("Profile Icon Failed - " +t.toString());
+                        setError("Profile Icon Class - " +PROFILE_HOOK_CLASS);
+                        sendError();
+                        return;
+                    }
+
+                    param.setResult(injectDownload(result, "Feed"));
                 }
             });
         } catch (Throwable t) {
-            setError("Media Options Button Hook Failed - " +t.toString());
+            try {
+                Class<?> Media = findClass(MEDIA_OPTIONS_BUTTON_CLASS, loadPackageParam.classLoader);
+                Method[] methods = XposedHelpers.findMethodsByExactParameters(Media, CharSequence[].class, Media);
+
+                findAndHookMethod(findClass(MEDIA_OPTIONS_BUTTON_CLASS, loadPackageParam.classLoader), methods[0].getName(), Media, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+                        mCurrentMediaOptionButton = param.args[0];
+
+                        CharSequence[] result;
+                        try {
+                            result = (CharSequence[]) param.getResult();
+                        } catch (Throwable t) {
+                            setError("Profile Icon Failed - " +t.toString());
+                            setError("Profile Icon Class - " +PROFILE_HOOK_CLASS);
+                            sendError();
+                            return;
+                        }
+
+                        param.setResult(injectDownload(result, "Feed"));
+                    }
+                });
+            } catch (Throwable t2) {
+                setError("Media Options Button Hook Failed - " +t.toString());
+            }
         }
 
         try {
@@ -1050,15 +1224,50 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     CharSequence localCharSequence = mMenuOptions[(Integer) param.args[1]];
-                    if (Helper.getString(nContext, R.string.the_not_so_big_but_big_button).equals(localCharSequence)) {
-                        Object mMedia = null;
 
-                        mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+                    String downloadCheck;
+
+                    try {
+                        downloadCheck = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button);
+                    } catch (Throwable t) {
+                        downloadCheck = "Download";
+                    }
+
+                    String lockFeed;
+
+                    try {
+                        lockFeed = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button2);
+                    } catch (Throwable t) {
+                        lockFeed = "Lock Feed";
+                    }
+
+
+                    String unlockFeed;
+
+                    try {
+                        unlockFeed = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button3);
+                    } catch (Throwable t) {
+                        unlockFeed = "Unlock Feed";
+                    }
+
+                    if (lockFeed.equals(localCharSequence)) {
+                        Freeze = 1;
+                        param.setResult(null);
+                    }
+
+                    if (unlockFeed.equals(localCharSequence)) {
+                        Freeze = 0;
+                        param.setResult(null);
+                    }
+
+                    if (downloadCheck.equals(localCharSequence)) {
+                        Object mMedia = null;
+                        oContext = ((Dialog) param.args[0]).getContext();
 
                         try {
                             mMedia = getObjectField(mCurrentMediaOptionButton, XposedHelpers.findFirstFieldByExactType(findClass(MEDIA_OPTIONS_BUTTON_CLASS, loadPackageParam.classLoader), findClass(MEDIA_CLASS_NAME, loadPackageParam.classLoader)).getName());
                         } catch (Throwable t) {
-                            setError("Menu Click Hook Failed: " + t);
+                            setError("Menu Click Hook Failed - " + t);
                         }
 
                         if (mMedia == null) {
@@ -1070,7 +1279,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                             downloadMedia(mMedia, "Other");
                         } catch (Throwable t) {
                             setError(t.toString());
-                            Toast("Please contact iHelp101 on XDA.");
+                            sendError();
                         }
 
                         param.setResult(null);
@@ -1100,6 +1309,20 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                             followerCount.setTextColor(Color.parseColor(color));
                         }
                     } catch (Throwable t) {
+                        try {
+                            byte[] bytes = (byte[]) XposedHelpers.getObjectField(param.thisObject, FOLLOW_HOOK_2);
+
+                            JSONObject jObject = new JSONObject(new String(bytes, "UTF-8"));
+
+                            if (jObject.getString("followed_by").equals("true")) {
+                                String color = Helper.getSetting("Color");
+                                if (color.equals("Instagram")) {
+                                    color = "#2E978C";
+                                }
+                                followerCount.setTextColor(Color.parseColor(color));
+                            }
+                        } catch (Throwable t2) {
+                        }
                     }
                 }
             });
@@ -1108,60 +1331,155 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
         }
     }
 
-    void hookInstagram() {
+    void hookFollowList() {
         try {
-            hookAccountOptions();
-        } catch (Throwable t) {
+            Class<?> followList = XposedHelpers.findClass(FOLLOW_LIST_CLASS, loadPackageParam.classLoader);
+
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(followList, View.class, int.class, View.class, ViewGroup.class, Object.class, Object.class);
+
+            XposedHelpers.findAndHookMethod(followList, methods[0].getName(), int.class, View.class, ViewGroup.class, Object.class, Object.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+
+                    Object[] objects = param.args;
+
+                    for (Object object : objects) {
+                        try {
+                            if (object.getClass().getName().equals(USER_CLASS_NAME)) {
+                                String followerName = (String) getObjectField(object, USERNAME_HOOK);
+                                if (!Helper.getSetting("Following").contains(followerName)) {
+                                    Helper.writeToFollower(followerName);
+                                }
+                            }
+                        } catch (Throwable t) {
+                        }
+                    }
+                }
+            });
+
+        }  catch (Throwable t) {
+            setError("Follow List User Failed - " +t);
         }
 
         try {
+            Class<?> followList = XposedHelpers.findClass(FOLLOW_LIST_CLASS, loadPackageParam.classLoader);
+
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(followList, int.class);
+
+            XposedHelpers.findAndHookMethod(followList, methods[0].getName(), new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    Helper.resetFollower();
+                }
+            });
+        } catch (Throwable t) {
+            setError("Follow List Failed - " +t);
+        }
+    }
+
+    void hookInstagram() {
+        try {
             hookComments();
         } catch (Throwable t) {
+            setError("Comments Failed: " +t);
         }
 
         try {
             hookDate();
         } catch (Throwable t) {
+            setError("Date Failed: " +t);
         }
 
         try {
             hookDirectShare();
         } catch (Throwable t) {
+            setError("DirectShare Failed: " +t);
         }
 
         try {
             hookFeed();
         } catch (Throwable t) {
+            setError("Feed Failed: " +t);
         }
 
         try {
             hookFollow();
         } catch (Throwable t) {
+            setError("Follow Failed: " +t);
+        }
+
+        try {
+            hookFollowList();
+        } catch (Throwable t) {
+            setError("Follow List Failed: " +t);
         }
 
         try {
             hookLike();
         } catch (Throwable t) {
+            setError("Like Failed: " +t);
+        }
+
+        try {
+            hookLockFeed();
+        } catch (Throwable t) {
+            setError("Lock Failed: " +t);
+        }
+
+        try {
+            hookMiniFeed();
+        } catch (Throwable t) {
+            setError("Mini Feed Failed: " +t);
         }
 
         try {
             hookNotification();
         } catch (Throwable t) {
+            setError("Notification Failed: " +t);
         }
 
         try {
             hookProfileIcon();
         } catch (Throwable t) {
+            setError("Profile Icon Failed: " +t);
+        }
+
+        try {
+            hookShare();
+        } catch (Throwable t) {
+            setError("Share Failed: " +t);
+        }
+
+        try {
+            hookSlide();
+        } catch (Throwable t) {
+            setError("Slide Failed: " +t);
+        }
+
+        try {
+            hookStories();
+        } catch (Throwable t) {
+            setError("Stories Failed: " +t);
+        }
+
+        try {
+            hookStoriesTimer();
+        } catch (Throwable t) {
+            setError("Stories Timer Failed: " +t);
         }
 
         try {
             hookSuggestion();
         } catch (Throwable t) {
+            setError("Suggestion Failed: " +t);
         }
 
         try {
             hookVideos();
         } catch (Throwable t) {
+            setError("Video Failed: " +t);
         }
     }
 
@@ -1174,66 +1492,363 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    if (Helper.getSettings("Like")) {
+                    if (Helper.getSettings("Like") || Freeze == 1) {
                         param.setResult(false);
                     }
                 }
             });
         } catch (Throwable t) {
             setError("Like Hooks Failed - " + t.toString());
-            setError("Like Hook Class: " +LIKE_HOOK_CLASS);
+            setError("Like Hook Class - " +LIKE_HOOK_CLASS);
+        }
+    }
+
+    void hookLockFeed() {
+        try {
+            XposedHelpers.findAndHookMethod(LOCK_HOOK_CLASS, loadPackageParam.classLoader, LOCK_HOOK, MotionEvent.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+
+                    if (Freeze == 1) {
+                        param.setResult(false);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Locked Feed Failed - " +t);
+        }
+
+        try {
+            Class<?> feedLocation = XposedHelpers.findClass(LOCK_HOOK2, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(feedLocation, void.class, View.class);
+
+            XposedHelpers.findAndHookMethod(feedLocation, methods[0].getName(), View.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Freeze == 1) {
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Locked Feed Location Failed - " +t);
+        }
+
+        try {
+            Class<?> feedProfileIcon = XposedHelpers.findClass(LOCK_HOOK3, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(feedProfileIcon, void.class, View.class);
+
+            XposedHelpers.findAndHookMethod(feedProfileIcon, methods[0].getName(), View.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Freeze == 1) {
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Locked Feed Profile Icon Failed - " +t);
+        }
+
+        try {
+            Class<?> feedUsername = XposedHelpers.findClass(LOCK_HOOK4, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(feedUsername, void.class, View.class);
+
+            XposedHelpers.findAndHookMethod(feedUsername, methods[0].getName(), View.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Freeze == 1) {
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Locked Feed Username Failed - " +t);
+        }
+
+        try {
+            Class<?> feedLikeButton = XposedHelpers.findClass(LOCK_HOOK5, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(feedLikeButton, void.class, View.class);
+
+            XposedHelpers.findAndHookMethod(feedLikeButton, methods[0].getName(), View.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Freeze == 1) {
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Locked Feed Like Button Failed - " +t);
+        }
+
+        try {
+            Class<?> feedLikeButton = XposedHelpers.findClass(LOCK_HOOK6, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(feedLikeButton, void.class, View.class);
+
+            XposedHelpers.findAndHookMethod(feedLikeButton, methods[0].getName(), View.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Freeze == 1) {
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Locked Feed Comment Button Failed - " +t);
+        }
+
+        try {
+            Class<?> feedShareButton = XposedHelpers.findClass(LOCK_HOOK7, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(feedShareButton, void.class, View.class);
+
+            XposedHelpers.findAndHookMethod(feedShareButton, methods[0].getName(), View.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Freeze == 1) {
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Locked Feed Share Button Failed - " +t);
+        }
+
+        try {
+            Class<?> feedLikeView = XposedHelpers.findClass(LOCK_HOOK8, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(feedLikeView, boolean.class, MotionEvent.class);
+
+            XposedHelpers.findAndHookMethod(feedLikeView, methods[0].getName(), MotionEvent.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Freeze == 1) {
+                        param.setResult(false);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Locked Feed LikeView Failed - " +t);
+        }
+
+        try {
+            Class<?> feedTextView = XposedHelpers.findClass(LOCK_HOOK9, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(feedTextView, boolean.class, MotionEvent.class);
+
+            XposedHelpers.findAndHookMethod(feedTextView, methods[0].getName(), MotionEvent.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Freeze == 1) {
+                        param.setResult(false);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Locked Feed TextView Failed - " +t);
+        }
+    }
+
+    void hookMiniFeed() {
+        try {
+            Class<?> miniFeedOnClick = XposedHelpers.findClass(MINI_FEED_HOOK_CLASS, loadPackageParam.classLoader);
+            final Method[] methods = XposedHelpers.findMethodsByExactParameters(miniFeedOnClick, void.class, DialogInterface.class, int.class);
+
+            XposedHelpers.findAndHookMethod(miniFeedOnClick, methods[0].getName(), DialogInterface.class, int.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    String localCharSequence = mMenuOptions[(int) param.args[1]].toString();
+
+                    oContext = ((Dialog) param.args[0]).getContext();
+
+                    String downloadCheck;
+
+                    try {
+                        downloadCheck = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button);
+                    } catch (Throwable t) {
+                        downloadCheck = "Download";
+                    }
+
+                    if (downloadCheck.equals(localCharSequence)) {
+                        downloadMedia(miniFeedModel, "Other");
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Mini Feed OnClick Failed - " +t);
+        }
+
+        try {
+            Class<?> miniFeedInject = XposedHelpers.findClass(MINI_FEED_HOOK_CLASS2, loadPackageParam.classLoader);
+            final Method[] methods = XposedHelpers.findMethodsByExactParameters(miniFeedInject, CharSequence[].class, miniFeedInject);
+
+            XposedHelpers.findAndHookMethod(miniFeedInject, methods[0].getName(), miniFeedInject, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+
+                    CharSequence[] result;
+
+                    try {
+                        result = (CharSequence[]) param.getResult();
+                    } catch (Throwable t) {
+                        setError("Mini Feed OnClick Failed -" +t);
+                        sendError();
+                        return;
+                    }
+
+                    miniFeedModel = getFieldByType(param.args[0], XposedHelpers.findClass(MEDIA_CLASS_NAME, loadPackageParam.classLoader));
+
+                    param.setResult(injectDownload(result, "Other"));
+                }
+            });
+        } catch (Throwable t) {
+            setError("Mini Feed Inject Failed - " +t);
         }
     }
 
     void hookNotification() {
+        try {
         Class<?> Notification = findClass(NOTIFICATION_CLASS, loadPackageParam.classLoader);
-        final Method[] methods = XposedHelpers.findMethodsByExactParameters(Notification, void.class, Intent.class, String.class);
+            if (Helper.getSettings("Push")) {
+                Method[] methods;
+                try {
+                    methods = XposedHelpers.findMethodsByExactParameters(Notification, void.class, Intent.class, String.class);
 
-        XposedHelpers.findAndHookMethod(Notification, methods[0].getName(), Intent.class, String.class, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                super.afterHookedMethod(param);
-                if (Helper.getSettings("Push")) {
+                    if (methods[0].equals("Check")) {
+                    }
+                } catch (Throwable t) {
                     try {
-                        mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+                        methods = Notification.getDeclaredMethods();
 
-                        Intent intent = (Intent) param.args[0];
-                        JSONObject jsonObject = new JSONObject(intent.getStringExtra("data"));
+                        for (Method method : methods) {
+                            if (method.toString().contains("Intent") && method.toString().contains("String")) {
+                                XposedHelpers.findAndHookMethod(Notification, method.getName(), method.getParameterTypes()[0], method.getParameterTypes()[1], method.getParameterTypes()[2], new XC_MethodHook() {
+                                    @Override
+                                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                        super.afterHookedMethod(param);
+                                        if (Helper.getSettings("Push")) {
+                                            mContext = AndroidAppHelper.currentApplication().getApplicationContext();
 
-                        String userHolder;
+                                            Intent intent = (Intent) param.args[0];
+                                            JSONObject jsonObject = new JSONObject(intent.getStringExtra("data"));
 
-                        if (jsonObject.getString("m").contains("]: ")) {
-                            userHolder = jsonObject.getString("m").split("]: ")[1];
-                        } else {
-                            userHolder = jsonObject.getString("m");
+                                            String userHolder;
+
+                                            if (jsonObject.getString("m").contains("]: ")) {
+                                                userHolder = jsonObject.getString("m").split("]: ")[1];
+                                            } else {
+                                                userHolder = jsonObject.getString("m");
+                                            }
+
+                                            userName = userHolder.split(" ")[0];
+                                            String photoName = Helper.getString(mContext, "photo", loadPackageParam.packageName).toLowerCase();
+                                            String photoCheck = userHolder.replace(userName, "").toLowerCase();
+                                            String videoName = Helper.getString(mContext, "video", loadPackageParam.packageName).toLowerCase();
+                                            if (jsonObject.getString("collapse_key").equals("post") && photoCheck.contains(photoName)) {
+                                                String fileExtension = ".jpg";
+                                                String fileDescription;
+                                                try {
+                                                    fileDescription = Helper.getResourceString(mContext, R.string.photo);
+                                                } catch (Throwable t) {
+                                                    fileDescription = "Photo";
+                                                }
+                                                fileName = userName + "_" + jsonObject.getString("ig").replace("media?id=", "") + fileExtension;
+
+                                                fileType = "Image";
+                                                linkToDownload = jsonObject.getString("i");
+                                                try {
+                                                    notificationTitle = Helper.getResourceString(mContext, R.string.username_thing, userName, fileDescription);
+                                                } catch (Throwable t) {
+                                                    notificationTitle = userName + "'s " + fileDescription;
+                                                }
+                                                notificationTitle = notificationTitle.substring(0, 1).toUpperCase() + notificationTitle.substring(1);
+
+                                                SAVE = Helper.getSaveLocation(fileType);
+
+                                                downloadOrPass();
+                                            } else if (jsonObject.getString("collapse_key").equals("post") && photoCheck.contains(videoName)) {
+                                                linkToDownload = "https://www.instagram.com/" + userName + "/media/";
+                                                Helper.passDownload(linkToDownload, SAVE, notificationTitle, fileName, fileType, userName, mContext);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
                         }
-
-                        userName = userHolder.split(" ")[0];
-                        String photoName = Helper.getString(mContext, "photo", loadPackageParam.packageName).toLowerCase();
-                        String photoCheck = userHolder.replace(userName, "").toLowerCase();
-                        String videoName = Helper.getString(mContext, "video", loadPackageParam.packageName).toLowerCase();
-                        if (jsonObject.getString("collapse_key").equals("post") && photoCheck.contains(photoName)) {
-                            String fileExtension = ".jpg";
-                            String fileDescription = Helper.getString(mContext, R.string.photo);
-                            fileName = userName + "_" + jsonObject.getString("ig").replace("media?id=", "") + fileExtension;
-
-                            fileType = "Image";
-                            linkToDownload = jsonObject.getString("i");
-                            notificationTitle = Helper.getString(mContext, R.string.username_thing, userName, fileDescription);
-                            notificationTitle = notificationTitle.substring(0, 1).toUpperCase() + notificationTitle.substring(1);
-
-                            SAVE = Helper.getSaveLocation(fileType);
-
-                            downloadOrPass();
-                        } else if (jsonObject.getString("collapse_key").equals("post") && photoCheck.contains(videoName)) {
-                            new RequestTask().execute(userName);
-                        }
-                    } catch (Throwable t) {
-                        setError("Notification Error: " + t.toString());
+                        return;
+                    } catch (Throwable t2) {
+                        setError("New Push Notification Method Failed - " + t2);
+                        return;
                     }
                 }
+
+                XposedHelpers.findAndHookMethod(Notification, methods[0].getName(), Intent.class, String.class, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        if (Helper.getSettings("Push")) {
+                            mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+
+                            Intent intent = (Intent) param.args[0];
+                            JSONObject jsonObject = new JSONObject(intent.getStringExtra("data"));
+
+                            String userHolder;
+
+                            if (jsonObject.getString("m").contains("]: ")) {
+                                userHolder = jsonObject.getString("m").split("]: ")[1];
+                            } else {
+                                userHolder = jsonObject.getString("m");
+                            }
+
+                            userName = userHolder.split(" ")[0];
+                            String photoName = Helper.getString(mContext, "photo", loadPackageParam.packageName).toLowerCase();
+                            String photoCheck = userHolder.replace(userName, "").toLowerCase();
+                            String videoName = Helper.getString(mContext, "video", loadPackageParam.packageName).toLowerCase();
+                            if (jsonObject.getString("collapse_key").equals("post") && photoCheck.contains(photoName)) {
+                                String fileExtension = ".jpg";
+                                String fileDescription;
+                                try {
+                                    fileDescription = Helper.getResourceString(mContext, R.string.photo);
+                                } catch (Throwable t) {
+                                    fileDescription = "Photo";
+                                }
+                                fileName = userName + "_" + jsonObject.getString("ig").replace("media?id=", "") + fileExtension;
+
+                                fileType = "Image";
+                                linkToDownload = jsonObject.getString("i");
+                                try {
+                                    notificationTitle = Helper.getResourceString(mContext, R.string.username_thing, userName, fileDescription);
+                                } catch (Throwable t) {
+                                    notificationTitle = userName + "'s " + fileDescription;
+                                }
+                                notificationTitle = notificationTitle.substring(0, 1).toUpperCase() + notificationTitle.substring(1);
+
+                                SAVE = Helper.getSaveLocation(fileType);
+
+                                downloadOrPass();
+                            } else if (jsonObject.getString("collapse_key").equals("post") && photoCheck.contains(videoName)) {
+                                linkToDownload = "https://www.instagram.com/" + userName + "/media/";
+                                Helper.passDownload(linkToDownload, SAVE, notificationTitle, fileName, fileType, userName, mContext);
+                            }
+                        }
+                    }
+                });
             }
-        });
+        } catch (Throwable t) {
+            setError("Notification Error: " + t.toString());
+        }
+
     }
 
     void hookProfileIcon() {
@@ -1247,26 +1862,22 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                     super.afterHookedMethod(param);
                     mContext = AndroidAppHelper.currentApplication().getApplicationContext();
 
-                    CharSequence[] result = (CharSequence[]) param.getResult();
+                    CharSequence[] result;
+                    try {
+                        result = (CharSequence[]) param.getResult();
+                    } catch (Throwable t) {
+                        setError("Profile Icon Failed - " +t.toString());
+                        setError("Profile Icon Class - " +PROFILE_HOOK_CLASS);
+                        sendError();
+                        return;
+                    }
 
-                    ArrayList<String> array = new ArrayList<String>();
-                    for (CharSequence sq : result)
-                        array.add(sq.toString());
-
-                    if (!array.contains(Helper.getString(nContext, R.string.the_not_so_big_but_big_button)))
-                        array.add(Helper.getString(nContext, R.string.the_not_so_big_but_big_button));
-
-                    CharSequence[] newResult = new CharSequence[array.size()];
-
-                    mProfileOptions = newResult;
-
-                    array.toArray(newResult);
-                    param.setResult(newResult);
+                    param.setResult(injectDownload(result, "Other"));
                 }
             });
         } catch (Throwable t) {
             setError("Profile Icon Failed - " +t.toString());
-            setError("Profile Icon Class: " +PROFILE_HOOK_CLASS);
+            setError("Profile Icon Class - " +PROFILE_HOOK_CLASS);
         }
 
 
@@ -1278,20 +1889,31 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    String localCharSequence = mProfileOptions[(int) param.args[1]].toString();
+                    String localCharSequence = mMenuOptions[(int) param.args[1]].toString();
 
-                    if (Helper.getString(nContext, R.string.the_not_so_big_but_big_button).equals(localCharSequence)) {
+                    if (Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button).equals(localCharSequence)) {
 
-                        Class<?> Profile = findClass(PROFILE_HOOK_CLASS2, loadPackageParam.classLoader);
-                        Class<?> Profile2 = findClass(PROFILE_HOOK_CLASS, loadPackageParam.classLoader);
-                        Class<?> ProfileUser = findClass(USER_CLASS_NAME, loadPackageParam.classLoader);
+                        Class<?> Profile;
+                        Class<?> Profile2;
+                        Class<?> ProfileUser;
+
+                        try {
+                            Profile = findClass(PROFILE_HOOK_CLASS2, loadPackageParam.classLoader);
+                            Profile2 = findClass(PROFILE_HOOK_CLASS, loadPackageParam.classLoader);
+                            ProfileUser = findClass(USER_CLASS_NAME, loadPackageParam.classLoader);
+                        } catch (Throwable t) {
+                            setError("Profile OnClick Class Failed -" +t);
+                            sendError();
+                            return;
+                        }
 
                         String firstField;
 
                         try {
                             firstField = XposedHelpers.findFirstFieldByExactType(Profile, Profile2).getName();
                         } catch (Throwable e) {
-                            setError("Profile First Field Failed: " + e);
+                            setError("Profile First Field Failed - " + e);
+                            sendError();
                             return;
                         }
 
@@ -1302,9 +1924,12 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                         try {
                             secondField = XposedHelpers.findFirstFieldByExactType(Profile2, ProfileUser).getName();
                         } catch (Throwable e) {
-                            setError("Profile Second Field Failed: " + e);
+                            setError("Profile Second Field Failed - " + e);
+                            sendError();
                             return;
                         }
+
+                        count = 0;
 
                         for (Field field : fields) {
                             if (field.getType().equals(ProfileUser)) {
@@ -1315,26 +1940,46 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                             }
                         }
 
-                        Object objectStart = XposedHelpers.getObjectField(param.thisObject, firstField);
-                        Object object = XposedHelpers.getObjectField(objectStart, secondField);
+                        Object object;
 
-                        linkToDownload = (String) XposedHelpers.getObjectField(object, PROFILE_HOOK_3);
-                        linkToDownload = linkToDownload.replace("s150x150/", "");
+                        try {
+                            Object objectStart = XposedHelpers.getObjectField(param.thisObject, firstField);
+                            object = XposedHelpers.getObjectField(objectStart, secondField);
+
+                            linkToDownload = (String) XposedHelpers.getObjectField(object, PROFILE_HOOK_3);
+                            linkToDownload = linkToDownload.replace("s150x150/", "");
+
+                        } catch (Throwable t) {
+                            setError("Profile Link To Download Failed -" +t);
+                            sendError();
+                            return;
+                        }
 
                         try {
                             userName = (String) XposedHelpers.getObjectField(object, USERNAME_HOOK);
                         } catch (Throwable t) {
                             setError("Profile Icon Username Hooks Failed:  " + t);
+                            sendError();
                             return;
                         }
 
-                        notificationTitle = Helper.getString(mContext, R.string.username_thing, userName, "Icon");
+                        try {
+                            notificationTitle = Helper.getResourceString(mContext, R.string.username_thing, userName, "Icon");
+                        } catch (Throwable t) {
+                            notificationTitle = userName + "'s Icon";
+                        }
+
                         notificationTitle = notificationTitle.substring(0, 1).toUpperCase() + notificationTitle.substring(1);
 
+                        String dateFormat = String.valueOf(System.currentTimeMillis());
 
-                        fileName = userName + "-Profile.jpg";
+                        if (!Helper.getSetting("File").equals("Instagram")) {
+                            dateFormat = getDateProfileIcon(System.currentTimeMillis());
+                        }
 
-                        SAVE = Helper.getString(mContext, R.string.Profile);
+                        fileName = userName + "_"  + dateFormat +"_Profile.jpg";
+
+                        SAVE = "";
 
                         fileType = "Profile";
 
@@ -1346,7 +1991,167 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             });
         } catch (Throwable t) {
             setError("Profile Icon Click Listener Failed - " + t.toString());
-            setError("Profile Icon Click Listener Class: " +PROFILE_HOOK_CLASS2);
+            setError("Profile Icon Click Listener Class - " +PROFILE_HOOK_CLASS2);
+        }
+    }
+
+    void hookShare() {
+        try {
+            Class<?> shareClass = XposedHelpers.findClass(SHARE_HOOK_CLASS, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(shareClass, void.class, Object.class);
+
+            XposedHelpers.findAndHookMethod(shareClass, methods[0].getName(), Object.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+
+                    String fieldName = "";
+
+                    Field[] fields = param.args[0].getClass().getDeclaredFields();
+
+                    for (Field field : fields) {
+                        if (field.getType().equals(String.class)) {
+                            fieldName = field.getName();
+                        }
+                    }
+
+                    String linkToShare = (String) XposedHelpers.getObjectField(param.args[0], fieldName);
+
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                    i.putExtra(Intent.EXTRA_TEXT, linkToShare);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (i.resolveActivity(mContext.getPackageManager()) != null) {
+                        mContext.startActivity(i);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Share Class Failed - " +t);
+        }
+    }
+
+    void hookSlide() {
+        try {
+            XposedHelpers.findAndHookMethod(SLIDE_HOOK_CLASS, loadPackageParam.classLoader, SLIDE_HOOK, MotionEvent.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Helper.getSettings("Slide") || Freeze == 1) {
+                        param.setResult(false);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Slide Hook Failed - " +t);
+        }
+    }
+
+    void hookStories() {
+        try {
+            Class<?> storiesOnClick = XposedHelpers.findClass(STORY_HOOK_CLASS, loadPackageParam.classLoader);
+
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(storiesOnClick, void.class, DialogInterface.class, int.class);
+
+            XposedHelpers.findAndHookMethod(storiesOnClick, methods[0].getName(), DialogInterface.class, int.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    String localCharSequence = mMenuOptions[(Integer) param.args[1]].toString();
+
+                    oContext = ((Dialog) param.args[0]).getContext();
+
+                    String downloadCheck;
+
+                    try {
+                        downloadCheck = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button);
+                    } catch (Throwable t) {
+                        downloadCheck = "Download";
+                    }
+
+                    if (downloadCheck.equals(localCharSequence)) {
+                        downloadMedia(storiesModel, "Other");
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Stories OnClick Failed - " +t);
+        }
+
+        try {
+            Class<?> storiesInject = XposedHelpers.findClass(STORY_HOOK_CLASS2, loadPackageParam.classLoader);
+
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(storiesInject, Dialog.class, CharSequence[].class, DialogInterface.OnClickListener.class, DialogInterface.OnDismissListener.class);
+
+            XposedHelpers.findAndHookMethod(storiesInject, methods[0].getName(), CharSequence[].class, DialogInterface.OnClickListener.class, DialogInterface.OnDismissListener.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+
+                    mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+
+                    CharSequence[] result;
+                    try {
+                        result= (CharSequence[]) param.args[0];
+                    } catch (Throwable t) {
+                        setError("Stories Inject Failed - " +t.toString());
+                        sendError();
+                        return;
+                    }
+
+                    param.args[0] = injectDownload(result, "Other");
+
+                    Class<?> downloadSupport = XposedHelpers.findClass(STORY_HOOK, loadPackageParam.classLoader);
+                    Class<?> feedClass = XposedHelpers.findClass(MEDIA_CLASS_NAME, loadPackageParam.classLoader);
+
+                    Object download = getFieldByType(param.thisObject, downloadSupport);
+
+                    storiesModel = getFieldByType(download, feedClass);
+                }
+            });
+        } catch (Throwable t) {
+            setError("Stories Inject Failed - " +t);
+        }
+    }
+
+    void hookStoriesTimer() {
+        try {
+            Class<?> mediaPlayer = XposedHelpers.findClass(STORY_TIME_HOOK_CLASS, loadPackageParam.classLoader);
+
+            XposedHelpers.findAndHookMethod(mediaPlayer, STORY_TIME_HOOK, MediaPlayer.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Helper.getSettings("Story")) {
+                        MediaPlayer mediaPlayer = (MediaPlayer) param.args[0];
+                        mediaPlayer.seekTo(0);
+                        mediaPlayer.start();
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Stories Video Timer Failed - " +t);
+        }
+
+
+        try {
+            Class<?> storyTimer = XposedHelpers.findClass(STORY_TIME_HOOK_CLASS2, loadPackageParam.classLoader);
+
+            XposedHelpers.findAndHookMethod(storyTimer, STORY_TIME_HOOK2, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Helper.getSettings("Story")) {
+                        param.setResult(null);
+                    }
+                }
+            });
+        } catch (Throwable t) {
+            setError("Stories Timer Failed - " +t);
         }
     }
 
@@ -1394,8 +2199,6 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                         super.afterHookedMethod(param);
                         mContext = AndroidAppHelper.currentApplication().getApplicationContext();
 
-                        checkMarshmallowPermission();
-
                         if (Helper.getSettings("Suggestion")) {
                             View view = (View) param.getResult();
                             Class<?> listClass = findClass(view.getTag().getClass().getName(), loadPackageParam.classLoader);
@@ -1406,34 +2209,48 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
                 });
             } catch (Throwable t2) {
                 setError("Suggestion Hooks Failed - " + t2.toString());
-                setError("Suggestion Hook Class: " + SUGGESTION_HOOK_CLASS);
+                setError("Suggestion Hook Class - " + SUGGESTION_HOOK_CLASS);
             }
         }
     }
 
     void hookVideos() {
-        Class<?> Video = XposedHelpers.findClass(VIDEO_CLASS, loadPackageParam.classLoader);
-        Method[] methods = XposedHelpers.findMethodsByExactParameters(Video, void.class, Object.class);
-        final Method[] methods2 = XposedHelpers.findMethodsByExactParameters(Video, void.class, int.class);
+        try {
+            Class<?> Video = XposedHelpers.findClass(VIDEO_HOOK_CLASS, loadPackageParam.classLoader);
+            Method[] methods = XposedHelpers.findMethodsByExactParameters(Video, void.class, Object.class);
+            final Method[] methods2 = XposedHelpers.findMethodsByExactParameters(Video, void.class, int.class);
 
-        XposedHelpers.findAndHookMethod(Video, methods[0].getName(), Object.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                super.beforeHookedMethod(param);
-                if (Helper.getSettings("Sound")) {
-                    callMethod(param.thisObject, methods2[0].getName(), 0);
+            XposedHelpers.findAndHookMethod(Video, methods[0].getName(), Object.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (Helper.getSettings("Sound")) {
+                        try {
+                            if (!VIDEO_HOOK.isEmpty()) {
+                                callMethod(param.thisObject, VIDEO_HOOK, 0);
+                            } else {
+                                callMethod(param.thisObject, methods2[0].getName(), 0);
+                            }
+                        } catch (Throwable t) {
+                            callMethod(param.thisObject, methods2[0].getName(), 0);
+                        }
+                    }
                 }
-            }
-        });
+            });
+        } catch (Throwable t) {
+            setError("Auto-Play Issue - " +t);
+        }
     }
 
     @Override
     public void init() {
     }
 
-    @Override
-    public void initZygote(StartupParam startupParam) throws Throwable {
-        MODULE_PATH = startupParam.modulePath;
+    void sendError() {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.ihelp101.instagram", "com.ihelp101.instagram.ErrorActivity"));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
     }
 
     void setError(String status) {
@@ -1498,6 +2315,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
         try {
             PROFILE_HOOK_CLASS = split[29];
             PROFILE_HOOK_CLASS2 = split[30];
+            FOLLOW_HOOK_2 = split[31];
             PROFILE_HOOK_3 = split[33];
             PROFILE_HOOK_4 = split[34];
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -1525,9 +2343,9 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
         }
 
         try {
-            TIME_HOOK = split[43];
+            TIME_HOOK_CLASS = split[43];
         } catch (ArrayIndexOutOfBoundsException e) {
-            TIME_HOOK = "Nope";
+            TIME_HOOK_CLASS = "Nope";
         }
 
         try {
@@ -1537,13 +2355,79 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
         }
 
         try {
-            VIDEO_CLASS = split[44];
+            VIDEO_HOOK_CLASS = split[45];
         } catch (ArrayIndexOutOfBoundsException e) {
-            VIDEO_CLASS = "Nope";
+            VIDEO_HOOK_CLASS = "Nope";
+        }
+
+        try {
+            STORY_HOOK_CLASS = split[46];
+            STORY_HOOK_CLASS2= split[47];
+            STORY_HOOK= split[48];
+            STORY_TIME_HOOK_CLASS = split[49];
+            STORY_TIME_HOOK = split[50];
+            STORY_TIME_HOOK_CLASS2 = split[51];
+            STORY_TIME_HOOK2 = split[52];
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+
+        try {
+            MINI_FEED_HOOK_CLASS = split[53];
+            MINI_FEED_HOOK_CLASS2 = split[54];
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+
+        try {
+            FOLLOW_LIST_CLASS = split[55];
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+
+        try {
+            COMMENT_HOOK_CLASS3 = split[56];
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+
+        try {
+            SHARE_HOOK_CLASS = split[57];
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+
+        try {
+            TAGGED_HOOK_CLASS = split[58];
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+
+        try {
+            VIDEO_HOOK = split[59];
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+
+        try {
+            SLIDE_HOOK_CLASS = split[60];
+            SLIDE_HOOK = split[61];
+        } catch (ArrayIndexOutOfBoundsException e) {
+        }
+
+        try {
+            LOCK_HOOK_CLASS = split[62];
+            LOCK_HOOK = split[63];
+            LOCK_HOOK2 = split[64];
+            LOCK_HOOK3 = split[65];
+            LOCK_HOOK4 = split[66];
+            LOCK_HOOK5 = split[67];
+            LOCK_HOOK6 = split[68];
+            LOCK_HOOK7 = split[69];
+            LOCK_HOOK8 = split[70];
+            LOCK_HOOK9 = split[71];
+        } catch (ArrayIndexOutOfBoundsException e) {
         }
 
         if (HookCheck.equals("Yes") || !version.equalsIgnoreCase(split[0])) {
-            updateHooks();
+            try {
+                updateHooks();
+            } catch (Throwable t) {
+
+            }
         }
 
         if (HookCheck.equals("Yes")) {
@@ -1552,8 +2436,70 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             try {
                 hookInstagram();
             } catch (Throwable t) {
-                setError("Hooks Check Failed - " +t.toString());
+                setError("Hooks Check Failed - " + t.toString());
+
             }
+        }
+    }
+
+    void taggedUserAlert(final String toastMessage) {
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(oContext, android.R.style.Theme_Holo_Light_Dialog);
+
+            final CharSequence items[] = userNameTagged.split(";");
+
+            builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    userNameTagged = "";
+
+                    fileName = fileName.replace(userName, items[which].toString());
+                    String userNameFixed = userName.substring(0, 1).toUpperCase() + userName.substring(1);
+                    notificationTitle = notificationTitle.replace(userNameFixed, items[which].toString());
+                    notificationTitle = notificationTitle.substring(0, 1).toUpperCase() + notificationTitle.substring(1);
+                    userName = items[which].toString();
+
+                    if (userNameTagged.isEmpty()) {
+                        Toast(toastMessage);
+                    }
+
+                    try {
+                        if (fileType.equals("Video") && Helper.getSettings("OneTap") && appInstalledOrNot("com.phantom.onetapvideodownload")) {
+                            setError("One Tap - " + Helper.getSettings("OneTap"));
+                            Intent intent = new Intent("com.phantom.onetapvideodownload.action.saveurl");
+                            intent.setClassName("com.phantom.onetapvideodownload", "com.phantom.onetapvideodownload.IpcService");
+                            intent.putExtra("com.phantom.onetapvideodownload.extra.url", linkToDownload);
+                            intent.putExtra("com.phantom.onetapvideodownload.extra.title", fileName);
+                            intent.putExtra("com.phantom.onetapvideodownload.extra.package_name", loadPackageParam.packageName);
+                            mContext.startService(intent);
+                        } else {
+                            if (fileType.equals("Profile")) {
+                                SAVE = Helper.checkSaveProfile(SAVE, userName, fileName);
+                            } else {
+                                SAVE = Helper.checkSave(SAVE, userName, fileName);
+                            }
+
+                            downloadOrPass();
+                        }
+                    } catch (Exception e) {
+                        setError("Failed To Send Download Broadcast - " + e);
+                    }
+
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    userNameTagged = "";
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        } catch (Throwable t) {
+            setError("Tagged User Failed - " +t);
         }
     }
 
@@ -1588,7 +2534,12 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
 
                         Hooks = Helper.convertStreamToString(inputStream);
                     } catch (Exception e) {
-                        setError("Failed to fetch hooks.");
+                        if (!Helper.getSetting("Hooks").equals("Instagram")) {
+                            setError("Falling Back On Older Hooks");
+                            hookInstagram();
+                        } else {
+                            setError("Failed to fetch hooks.");
+                        }
                         Hooks = "Nope";
                     }
                 }
@@ -1684,6 +2635,7 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             try {
                 PROFILE_HOOK_CLASS = HooksArray[29];
                 PROFILE_HOOK_CLASS2 = HooksArray[30];
+                FOLLOW_HOOK_2 = HooksArray[31];
                 PROFILE_HOOK_3 = HooksArray[33];
                 PROFILE_HOOK_4 = HooksArray[34];
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -1711,9 +2663,9 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             }
 
             try {
-                TIME_HOOK = HooksArray[43];
+                TIME_HOOK_CLASS = HooksArray[43];
             } catch (ArrayIndexOutOfBoundsException e) {
-                TIME_HOOK = "Nope";
+                TIME_HOOK_CLASS = "Nope";
             }
 
             try {
@@ -1723,12 +2675,138 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             }
 
             try {
-                VIDEO_CLASS = HooksArray[45];
+                VIDEO_HOOK_CLASS = HooksArray[45];
             } catch (ArrayIndexOutOfBoundsException e) {
-                VIDEO_CLASS = "Nope";
+                VIDEO_HOOK_CLASS = "Nope";
             }
 
-        Helper.setSetting("Hooks", HooksSave);
+            try {
+                STORY_HOOK_CLASS = HooksArray[46];
+                STORY_HOOK_CLASS2= HooksArray[47];
+                STORY_HOOK= HooksArray[48];
+                STORY_TIME_HOOK_CLASS = HooksArray[49];
+                STORY_TIME_HOOK = HooksArray[50];
+                STORY_TIME_HOOK_CLASS2 = HooksArray[51];
+                STORY_TIME_HOOK2 = HooksArray[52];
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+
+            try {
+                MINI_FEED_HOOK_CLASS = HooksArray[53];
+                MINI_FEED_HOOK_CLASS2 = HooksArray[54];
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+
+            try {
+                FOLLOW_LIST_CLASS = HooksArray[55];
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+
+            try {
+                COMMENT_HOOK_CLASS3 = HooksArray[56];
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+
+            try {
+                SHARE_HOOK_CLASS = HooksArray[57];
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+
+            try {
+                TAGGED_HOOK_CLASS = HooksArray[58];
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+
+            try {
+                VIDEO_HOOK = HooksArray[59];
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+
+            try {
+                SLIDE_HOOK_CLASS = HooksArray[60];
+                SLIDE_HOOK = HooksArray[61];
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+
+            try {
+                LOCK_HOOK_CLASS = HooksArray[62];
+                LOCK_HOOK = HooksArray[63];
+                LOCK_HOOK2 = HooksArray[64];
+                LOCK_HOOK3 = HooksArray[65];
+                LOCK_HOOK4 = HooksArray[66];
+                LOCK_HOOK5 = HooksArray[67];
+                LOCK_HOOK6 = HooksArray[68];
+                LOCK_HOOK7 = HooksArray[69];
+                LOCK_HOOK8 = HooksArray[70];
+                LOCK_HOOK9 = HooksArray[71];
+            } catch (ArrayIndexOutOfBoundsException e) {
+            }
+
+            Helper.setSetting("Hooks", HooksSave);
+    }
+
+    CharSequence[] injectDownload(CharSequence[] charSequence, String injectLocation) {
+        String downloadCheck;
+
+        try {
+            downloadCheck = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button);
+        } catch (Throwable t) {
+            downloadCheck = "Download";
+        }
+
+        ArrayList<String> array = new ArrayList<String>();
+
+        if (!Helper.getSettings("Order")) {
+            for (CharSequence sq : charSequence) {
+                array.add(sq.toString());
+            }
+        }
+
+        if (!array.contains(downloadCheck)) {
+            array.add(downloadCheck);
+        }
+
+        if (injectLocation.equals("Feed")) {
+            if (Freeze == 0 && Helper.getSettings("Lock")) {
+                String lockFeed;
+
+                try {
+                    lockFeed = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button2);
+                } catch (Throwable t) {
+                    lockFeed = "Lock Feed";
+                }
+
+                if (!array.contains(lockFeed)) {
+                    array.add(lockFeed);
+                }
+            }
+
+            if (Freeze == 1 && Helper.getSettings("Lock")) {
+                String unlockFeed;
+
+                try {
+                    unlockFeed = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button3);
+                } catch (Throwable t) {
+                    unlockFeed = "Unlock Feed";
+                }
+
+                if (!array.contains(unlockFeed)) {
+                    array.add(unlockFeed);
+                }
+            }
+        }
+
+        if (Helper.getSettings("Order")) {
+            for (CharSequence sq : charSequence) {
+                array.add(sq.toString());
+            }
+        }
+
+        CharSequence[] newResult = new CharSequence[array.size()];
+        array.toArray(newResult);
+        mMenuOptions = newResult;
+
+        return mMenuOptions;
     }
 
     XC_MethodHook injectDownloadIntoCharSequenceHook = new XC_MethodHook() {
@@ -1737,27 +2815,63 @@ public class Module implements IXposedHookLoadPackage, IXposedHookInitPackageRes
             try {
                 CharSequence[] result = (CharSequence[]) param.getResult();
 
-                ArrayList<String> array = new ArrayList<String>();
-                for (CharSequence sq : result)
-                    array.add(sq.toString());
+                String downloadCheck;
 
-                if (!array.contains(Helper.getString(nContext, R.string.the_not_so_big_but_big_button))) {
-                    array.add(Helper.getString(nContext, R.string.the_not_so_big_but_big_button));
+                try {
+                    downloadCheck = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button);
+                } catch (Throwable t) {
+                    downloadCheck = "Download";
                 }
+
+                ArrayList<String> array = new ArrayList<String>();
+
+                if (!Helper.getSettings("Order")) {
+                    for (CharSequence sq : result) {
+                        array.add(sq.toString());
+                    }
+                }
+
+                if (!array.contains(downloadCheck)) {
+                    array.add(downloadCheck);
+                }
+
+                if (Freeze == 0 && Helper.getSettings("Lock")) {
+                    String lockFeed;
+
+                    try {
+                        lockFeed = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button2);
+                    } catch (Throwable t) {
+                        lockFeed = "Lock Feed";
+                    }
+
+                    if (!array.contains(lockFeed)) {
+                        array.add(lockFeed);
+                    }
+                }
+
+                if (Freeze == 1 && Helper.getSettings("Lock")) {
+                    String unlockFeed;
+
+                    try {
+                        unlockFeed = Helper.getResourceString(nContext, R.string.the_not_so_big_but_big_button3);
+                    } catch (Throwable t) {
+                        unlockFeed = "Unlock Feed";
+                    }
+
+                    if (!array.contains(unlockFeed)) {
+                        array.add(unlockFeed);
+                    }
+                }
+
+                if (Helper.getSettings("Order")) {
+                    for (CharSequence sq : result) {
+                        array.add(sq.toString());
+                    }
+                }
+
                 CharSequence[] newResult = new CharSequence[array.size()];
                 array.toArray(newResult);
-                Field menuOptionsField;
-                if (param.thisObject.getClass().getName().contains("directshare")) {
-                    menuOptionsField = XposedHelpers.findFirstFieldByExactType(param.thisObject.getClass(), CharSequence[].class);
-                } else {
-                    menuOptionsField = XposedHelpers.findFirstFieldByExactType(findClass(MEDIA_OPTIONS_BUTTON_CLASS, loadPackageParam.classLoader), CharSequence[].class);
-                }
-                menuOptionsField.set(param.thisObject, newResult);
-                if (param.thisObject.getClass().getName().contains("directshare")) {
-                    mDirectShareMenuOptions = (CharSequence[]) menuOptionsField.get(param.thisObject);
-                } else {
-                    mMenuOptions = (CharSequence[]) menuOptionsField.get(param.thisObject);
-                }
+                mMenuOptions = newResult;
                 param.setResult(newResult);
             } catch (Throwable t) {
                 setError("Download Button Inject Failed - " +t.toString());

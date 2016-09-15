@@ -34,8 +34,11 @@
 
     <!-- Menu Items !-->
     <string name="Change">Change Separator</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
     <string name="Comment">Copy Comment On Tap</string>
     <string name="Contact">Contact Developer</string>
+    <string name="Custom">Custom Language</string>
     <string name="Customization">Customization</string>
     <string name="Date">Tarih Formatı</string>
     <string name="Default">Default Hook Source</string>
@@ -46,11 +49,15 @@
     <string name="Hide">Uyglmyı gizle</string>
     <string name="Like">Bğnme btnnu dvredışı bırak</string>
     <string name="Logging">Disable Xposed Logging</string>
+    <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Kaydetme bldrimini gizle</string>
     <string name="Push">Bildirim al</string>
     <string name="Show">Uyglmyı göster</string>
+    <string name="Slide">Disable Slide Navigation</string>
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
     <string name="Suggestion">Önerileri gizle</string>
     <string name="Translations">XInstayı Çevir</string>
 
@@ -66,6 +73,8 @@
 
     <!-- The Download button -->
     <string name="the_not_so_big_but_big_button">Kaydet</string>
+    <string name="the_not_so_big_but_big_button2">Lock Feed</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
 
     <!-- Title in notification -->
     <string name="username_thing">"%1$s's %2$s"</string>

@@ -2,62 +2,69 @@
     <string name="app_name">XInsta</string>
 
     <!-- Alert Dialog -->
-    <string name="Okay">Listo</string>
-    <string name="Warning">Puede acceder a la aplicación a través de Xposed installer una vez que se ha ocultado.</string>
+    <string name="Okay">Bueno</string>
+    <string name="Warning">Una vez oculto, usted puede entrar en la aplicacion por el Instalador de Xposed</string>
 
     <!-- Date -->
     <string name="AM">AM/PM</string>
-    <string name="Day">Day</string>
-    <string name="Hour">Hour</string>
-    <string name="Minute">Minute</string>
-    <string name="Month">Month</string>
-    <string name="Reset">Reset</string>
-    <string name="Second">Second</string>
-    <string name="Space">---SPACE---</string>
-    <string name="Year">Year</string>
+    <string name="Day">Dia</string>
+    <string name="Hour">Hora</string>
+    <string name="Minute">Minuto</string>
+    <string name="Month">Mes</string>
+    <string name="Reset">Reinicio</string>
+    <string name="Second">Segundo</string>
+    <string name="Space">---ESPACIO---</string>
+    <string name="Year">Año</string>
 
     <!-- File Browser -->
-    <string name="nnf_new_folder">Nuevo folder</string>
-    <string name="nnf_create_folder_error">No se pudo crear la carpeta</string>
+    <string name="nnf_new_folder">Nueva Carpeta</string>
+    <string name="nnf_create_folder_error">Error al crear carpeta</string>
     <string name="nnf_name">Nombre</string>
-    <string name="nnf_select_something_first">Por favor, seleccione algo primero</string>
-    <string name="nnf_permission_external_write_denied">Permission to access filesystem denied</string>
+    <string name="nnf_select_something_first">Seleccione algo primero</string>
+    <string name="nnf_permission_external_write_denied">Permisos denegados al acceder al sistema.</string>
 
     <!-- ListView -->
-    <string name="Image">Ubicación de la imagen</string>
-    <string name="Profile">Profile Icon Location</string>
-    <string name="Recommended">Recommended</string>
-    <string name="Save">Ubicación para guardar</string>
-    <string name="Update">ACTUALIZAR GANCHOS</string>
-    <string name="Video">Ubicación del video</string>
+    <string name="Image">Ubicacion de Imagen</string>
+    <string name="Profile">Ubicacion Icono de Perfil</string>
+    <string name="Recommended">Recomendado</string>
+    <string name="Save">GUARDAR UBICACION</string>
+    <string name="Update">ACTUALIZAR</string>
+    <string name="Video">Ubicacion Video</string>
 
     <!-- Menu Items !-->
-    <string name="Change">Change Separator</string>
-    <string name="Comment">Copy Comment On Tap</string>
-    <string name="Contact">Contact Developer</string>
-    <string name="Customization">Customization</string>
-    <string name="Date">Date Formatting</string>
-    <string name="Default">Default Hook Source</string>
-    <string name="Error_log">Send Error Logs</string>
-    <string name="File">File - Change Date Format</string>
-    <string name="Folder">Folder - Add Username</string>
-    <string name="Follow">Follow Indicator - Color</string>
-    <string name="Hide">Ocultar App</string>
-    <string name="Like">Disable Like Button - Double Tap</string>
-    <string name="Logging">Disable Xposed Logging</string>
-    <string name="Misc">Misc.</string>
-    <string name="NotificationHide">Hide Download Notification</string>
-    <string name="Push">Push Notification</string>
-    <string name="Show">Mostrar App</string>
-    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Change">Cambiar separador</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
+    <string name="Comment">Copiar comentario arriba</string>
+    <string name="Contact">Contactar con el Desarrollador</string>
+    <string name="Custom"> Idioma Personalizado</string>
+    <string name="Customization">Personalizacion</string>
+    <string name="Date">Formato de fecha</string>
+    <string name="Default">Fuente Gancho por defecto</string>
+    <string name="Error_log">Enviar logs de errores</string>
+    <string name="File">Archivo - Cambiar formato de fecha</string>
+    <string name="Folder">Carpeta - Agregar usuario</string>
+    <string name="Follow">Color - Indicador de Seguidor</string>
+    <string name="Hide">Ocultar app</string>
+    <string name="Like">Deshabilitar boton Like</string>
+    <string name="Logging">Desabilitar registro Xposed</string>
+    <string name="Manual">Cambiar los hooks manualmente.</string>
+    <string name="Misc">Otra información.</string>
+    <string name="NotificationHide">Ocultar notificacion de descarga</string>
+    <string name="Push">Descarga - Notificacion</string>
+    <string name="Show">Mostrar app</string>
+    <string name="Sound">Habilitar sonido Auto-Play (Videos)</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Story">Deshabilitar temporizador en Historias</string>
+    <string name="Special">Gracias Especiales</string>
     <string name="Suggestion">Ocultar sugerencias</string>
-    <string name="Translations">Translate XInsta</string>
+    <string name="Translations">Traducir XInsta</string>
 
     <!-- Module -->
-    <string name="Download_Completed">Descarga completa</string>
-    <string name="Download_Failed">Error de descarga</string>
+    <string name="Download_Completed">Descarga Completada</string>
+    <string name="Download_Failed">Descarga fallada</string>
     <string name="DownloadDots">Descargando&#8230;</string>
-    <string name="Please">Por favor, actualice sus ganchos a través del módulo.</string>
+    <string name="Please">Actualiza la app en modulos de Xposed</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
     <string name="photo">Foto</string>
@@ -65,18 +72,20 @@
 
     <!-- The Download button -->
     <string name="the_not_so_big_but_big_button">Descargar</string>
+    <string name="the_not_so_big_but_big_button2">Lock Feed</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
 
     <!-- Title in notification -->
     <string name="username_thing">%1$s\'s %2$s</string>
 
     <!-- Toast Messages -->
-    <string name="Copied">Comment Copied</string>
-    <string name="Downloading">Descargando %1$s</string>
-    <string name="Hooks_Latest">Ya tiene los últimos ganchos.</string>
-    <string name="Hooks_Updated">Ganchos han sido actualizados. \nPor favor, matar la aplicación Instagram.</string>
-    <string name="I_LocationChanged">Ubicación de la imagen reiniciar ubicación por defecto. \nPor favor, matar la aplicación Instagram.</string>
-    <string name="Incorrect_Location">No se puede guardar aquí. \nPor favor seleccione otra ubicación.</string>
-    <string name="P_LocationChanged">Profile icon save location reset to default.</string>
-    <string name="Picture_Not">Please click the image and try again</string>
-    <string name="V_LocationChanged">Ubicación del video reiniciar ubicación por defecto. \nPor favor, matar la aplicación Instagram.</string>
+    <string name="Copied">Copiar Comentario</string>
+    <string name="Downloading">Descarga %1$s</string>
+    <string name="Hooks_Latest">Ya tienes los hooks actualizados.</string>
+    <string name="Hooks_Updated">Los Hooks fueron actualizados.\nCierra la aplicacion Instagram.</string>
+    <string name="I_LocationChanged">Ubicacion de guardado de imagen restablecido por defecto.</string>
+    <string name="Incorrect_Location">No se puede guardar aqui.\nPor favor, seleccione otra ubicación.</string>
+    <string name="P_LocationChanged">Ubicacion de guardado de icono del perfil restablecido por defecto.</string>
+    <string name="Picture_Not">Por favor, haga clic en la imagen y vuelve a intentarlo</string>
+    <string name="V_LocationChanged">Ubicacion de guardado de video restablecido por defecto.</string>
 </resources>

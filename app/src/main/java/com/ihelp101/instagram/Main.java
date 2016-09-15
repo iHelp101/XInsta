@@ -4,7 +4,9 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -26,11 +28,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,11 +43,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -57,6 +63,30 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     String saveLocation = "None";
     String saveSD;
     String version = "123";
+
+    String changeOrder;
+    String changeVersion;
+    String comment;
+    String contact;
+    String customization;
+    String date;
+    String defaultSource;
+    String errorLog;
+    String file;
+    String folder;
+    String follow;
+    String like;
+    String lockFeed;
+    String logging;
+    String hide;
+    String misc;
+    String notifHide;
+    String push;
+    String sound;
+    String slide;
+    String story;
+    String suggestion;
+    String translate;
 
     boolean appInstalledOrNot(String uri) {
         PackageManager pm = getPackageManager();
@@ -158,7 +188,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         saveLocation = "None";
                     }
                 } else {
-                    toast = getResources().getString(R.string.Incorrect_Location);
+                    try {
+                        toast = Helper.getResourceString(getApplicationContext(), R.string.Incorrect_Location);
+                    } catch (Throwable t) {
+                        toast = "Unable to save here.\nPlease select another location.";
+                    }
 
                     setToast(toast);
 
@@ -174,7 +208,141 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         if (requestCode == FILE_CODE && resultCode == 123456) {
             Helper.setSetting(saveLocation, "Instagram");
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.Reset) + " " + currentAction, Toast.LENGTH_SHORT).show();
+            String reset;
+
+            try {
+                reset = Helper.getResourceString(getApplicationContext(), R.string.Reset);
+            } catch (Throwable t) {
+                reset = "Unable to save here.\nPlease select another location.";
+            }
+
+            Toast.makeText(getApplicationContext(), reset + " " + currentAction, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class HookCheck extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... uri) {
+            String responseString = "Nope";
+
+            try {
+                URL u = new URL(uri[0]);
+                URLConnection c = u.openConnection();
+                c.connect();
+
+                InputStream inputStream = c.getInputStream();
+
+                responseString = Helper.convertStreamToString(inputStream);
+            } catch (Exception e) {
+                responseString = "Nope";
+                Helper.setError("Hook Fetch Failed - " +e);
+            }
+
+
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            try {
+                List<PackageInfo> packs = getPackageManager().getInstalledPackages(0);
+                for (int i = 0; i < packs.size(); i++) {
+                    PackageInfo p = packs.get(i);
+                    if (p.packageName.equals("com.instagram.android")) {
+                        version = Integer.toString(p.versionCode);
+                        version = version.substring(0, version.length() - 2);
+                    }
+                }
+
+                String text = Helper.getSetting("Hooks");
+
+                String toast;
+                try {
+                    toast = Helper.getResourceString(getApplicationContext(), R.string.Hooks_Updated);
+                } catch (Throwable t) {
+                    toast = "Hooks have been updated.\nPlease kill the Instagram app.";
+                }
+
+                String[] html = result.split("<p>");
+
+                String matched = "No";
+
+                int count = 0;
+                int max = 0;
+                for (String data : html) {
+                    max++;
+                }
+
+
+                for (String data : html) {
+                    count++;
+
+                    String finalCheck = "123";
+
+                    if (!data.isEmpty()) {
+                        String[] PasteVersion = data.split(";");
+                        finalCheck = PasteVersion[0];
+                    }
+
+                    if (version.equals(finalCheck) && !data.isEmpty()) {
+                        data = data.replace("<p>", "");
+                        data = data.replace("</p>", "");
+                        if (data.trim().equals(text.trim())) {
+                            try {
+                                toast = Helper.getResourceString(getApplicationContext(), R.string.Hooks_Latest);
+                            } catch (Throwable t) {
+                                toast = "You already have the latest hooks.";
+                            }
+                        } else {
+                            Helper.setSetting("Hooks", data);
+                        }
+                        matched = "Yes";
+                    } else {
+                        if (count == max && matched.equals("No")) {
+                            System.out.println("Trying default hook!");
+                            String fallback = html[1];
+                            fallback = fallback.replace("<p>", "");
+                            fallback = fallback.replace("</p>", "");
+                            fallback = fallback.replaceAll("[0-9]", "");
+                            String SavedHooks = text.replaceAll("[0-9]", "");
+                            if (fallback.trim().equals(SavedHooks.trim())) {
+                                try {
+                                    toast = Helper.getResourceString(getApplicationContext(), R.string.Hooks_Latest);
+                                } catch (Throwable t) {
+                                    toast = "You already have the latest hooks.";
+                                }
+                            } else {
+                                Helper.setSetting("Hooks", fallback);
+                                try {
+                                    toast = Helper.getResourceString(getApplicationContext(), R.string.Hooks_Updated);
+                                } catch (Throwable t) {
+                                    toast = "Hooks have been updated.\nPlease kill the Instagram app.";
+                                }
+                            }
+                        } else if (!data.isEmpty() && matched.equals("No")) {
+                            int typeCheck = Integer.parseInt(version) - Integer.parseInt(finalCheck);
+                            if (typeCheck <= 2 && typeCheck >= -2) {
+                                if (data.trim().equals(text.trim())) {
+                                    try {
+                                        toast = Helper.getResourceString(getApplicationContext(), R.string.Hooks_Latest);
+                                    } catch (Throwable t) {
+                                        toast = "You already have the latest hooks.";
+                                    }
+                                } else {
+                                    Helper.setSetting("Hooks", data);
+                                }
+                                matched = "Yes";
+                            }
+                        }
+                    }
+                }
+                setToast(toast);
+            } catch (Exception e) {
+                Helper.setError("Hooks Parse Failed - " +e);
+            }
         }
     }
 
@@ -266,103 +434,78 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
     }
 
-    class RequestTask extends AsyncTask<String, String, String> {
+    class VersionCheck extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... uri) {
             String responseString = "Nope";
 
             try {
-                URL u = new URL(uri[0]);
+                Random r = new Random();
+                int cacheInt = r.nextInt(9999999 - 1) + 9999999;
+
+                URL u = new URL("https://raw.githubusercontent.com/iHelp101/XInsta/master/Version.txt?" +cacheInt);
                 URLConnection c = u.openConnection();
                 c.connect();
 
                 InputStream inputStream = c.getInputStream();
 
                 responseString = Helper.convertStreamToString(inputStream);
+
             } catch (Exception e) {
                 responseString = "Nope";
             }
 
-
-            return responseString;
+            return responseString.trim();
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(final String result) {
             super.onPostExecute(result);
 
-            List<PackageInfo> packs = getPackageManager().getInstalledPackages(0);
-            for (int i = 0; i < packs.size(); i++) {
-                PackageInfo p = packs.get(i);
-                if (p.packageName.equals("com.instagram.android")) {
-                    version = Integer.toString(p.versionCode);
-                    version = version.substring(0, version.length() - 2);
-                }
-            }
+            try {
+                version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+                version = version.trim();
 
-            String text = Helper.getSetting("Hooks");
-
-            String toast = getResources().getString(R.string.Hooks_Updated);
-
-            String[] html = result.split("<p>");
-
-            String matched = "No";
-
-            int count = 0;
-            int max = 0;
-            for (String data : html) {
-                max++;
-            }
-
-
-            for (String data : html) {
-                count++;
-
-                String finalCheck = "123";
-
-                if (!data.isEmpty()) {
-                    String[] PasteVersion = data.split(";");
-                    finalCheck = PasteVersion[0];
-                }
-
-                if (version.equals(finalCheck) && !data.isEmpty()) {
-                    data = data.replace("<p>", "");
-                    data = data.replace("</p>", "");
-                    if (data.trim().equals(text.trim())) {
-                        toast = getResources().getString(R.string.Hooks_Latest);
-                    } else {
-                        Helper.setSetting("Hooks", data);
-                    }
-                    matched = "Yes";
+                if (result.equals(version)) {
+                    Toast.makeText(getApplicationContext(), "XInsta Up-To-Date", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (count == max && matched.equals("No")) {
-                        System.out.println("Trying default hook!");
-                        String fallback = html[1];
-                        fallback = fallback.replace("<p>", "");
-                        fallback = fallback.replace("</p>", "");
-                        fallback = fallback.replaceAll("[0-9]", "");
-                        String SavedHooks = text.replaceAll("[0-9]", "");
-                        if (fallback.trim().equals(SavedHooks.trim())) {
-                            toast = getResources().getString(R.string.Hooks_Latest);
-                        } else {
-                            Helper.setSetting("Hooks", fallback);
-                            toast = getResources().getString(R.string.Hooks_Updated);
-                        }
-                    } else if (!data.isEmpty() && matched.equals("No")) {
-                        int typeCheck = Integer.parseInt(version) - Integer.parseInt(finalCheck);
-                        if (typeCheck <= 2 && typeCheck >= -2) {
-                            if (data.trim().equals(text.trim())) {
-                                toast = getResources().getString(R.string.Hooks_Latest);
-                            } else {
-                                Helper.setSetting("Hooks", data);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+
+                    builder.setTitle("Update XInsta To " +result+ "?");
+
+                    builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Random r = new Random();
+                            int cacheInt = r.nextInt(9999999 - 1) + 9999999;
+
+                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://raw.githubusercontent.com/iHelp101/XInsta/master/XInsta.apk?" +cacheInt));
+                            request.setTitle("XInsta " +result+ " Update");
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                                request.allowScanningByMediaScanner();
+                                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                             }
-                            matched = "Yes";
+                            request.setMimeType("application/vnd.android.package-archive");
+                            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Insta-" + result + ".apk");
+
+                            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                            manager.enqueue(request);
+                            dialog.dismiss();
                         }
-                    }
+                    });
+
+                    builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builder.show();
                 }
+            } catch (Throwable t) {
             }
-            setToast(toast);
         }
     }
 
@@ -379,11 +522,32 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     void listAction() {
-        if (currentAction.equals(getResources().getString(R.string.Image)) || currentAction.equals(getResources().getString(R.string.Profile)) || currentAction.equals(getResources().getString(R.string.Video))) {
+        String image;
+        String profile;
+        String video;
+
+        try {
+            image = Helper.getResourceString(getApplicationContext(), R.string.Image);
+        } catch (Throwable t) {
+            image = "Image Location";
+        }
+
+        try {
+            profile = Helper.getResourceString(getApplicationContext(), R.string.Profile);
+        } catch (Throwable t) {
+            profile = "Profile Location";
+        }
+        try {
+            video = Helper.getResourceString(getApplicationContext(), R.string.Video);
+        } catch (Throwable t) {
+            video = "Video Location";
+        }
+
+        if (currentAction.equals(image) || currentAction.equals(profile) || currentAction.equals(video)) {
             saveLocation = "Image";
-            if (currentAction.equals(getResources().getString(R.string.Profile))) {
+            if (currentAction.equals(profile)) {
                 saveLocation = "Profile";
-            } else if (currentAction.equals(getResources().getString(R.string.Video))) {
+            } else if (currentAction.equals(video)) {
                 saveLocation = "Video";
             }
 
@@ -394,6 +558,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 save = save.split(";")[1];
             }
 
+            System.out.println("Info: " +save);
+
             Intent i = new Intent(Main.this, FilePickerActivity.class);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true);
@@ -401,18 +567,22 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             if (!save.equals("Instagram")) {
                 i.putExtra(FilePickerActivity.EXTRA_START_PATH, save);
             } else {
+                File directory = new File(URI.create(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram").getPath());
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
                 i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram");
             }
             startActivityForResult(i, FILE_CODE);
         }
         if (currentAction.equals("GitHub")) {
-            new RequestTask().execute("https://raw.githubusercontent.com/iHelp101/XInsta/master/Hooks.txt");
+            new HookCheck().execute("https://raw.githubusercontent.com/iHelp101/XInsta/master/Hooks.txt");
         }
         if (currentAction.equals("Pastebin")) {
-            new RequestTask().execute("http://pastebin.com/raw.php?i=sTXbUFcx");
+            new HookCheck().execute("http://pastebin.com/raw.php?i=sTXbUFcx");
         }
         if (currentAction.equals("Alternate Source")) {
-            new RequestTask().execute("http://www.snapprefs.com/xinsta/Hooks.txt");
+            new HookCheck().execute("http://www.snapprefs.com/xinsta/Hooks.txt");
         }
         if (currentAction.equals("One Tap Video Download")) {
             if (appInstalledOrNot("com.phantom.onetapvideodownload")) {
@@ -488,15 +658,59 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         drawerLayout.closeDrawers();
 
-        if (clicked.equals(getResources().getString(R.string.Date))) {
+        String checkVersion;
+
+        try {
+            checkVersion = Helper.getResourceString(getApplicationContext(), R.string.Check);
+        } catch (Throwable t) {
+            checkVersion = getResources().getString(R.string.Check);
+        }
+
+        if (clicked.equals(checkVersion)) {
+            new VersionCheck().execute();
+        }
+
+        String customLanguage;
+
+        try {
+            customLanguage = Helper.getResourceString(getApplicationContext(), R.string.Custom);
+        } catch (Throwable t) {
+            customLanguage = getResources().getString(R.string.Custom);
+        }
+
+        if (clicked.equals(customLanguage)) {
+            openCustomLanguages();
+        }
+
+        String date;
+
+        try {
+            date = Helper.getResourceString(getApplicationContext(), R.string.Date);
+        } catch (Throwable t) {
+            date = getResources().getString(R.string.Date);
+        }
+
+        if (clicked.equals(date)) {
             if (Helper.getSetting("Date").equals("Instagram")) {
-                Helper.setSetting("Date", Helper.getData(getApplicationContext()));
+                if (Helper.getSettings("Hour")) {
+                    Helper.setSetting("Date", "MM;/dd;/yyyy; ;HH:;mm:;ss:;a;");
+                } else {
+                    Helper.setSetting("Date", "MM;/dd;/yyyy; ;hh:;mm:;ss:;a;");
+                }
             }
             Intent myIntent = new Intent(getApplicationContext(), com.ihelp101.instagram.Date.class);
             startActivity(myIntent);
         }
 
-        if (clicked.equals(getResources().getString(R.string.Default))) {
+        String defaultSource;
+
+        try {
+            defaultSource = Helper.getResourceString(getApplicationContext(), R.string.Default);
+        } catch (Throwable t) {
+            defaultSource = getResources().getString(R.string.Default);
+        }
+
+        if (clicked.equals(defaultSource)) {
             final CharSequence items[] = {"GitHub", "Pastebin", "Alternate Source"};
 
             int itemSelected;
@@ -523,11 +737,27 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             alert.show();
         }
 
-        if (clicked.equals(getResources().getString(R.string.File))) {
+        String fileDate;
+
+        try {
+            fileDate = Helper.getResourceString(getApplicationContext(), R.string.File);
+        } catch (Throwable t) {
+            fileDate = getResources().getString(R.string.File);
+        }
+
+        if (clicked.equals(fileDate)) {
             fileDate();
         }
 
-        if (clicked.equals(getResources().getString(R.string.Follow))) {
+        String follow;
+
+        try {
+            follow = Helper.getResourceString(getApplicationContext(), R.string.Follow);
+        } catch (Throwable t) {
+            follow = getResources().getString(R.string.Follow);
+        }
+
+        if (clicked.equals(follow)) {
             String color = Helper.getSetting("Color");
             if (color.equals("Instagram")) {
                 color = "#2E978C";
@@ -543,7 +773,47 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             cpd.show();
         }
 
-        if (clicked.equals(getResources().getString(R.string.Error_log))) {
+        String manual;
+
+        try {
+            manual = Helper.getResourceString(getApplicationContext(), R.string.Manual);
+        } catch (Throwable t) {
+            manual = getResources().getString(R.string.Manual);
+        }
+
+        if (clicked.equals(manual)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Paste The New Hooks");
+
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Helper.setSetting("Hooks", input.getText().toString());
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+        }
+
+        String errorLog;
+
+        try {
+            errorLog = Helper.getResourceString(getApplicationContext(), R.string.Error_log);
+        } catch (Throwable t) {
+            errorLog = getResources().getString(R.string.Error_log);
+        }
+
+        if (clicked.equals(errorLog)) {
             try {
                 sendErrorLog();
             } catch (Exception e) {
@@ -551,12 +821,28 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             }
         }
 
-        if (clicked.equals("Special Thanks")) {
+        String specialThanks;
+
+        try {
+            specialThanks = Helper.getResourceString(getApplicationContext(), R.string.Special);
+        } catch (Throwable t) {
+            specialThanks = getResources().getString(R.string.Special);
+        }
+
+        if (clicked.equals(specialThanks)) {
             Intent myIntent = new Intent(getApplicationContext(), Thanks.class);
             startActivity(myIntent);
         }
 
-        if (clicked.equals(getResources().getString(R.string.Translations))) {
+        String translations;
+
+        try {
+            translations = Helper.getResourceString(getApplicationContext(), R.string.Translations);
+        } catch (Throwable t) {
+            translations = getResources().getString(R.string.Translations);
+        }
+
+        if (clicked.equals(translations)) {
             try {
                 new Translation().execute();
             } catch (Exception e) {
@@ -622,6 +908,33 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         alert.show();
     }
 
+    void openCustomLanguages() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+
+        final CharSequence items[] = {"Kurdish"};
+
+        int itemSelected = -1;
+
+        if (Helper.getSetting("Language").equals("kurdish")) {
+            itemSelected = 0;
+        }
+
+
+        builder.setSingleChoiceItems(items, itemSelected, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Helper.setSetting("Language", Helper.getRawString(getApplicationContext()));
+                setupNav();
+                updateListView();
+
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     void sendErrorLog() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -661,69 +974,270 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                 final SwitchCompat item = (SwitchCompat) menuItem.getActionView();
 
+                if (menuTitle.equals(getResources().getString(R.string.ChangeOrder))) {
+                    try {
+                        changeOrder = Helper.getResourceString(getApplicationContext(), R.string.ChangeOrder);
+                    } catch (Throwable t) {
+                        changeOrder = getResources().getString(R.string.ChangeOrder);
+                    }
+
+                    menuItem.setTitle(changeVersion);
+                    if (Helper.getSettings("Order")) {
+                        item.setChecked(true);
+                    }
+                }
+
+                if (menuTitle.equals(getResources().getString(R.string.Check))) {
+                    try {
+                        changeVersion = Helper.getResourceString(getApplicationContext(), R.string.Check);
+                    } catch (Throwable t) {
+                        changeVersion = getResources().getString(R.string.Check);
+                    }
+                    menuItem.setTitle(changeVersion);
+                }
+
                 if (menuTitle.equals(getResources().getString(R.string.Comment))) {
+                    try {
+                        comment = Helper.getResourceString(getApplicationContext(), R.string.Comment);
+                    } catch (Throwable t) {
+                        comment = getResources().getString(R.string.Comment);
+                    }
+
+                    menuItem.setTitle(comment);
                     if (Helper.getSettings("Comment")) {
                         item.setChecked(true);
                     }
                 }
-                if (menuTitle.equals(getResources().getString(R.string.Date))) {
-                    if (!Helper.getSetting("Date").equals("Instagram")) {
+
+                if (menuTitle.equals(getResources().getString(R.string.Contact))) {
+                    try {
+                        contact = Helper.getResourceString(getApplicationContext(), R.string.Contact);
+                    } catch (Throwable t) {
+                        contact = getResources().getString(R.string.Contact);
+                    }
+                    menuItem.setTitle(contact);
+                }
+
+                if (menuTitle.equals(getResources().getString(R.string.Customization))) {
+                    try {
+                        customization = Helper.getResourceString(getApplicationContext(), R.string.Customization);
+                    } catch (Throwable t) {
+                        customization = getResources().getString(R.string.Customization);
+                    }
+                    menuItem.setTitle(customization);
+                }
+
+                if (menuTitle.equals("Custom Language")) {
+                    if (!Helper.getSetting("Language").equals("Instagram")) {
                         item.setChecked(true);
                     }
                 }
-                if (menuTitle.equals(getResources().getString(R.string.File))) {
+
+                if (menuTitle.equals(getResources().getString(R.string.Date))) {
+                    try {
+                        date = Helper.getResourceString(getApplicationContext(), R.string.Date);
+                    } catch (Throwable t) {
+                        date = getResources().getString(R.string.Date);
+                    }
+                    menuItem.setTitle(date);
+                        if (!Helper.getSetting("Date").equals("Instagram")) {
+                            item.setChecked(true);
+                        }
+                }
+
+                if (menuTitle.equals(getResources().getString(R.string.Default))) {
+                    try {
+                        defaultSource = Helper.getResourceString(getApplicationContext(), R.string.Default);
+                    } catch (Throwable t) {
+                        defaultSource = getResources().getString(R.string.Default);
+                    }
+                    menuItem.setTitle(defaultSource);
+                }
+
+                if (menuTitle.equals(getResources().getString(R.string.Error_log))) {
+                    try {
+                        errorLog = Helper.getResourceString(getApplicationContext(), R.string.Error_log);
+                    } catch (Throwable t) {
+                        errorLog = getResources().getString(R.string.Error_log);
+                    }
+                    menuItem.setTitle(errorLog);
+                }
+
+                if (menuTitle.equals(getResources().getString( R.string.File))) {
+                    try {
+                        file = Helper.getResourceString(getApplicationContext(), R.string.File);
+                    } catch (Throwable t) {
+                        file = getResources().getString(R.string.File);
+                    }
+                    menuItem.setTitle(file);
                     if (!Helper.getSetting("File").equals("Instagram")) {
                         item.setChecked(true);
                     }
                 }
-                if (menuTitle.equals(getResources().getString(R.string.Folder))) {
+
+                if (menuTitle.equals(getResources().getString( R.string.Folder))) {
+                    try {
+                        folder = Helper.getResourceString(getApplicationContext(), R.string.Folder);
+                    } catch (Throwable t) {
+                        folder = getResources().getString(R.string.Folder);
+                    }
+                    menuItem.setTitle(folder);
                     if (Helper.getSettings("Folder")) {
                         item.setChecked(true);
                     }
                 }
+
+                if (menuTitle.equals(getResources().getString(R.string.Follow))) {
+                    try {
+                        follow = Helper.getResourceString(getApplicationContext(), R.string.Follow);
+                    } catch (Throwable t) {
+                        follow = getResources().getString(R.string.Follow);
+                    }
+                    menuItem.setTitle(follow);
+                }
+
                 if (menuTitle.equals(getResources().getString(R.string.Like))) {
+                    try {
+                        like = Helper.getResourceString(getApplicationContext(), R.string.Like);
+                    } catch (Throwable t) {
+                        like = getResources().getString(R.string.Like);
+                    }
+                    menuItem.setTitle(like);
                     if (Helper.getSettings("Like")) {
                         item.setChecked(true);
                     }
                 }
 
                 if (menuTitle.equals(getResources().getString(R.string.Logging))) {
+                    try {
+                        logging = Helper.getResourceString(getApplicationContext(), R.string.Logging);
+                    } catch (Throwable t) {
+                        logging = getResources().getString(R.string.Logging);
+                    }
+                    menuItem.setTitle(logging);
                     if (Helper.getSettings("Log")) {
                         item.setChecked(true);
                     }
                 }
 
                 if (menuTitle.equals(getResources().getString(R.string.Hide))) {
+                    try {
+                        hide = Helper.getResourceString(getApplicationContext(), R.string.Hide);
+                    } catch (Throwable t) {
+                        hide = getResources().getString(R.string.Hide);
+                    }
+                    menuItem.setTitle(hide);
                     if (!UiUtils.getActivityVisibleInDrawer(getApplicationContext())) {
                         item.setChecked(true);
                     }
                 }
+
+                if (menuTitle.equals(getResources().getString(R.string.Misc))) {
+                    try {
+                        misc = Helper.getResourceString(getApplicationContext(), R.string.Misc);
+                    } catch (Throwable t) {
+                        misc = getResources().getString(R.string.Misc);
+                    }
+                    menuItem.setTitle(misc);
+                }
+
                 if (menuTitle.equals(getResources().getString(R.string.NotificationHide))) {
+                    try {
+                        notifHide = Helper.getResourceString(getApplicationContext(), R.string.NotificationHide);
+                    } catch (Throwable t) {
+                        notifHide = getResources().getString(R.string.NotificationHide);
+                    }
+                    menuItem.setTitle(notifHide);
                     if (Helper.getSettings("Notification")) {
                         item.setChecked(true);
                     }
                 }
+
+                if (menuTitle.equals(getResources().getString(R.string.the_not_so_big_but_big_button2))) {
+                    try {
+                        lockFeed = Helper.getResourceString(getApplicationContext(), R.string.the_not_so_big_but_big_button2);
+                    } catch (Throwable t) {
+                        lockFeed = getResources().getString(R.string.the_not_so_big_but_big_button2);
+                    }
+                    menuItem.setTitle(lockFeed);
+                    if (Helper.getSettings("Lock")) {
+                        item.setChecked(true);
+                    }
+                }
+
                 if (menuTitle.equals("One Tap Video Download")) {
                     if (Helper.getSettings("OneTap")) {
                         item.setChecked(true);
                     }
                 }
-                if (menuTitle.equals((getResources().getString(R.string.Push)))) {
+
+                if (menuTitle.equals(getResources().getString(R.string.Push))) {
+                    try {
+                        push = Helper.getResourceString(getApplicationContext(), R.string.Push);
+                    } catch (Throwable t) {
+                        push = getResources().getString(R.string.Push);
+                    }
+                    menuItem.setTitle(push);
                     if (Helper.getSettings("Push")) {
                         item.setChecked(true);
                     }
                 }
 
+                if (menuTitle.equals(getResources().getString(R.string.Slide))) {
+                    try {
+                        slide = Helper.getResourceString(getApplicationContext(), R.string.Slide);
+                    } catch (Throwable t) {
+                        slide = getResources().getString(R.string.Sound);
+                    }
+                    menuItem.setTitle(slide);
+                    if (Helper.getSettings("Slide")) {
+                        item.setChecked(true);
+                    }
+                }
+
                 if (menuTitle.equals(getResources().getString(R.string.Sound))) {
+                    try {
+                        sound = Helper.getResourceString(getApplicationContext(), R.string.Sound);
+                    } catch (Throwable t) {
+                        sound = getResources().getString(R.string.Sound);
+                    }
+                    menuItem.setTitle(sound);
                     if (Helper.getSettings("Sound")) {
                         item.setChecked(true);
                     }
                 }
 
+                if (menuTitle.equals(getResources().getString(R.string.Story))) {
+                    try {
+                        story = Helper.getResourceString(getApplicationContext(), R.string.Story);
+                    } catch (Throwable t) {
+                        story = getResources().getString(R.string.Story);
+                    }
+                    menuItem.setTitle(story);
+                    if (Helper.getSettings("Story")) {
+                        item.setChecked(true);
+                    }
+                }
+
                 if (menuTitle.equals(getResources().getString(R.string.Suggestion))) {
+                    try {
+                        suggestion = Helper.getResourceString(getApplicationContext(), R.string.Suggestion);
+                    } catch (Throwable t) {
+                        suggestion = getResources().getString(R.string.Suggestion);
+                    }
+                    menuItem.setTitle(suggestion);
                     if (Helper.getSettings("Suggestion")) {
                         item.setChecked(true);
                     }
+                }
+
+                if (menuTitle.equals(getResources().getString(R.string.Translations))) {
+                    try {
+                        translate = Helper.getResourceString(getApplicationContext(), R.string.Translations);
+                    } catch (Throwable t) {
+                        translate = getResources().getString(R.string.Translations);
+                    }
+                    menuItem.setTitle(translate);
                 }
 
                 try {
@@ -733,27 +1247,52 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             String clicked = menuTitle;
 
-                            if (clicked.equals(getResources().getString(R.string.Comment))) {
+                            if (clicked.equals(changeOrder)) {
+                                Helper.setSetting("Order", Boolean.toString(item.isChecked()));
+                            }
+
+                            if (clicked.equals(comment)) {
                                 Helper.setSetting("Comment", Boolean.toString(item.isChecked()));
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.Date))) {
+                            if (clicked.equals("Custom Language")) {
+                                if (item.isChecked()) {
+                                    openCustomLanguages();
+                                } else {
+                                    Helper.setSetting("Language", "Instagram");
+                                    updateListView();
+                                    setupNav();
+                                }
+                            }
+
+                            if (clicked.equals(date)) {
                                 if (item.isChecked() && Helper.getSetting("Date").equals("Instagram")) {
-                                    Helper.setSetting("Date", Helper.getData(getApplicationContext()));
+                                    if (Helper.getSettings("Hour")) {
+                                        Helper.setSetting("Date", "MM;/dd;/yyyy; ;HH:;mm:;ss:;a;");
+                                    } else {
+                                        Helper.setSetting("Date","MM;/dd;/yyyy; ;hh:;mm:;ss:;a;");
+                                    }
+
+
+
                                 } else if (!item.isChecked()) {
                                     Helper.setSetting("Date", "Instagram");
                                 }
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.Like))) {
+                            if (clicked.equals(like)) {
                                 Helper.setSetting("Like", Boolean.toString(item.isChecked()));
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.Logging))) {
+                            if (clicked.equals(lockFeed)) {
+                                Helper.setSetting("Lock", Boolean.toString(item.isChecked()));
+                            }
+
+                            if (clicked.equals(logging)) {
                                 Helper.setSetting("Log", Boolean.toString(item.isChecked()));
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.File))) {
+                            if (clicked.equals(file)) {
                                 System.out.println("File: " +isChecked);
                                 if (!isChecked) {
                                     Helper.setSetting("File", "Instagram");
@@ -762,16 +1301,28 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                 }
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.Folder))) {
+                            if (clicked.equals(folder)) {
                                 Helper.setSetting("Folder", Boolean.toString(item.isChecked()));
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.Hide))) {
+                            if (clicked.equals(hide)) {
                                 if (item.isChecked()) {
                                     UiUtils.setActivityVisibleInDrawer(Main.this, true);
                                     AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
-                                    builder.setMessage(getResources().getString(R.string.Warning));
-                                    builder.setPositiveButton(getResources().getString(R.string.Okay), new DialogInterface.OnClickListener() {
+
+                                    String okay;
+                                    String warning;
+
+                                    try {
+                                        okay = Helper.getResourceString(getApplicationContext(), R.string.Okay);
+                                        warning = Helper.getResourceString(getApplicationContext(), R.string.Warning);
+                                    } catch (Throwable t) {
+                                        okay = getResources().getString(R.string.Okay);
+                                        warning = getResources().getString(R.string.Warning);
+                                    }
+
+                                    builder.setMessage(warning);
+                                    builder.setPositiveButton(okay, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             UiUtils.setActivityVisibleInDrawer(Main.this, false);
@@ -793,19 +1344,27 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                 }
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.NotificationHide))) {
+                            if (clicked.equals(notifHide)) {
                                 Helper.setSetting("Notification", Boolean.toString(item.isChecked()));
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.Push))) {
+                            if (clicked.equals(push)) {
                                 Helper.setSetting("Push", Boolean.toString(item.isChecked()));
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.Sound))) {
+                            if (clicked.equals(slide)) {
+                                Helper.setSetting("Slide", Boolean.toString(item.isChecked()));
+                            }
+
+                            if (clicked.equals(sound)) {
                                 Helper.setSetting("Sound", Boolean.toString(item.isChecked()));
                             }
 
-                            if (clicked.equals(getResources().getString(R.string.Suggestion))) {
+                            if (clicked.equals(story)) {
+                                Helper.setSetting("Story", Boolean.toString(item.isChecked()));
+                            }
+
+                            if (clicked.equals(suggestion)) {
                                 Helper.setSetting("Suggestion", Boolean.toString(item.isChecked()));
                             }
                         }
@@ -817,16 +1376,39 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     void updateListView() {
+        String image;
+        String profile;
+        String recommended;
+        String save;
+        String updateHooks;
+        String video;
+
+        try {
+            save = Helper.getResourceString(getApplicationContext(), R.string.Save);
+            image = Helper.getResourceString(getApplicationContext(), R.string.Image);
+            profile = Helper.getResourceString(getApplicationContext(), R.string.Profile);
+            recommended = Helper.getResourceString(getApplicationContext(), R.string.Recommended);
+            updateHooks = Helper.getResourceString(getApplicationContext(), R.string.Update);
+            video = Helper.getResourceString(getApplicationContext(), R.string.Video);
+        } catch (Throwable t) {
+            image = "Image Location";
+            profile = "Profile Location";
+            recommended = "RECOMMENDED";
+            save = "SAVE LOCATIONS";
+            updateHooks = "UPDATE HOOKS";
+            video = "Video Location";
+        }
+
         mAdapter = new Adapter(Main.this);
-        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Save));
-        mAdapter.addItem(getResources().getString(R.string.Image));
-        mAdapter.addItem(getResources().getString(R.string.Profile));
-        mAdapter.addItem(getResources().getString(R.string.Video));
-        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Update));
+        mAdapter.addSectionHeaderItem(save);
+        mAdapter.addItem(image);
+        mAdapter.addItem(profile);
+        mAdapter.addItem(video);
+        mAdapter.addSectionHeaderItem(updateHooks);
         mAdapter.addItem("GitHub");
         mAdapter.addItem("Pastebin");
         mAdapter.addItem("Alternate Source");
-        mAdapter.addSectionHeaderItem(getResources().getString(R.string.Recommended));
+        mAdapter.addSectionHeaderItem(recommended);
         mAdapter.addItem("One Tap Video Download");
         mAdapter.addItem("Zoom For Instagram");
 

@@ -76,12 +76,20 @@ public class Download extends IntentService {
                 id = r.nextInt(9999999 - 65) + 65;
 
                 if (!Helper.getSettings("Notification")) {
+                    String downloading;
+
+                    try {
+                        downloading = Helper.getResourceString(getApplicationContext(), R.string.DownloadDots);
+                    } catch (Throwable t) {
+                        downloading = "Downloading...";
+                    }
+
                     mNotifyManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(getApplicationContext());
                     mBuilder.setContentTitle(notificationTitle)
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
-                            .setContentText(getResources().getString(R.string.DownloadDots));
+                            .setContentText(downloading);
                     mNotifyManager.notify(id, mBuilder.build());
                 }
 
@@ -106,8 +114,15 @@ public class Download extends IntentService {
                 input.close();
 
                 if (!Helper.getSettings("Notification")) {
-                    mBuilder.setContentText(getResources().getString(R.string.Download_Completed)).setTicker(getResources().getString(R.string.Download_Completed));
+                    String downloadComplete;
 
+                    try {
+                        downloadComplete = Helper.getResourceString(getApplicationContext(), R.string.Download_Completed);
+                    } catch (Throwable t) {
+                        downloadComplete = "Download Complete";
+                    }
+
+                    mBuilder.setContentText(downloadComplete).setTicker(downloadComplete);
                     mBuilder.setContentTitle(notificationTitle)
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
@@ -142,18 +157,37 @@ public class Download extends IntentService {
                             }
                         });
 
-                Toast(getResources().getString(R.string.Download_Completed));
+                String downloadComplete;
+
+                try {
+                    downloadComplete = Helper.getResourceString(getApplicationContext(), R.string.Download_Completed);
+                } catch (Throwable t) {
+                    downloadComplete = "Download Complete";
+                }
+
+                Toast(downloadComplete);
             } catch (Exception e) {
                 Helper.setError("Download Error: " + e);
+
+                String downloadFailed;
+
+                try {
+                    downloadFailed = Helper.getResourceString(getApplicationContext(), R.string.Download_Failed);
+                } catch (Throwable t2) {
+                    downloadFailed = "Download Failed";
+                }
+
                 if (!Helper.getSettings("Notification")) {
-                    mBuilder.setContentText(getResources().getString(R.string.Download_Failed)).setTicker(getResources().getString(R.string.Download_Failed));
+                    mBuilder.setContentText(downloadFailed).setTicker(downloadFailed);
                     mBuilder.setContentTitle(notificationTitle)
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                             .setAutoCancel(true);
                     mNotifyManager.notify(id, mBuilder.build());
                 }
-                Toast(getResources().getString(R.string.Download_Failed));
+
+
+                Toast(downloadFailed);
             }
 
             return responseString;
@@ -309,6 +343,7 @@ public class Download extends IntentService {
             checkSDPermission();
         } catch (Exception e) {
             Helper.setError("SD Setup Failed: " +e);
+            Helper.setError("Save:  " + Helper.getSaveLocation(fileType));
         }
     }
 

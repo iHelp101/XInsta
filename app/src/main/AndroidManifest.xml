@@ -49,6 +49,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity-alias>
+        <activity android:name=".ErrorActivity" android:exported="true"/>
         <activity android:name=".Date"/>
         <activity android:name=".Permission"/>
         <activity android:name=".SD"/>

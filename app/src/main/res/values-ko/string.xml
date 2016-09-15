@@ -33,8 +33,11 @@
 
     <!-- Menu Items !-->
     <string name="Change">Change Separator</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
     <string name="Comment">Copy Comment On Tap</string>
     <string name="Contact">Contact Developer</string>
+    <string name="Custom">Custom Language</string>
     <string name="Customization">Customization</string>
     <string name="Date">Date Formatting</string>
     <string name="Default">Default Hook Source</string>
@@ -45,11 +48,15 @@
     <string name="Hide">앱 숨기기</string>
     <string name="Like">두드려서 좋아요 비활성</string>
     <string name="Logging">Disable Xposed Logging</string>
+    <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">다운로드 알림 숨기기</string>
     <string name="Push">Push Notification</string>
     <string name="Show">앱 보이기</string>
+    <string name="Slide">Disable Slide Navigation</string>
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
     <string name="Suggestion">Hide Suggestions</string>
     <string name="Translations">XInsta 번역</string>
 
@@ -65,6 +72,8 @@
 
     <!-- The Download button -->
     <string name="the_not_so_big_but_big_button">다운로드</string>
+    <string name="the_not_so_big_but_big_button2">Lock Feed</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
 
     <!-- Title in notification -->
     <string name="username_thing">%1$s\'s %2$s</string>

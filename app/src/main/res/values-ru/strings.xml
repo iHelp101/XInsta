@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">OK</string>
+    <string name="Warning">Вы можете открыть приложение через Xposed Installer если скроете его в меню.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">День</string>
+    <string name="Hour">Час</string>
+    <string name="Minute">Минута</string>
+    <string name="Month">Месяц</string>
+    <string name="Reset">Сброс</string>
+    <string name="Second">Second</string>
+    <string name="Space">---ПРОБЕЛ---</string>
+    <string name="Year">Год</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Новая папка</string>
+    <string name="nnf_create_folder_error">Не удалось создать папку</string>
+    <string name="nnf_name">Имя</string>
+    <string name="nnf_select_something_first">Сначала выберите что-то</string>
+    <string name="nnf_permission_external_write_denied">Нет разрешения на доступ к файловой системе</string>
+
+    <!-- ListView -->
+    <string name="Image">Картинки</string>
+    <string name="Profile">Иконки профиля</string>
+    <string name="Recommended">Рекомендованые</string>
+    <string name="Save">Места сохранения</string>
+    <string name="Update">Обновления</string>
+    <string name="Video">Видео</string>
+
+    <!-- Menu Items !-->
+    <string name="Change">Изменить разделитель</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
+    <string name="Comment">Копировать комментарий при нажатии</string>
+    <string name="Contact">Связаться с разработчиком</string>
+    <string name="Custom">Custom Language</string>
+    <string name="Customization">Кастомизация</string>
+    <string name="Date">Формат даты</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">Отправить логи</string>
+    <string name="File">Изменить формат даты файла</string>
+    <string name="Folder">Папка - добавить никнейм</string>
+    <string name="Follow">Цвет индикатора</string>
+    <string name="Hide">Скрыть приложение</string>
+    <string name="Like">Отключить кнопку лайка</string>
+    <string name="Logging">Выключить логгирование xposed</string>
+    <string name="Manual">Manually Change Hooks</string>
+    <string name="Misc">Разное</string>
+    <string name="NotificationHide">Скрыть уведомление о загрузке</string>
+    <string name="Push">Push-уведомление о загрузке</string>
+    <string name="Show">Показать приложение</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">Включит автовоспроизведение звука в видео</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
+    <string name="Suggestion">Скрыть подсказки</string>
+    <string name="Translations">Перевести XInsta</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Загрузка завершена</string>
+    <string name="Download_Failed">Загрузка не удалась</string>
+    <string name="DownloadDots">Загрузка&#8230;</string>
+    <string name="Please">Обновите модуль.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Фото</string>
+    <string name="video">Видео</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Скачать</string>
+    <string name="the_not_so_big_but_big_button2">Lock Feed</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Комментарий скопирован</string>
+    <string name="Downloading">Загрузка %1$s</string>
+    <string name="Hooks_Latest">Вы используете самую свежую версию.</string>
+    <string name="Hooks_Updated">Модуль обновлён.\nПринудительно остановите Instagram.</string>
+    <string name="I_LocationChanged">Путь сохранения изображения изменён на стандартный.</string>
+    <string name="Incorrect_Location">Невозможно сохранить здесь.\nВыберите другое место.</string>
+    <string name="P_LocationChanged">Место сохранения иконки профиля изменено на стандартное.</string>
+    <string name="Picture_Not">Нажмите на изображение и попробуйте снова</string>
+    <string name="V_LocationChanged">Место сохранения видео изменено на стандартное.</string>
+</resources>

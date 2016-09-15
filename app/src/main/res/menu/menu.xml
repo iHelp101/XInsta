@@ -4,7 +4,7 @@
     <item android:title="@string/Contact">
     <menu>
         <group android:checkableBehavior="single">
-            <item android:id="@+id/menu_settings"
+            <item android:id="@+id/error_log"
                 android:title="@string/Error_log"
                 android:checkable="false"/>
             <item android:id="@+id/translate"
@@ -15,6 +15,8 @@
     </item>
     <item android:title="@string/Customization">
         <menu>
+            <item android:title="@string/Custom"
+                app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/Comment"
                 android:id="@+id/comment"
                 app:actionLayout="@layout/menu_switch"/>
@@ -25,6 +27,10 @@
                 <item android:id="@+id/like"
                     android:title="@string/Like"
                     app:actionLayout="@layout/menu_switch"/>
+                <item android:title="@string/Slide"
+                    app:actionLayout="@layout/menu_switch"/>
+                <item android:title="@string/Story"
+                    app:actionLayout="@layout/menu_switch"/>
                 <item android:title="@string/Sound"
                     app:actionLayout="@layout/menu_switch"/>
                 <item android:id="@+id/follow"
@@ -32,11 +38,16 @@
                 <item android:id="@+id/suggestion"
                     android:title="@string/Suggestion"
                     app:actionLayout="@layout/menu_switch"/>
+                <item android:title="@string/the_not_so_big_but_big_button2"
+                    app:actionLayout="@layout/menu_switch"/>
+                <item android:title="Change Options Order"
+                    app:actionLayout="@layout/menu_switch"/>
             </group>
         </menu>
         </item>
     <item android:title="@string/Misc">
         <menu>
+            <item android:title="@string/Check"/>
             <item android:title="@string/Default"/>
             <item android:title="@string/Logging"
                 app:actionLayout="@layout/menu_switch"/>
@@ -51,13 +62,14 @@
             <item android:id="@+id/notification_hide"
                 android:title="@string/NotificationHide"
                 app:actionLayout="@layout/menu_switch"/>
+            <item android:title="@string/Manual"/>
             <item android:id="@+id/onetap"
                 android:title="One Tap Video Download"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:id="@+id/push"
                 android:title="@string/Push"
                 app:actionLayout="@layout/menu_switch"/>
-            <item android:title="Special Thanks"/>
+            <item android:title="@string/Special"/>
         </menu>
     </item>
 </menu>

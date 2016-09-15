@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">خب</string>
+    <string name="Warning">دسترسی به تنظیمات برنامه پس از مخفی سازی از طریق تنظیمات فریم ورک اکسپوزد امکانپذیر است</string>
+
+    <!-- Date -->
+    <string name="AM">قبل از ظهر/بعد از ظهر</string>
+    <string name="Day">روز</string>
+    <string name="Hour">ساعت</string>
+    <string name="Minute">دقیقه</string>
+    <string name="Month">ماه</string>
+    <string name="Reset">بازنشانی</string>
+    <string name="Second">ثانیه</string>
+    <string name="Space">---فاصله---</string>
+    <string name="Year">سال</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">پوشه جدید</string>
+    <string name="nnf_create_folder_error">خطا در ایجاد پوشه</string>
+    <string name="nnf_name">نام</string>
+    <string name="nnf_select_something_first">لطفا ابتدا چیزی را انتخاب نمایید</string>
+    <string name="nnf_permission_external_write_denied">اجازه دسترسی به فایلهای سیستمی داده نشد</string>
+
+    <!-- ListView -->
+    <string name="Image">محل عکس</string>
+    <string name="Profile">محل نماد پروفایل</string>
+    <string name="Recommended">توصیه شده</string>
+    <string name="Save">محل ذخیره</string>
+    <string name="Update">بروزرسانی هوک ها</string>
+    <string name="Video">محل ویدیو</string>
+
+    <!-- Menu Items !-->
+    <string name="Change">تغییر جداکننده</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
+    <string name="Comment">در صورت انتخاب کامنت، متن آن کپی گردد</string>
+    <string name="Contact">تماس با توسعه دهنده برنامه</string>
+    <string name="Custom">Custom Language</string>
+    <string name="Customization">سفارشی سازی</string>
+    <string name="Date">قالب بندی تاریخ</string>
+    <string name="Default">منبع پیشفرض هوک</string>
+    <string name="Error_log">ارسال لاگ خطا</string>
+    <string name="File">فایل - تغییر قالب بندی تاریخ</string>
+    <string name="Folder">فایل - اضافه کردن نام کاربر</string>
+    <string name="Follow">نشانگر دنبال کننده - رنگ</string>
+    <string name="Hide">مخفی کردن برنامه</string>
+    <string name="Like">غیرفعال سازی دکمه لایک</string>
+    <string name="Logging">غیر فعال کردن لاگ اکسپوزد</string>
+    <string name="Manual">Manually Change Hooks</string>
+    <string name="Misc">متفرقه.</string>
+    <string name="NotificationHide">مخفی کردن اعلان دانلود</string>
+    <string name="Push">پوش نوتیفیکیشن - دانلود</string>
+    <string name="Show">نشان دادن برنامه</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">فعال کردن صدا به صورت خودکار-پخش (ویدیو)</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
+    <string name="Suggestion">مخفی کردن پیشنهادات</string>
+    <string name="Translations">ترجمه XInsta</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">دانلود پایان یافت</string>
+    <string name="Download_Failed">خطا در دانلود</string>
+    <string name="DownloadDots">درحال دانلود&#8230;</string>
+    <string name="Please">لطفا از طریق ماژول هوک های خود را به روز رسانی نمایید.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">عکس</string>
+    <string name="video">ویدیو</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Download</string>
+    <string name="the_not_so_big_but_big_button2">Lock Feed</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">کامنت کپی شد</string>
+    <string name="Downloading">درحال دانلود %1​​$s</string>
+    <string name="Hooks_Latest">شما از آخرین هوک ها استفاده میکنید.</string>
+    <string name="Hooks_Updated">هوکها به روز رسانی شدند.\nلطفا برنامه اینستاگرام را ببندید.</string>
+    <string name="I_LocationChanged">مسیر ذخیره عکس به حالت پیش فرض بازگردانی شد</string>
+    <string name="Incorrect_Location">خطا ذخیره سازی در این محل.\nلطفا مسیر ذخیره سازی را تغییر دهید.</string>
+    <string name="P_LocationChanged">مسیر ذخیره عکس پروفایل به حالت پیش فرض بازگردانی شد.</string>
+    <string name="Picture_Not">لطفا روی عکس کلیک کرده و دوباره سعی نمایید</string>
+    <string name="V_LocationChanged">مسیر ذخیره ویدیو به حالت پیش فرض بازگردانی شد.</string>
+</resources>
