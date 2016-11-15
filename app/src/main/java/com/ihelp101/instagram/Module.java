@@ -847,15 +847,6 @@ public class Module implements IXposedHookLoadPackage, Listen {
             } catch (Exception e) {
             }
 
-            XposedHelpers.findAndHookMethod("com.instagram.service.b.a", loadPackageParam.classLoader, "a", Context.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                    XposedBridge.log("Info: Changed");
-                    param.setResult(true);
-                }
-            });
-
             startHooks();
         }
     }
