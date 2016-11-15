@@ -33,6 +33,7 @@
     <string name="Video">Τοποθεσία Βίντεο</string>
 
     <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
     <string name="Change">Change Separator</string>
     <string name="ChangeOrder">Change Options Order</string>
     <string name="Check">Check For Update</string>
@@ -52,7 +53,9 @@
     <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Απόκρυψη Ειδοποιήσεων Λήψης</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
     <string name="Push">Push Notification</string>
+    <string name="Search">Disable Search History</string>
     <string name="Show">Εμφάνιση Εφαρμογής</string>
     <string name="Slide">Disable Slide Navigation</string>
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>

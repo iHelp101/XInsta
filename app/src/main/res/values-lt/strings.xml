@@ -33,6 +33,7 @@
 
 
     <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
     <string name="Change">Change Separator</string>
     <string name="ChangeOrder">Change Options Order</string>
     <string name="Check">Check For Update</string>
@@ -52,7 +53,9 @@
     <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">Paslėpti atsisiuntimo notifikaciją</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
     <string name="Push">Push Notification - Download</string>
+    <string name="Search">Disable Search History</string>
     <string name="Show">Rodyti programą</string>
     <string name="Slide">Disable Slide Navigation</string>
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>

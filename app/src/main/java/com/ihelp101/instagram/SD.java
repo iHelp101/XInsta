@@ -2,9 +2,13 @@ package com.ihelp101.instagram;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.VideoView;
 
 
 public class SD extends Activity {
@@ -29,7 +33,8 @@ public class SD extends Activity {
         userName = intent.getStringExtra("User");
         SAVE = intent.getStringExtra("SAVE");
 
-        startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), 12);
+
+        showSDTip();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -53,5 +58,38 @@ public class SD extends Activity {
                 finish();
             }
         }
+    }
+
+    void showSDTip() {
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.test;
+        VideoView videoView = new VideoView(this);
+        videoView.setVideoPath(path);
+        videoView.setZOrderOnTop(true);
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
+        videoView.start();
+
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this)
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), 12);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setView(videoView);
+
+        builder.create().show();
     }
 }

@@ -59,6 +59,7 @@ public class Thanks extends AppCompatActivity {
         mAdapter.addItem("Chinese - 古月酋寸");
         mAdapter.addItem("Finnish - Eelis");
         mAdapter.addItem("French - Nitorac");
+        mAdapter.addItem("German - Dennis");
         mAdapter.addItem("Greek - UnRated");
         mAdapter.addItem("Hindi - Preshak");
         mAdapter.addItem("Indonesian - Ammar");
@@ -67,7 +68,7 @@ public class Thanks extends AppCompatActivity {
         mAdapter.addItem("Kurdish - AhmAd202");
         mAdapter.addItem("Lithuanian - Laurynas");
         mAdapter.addItem("Persian - Farshid");
-        mAdapter.addItem("Portuguese - Bruno/João/");
+        mAdapter.addItem("Portuguese - Bruno/João/Pedro");
         mAdapter.addItem("Norwegian/Norsk - jipai17 ");
         mAdapter.addItem("Russian - Александр Спутай");
         mAdapter.addItem("Slovak - Árva");

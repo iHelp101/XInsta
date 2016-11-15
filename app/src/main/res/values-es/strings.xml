@@ -32,6 +32,7 @@
     <string name="Video">Ubicacion Video</string>
 
     <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
     <string name="Change">Cambiar separador</string>
     <string name="ChangeOrder">Change Options Order</string>
     <string name="Check">Check For Update</string>
@@ -51,7 +52,9 @@
     <string name="Manual">Cambiar los hooks manualmente.</string>
     <string name="Misc">Otra información.</string>
     <string name="NotificationHide">Ocultar notificacion de descarga</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
     <string name="Push">Descarga - Notificacion</string>
+    <string name="Search">Disable Search History</string>
     <string name="Show">Mostrar app</string>
     <string name="Sound">Habilitar sonido Auto-Play (Videos)</string>
     <string name="Slide">Disable Slide Navigation</string>

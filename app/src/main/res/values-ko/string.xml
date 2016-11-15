@@ -32,6 +32,7 @@
     <string name="Video">비디오 저장위치</string>
 
     <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
     <string name="Change">Change Separator</string>
     <string name="ChangeOrder">Change Options Order</string>
     <string name="Check">Check For Update</string>
@@ -51,7 +52,9 @@
     <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Misc.</string>
     <string name="NotificationHide">다운로드 알림 숨기기</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
     <string name="Push">Push Notification</string>
+    <string name="Search">Disable Search History</string>
     <string name="Show">앱 보이기</string>
     <string name="Slide">Disable Slide Navigation</string>
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>

@@ -32,6 +32,7 @@
     <string name="Video">Localisation des vidéos</string>
 
     <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
     <string name="Change">Changer le séparateur</string>
     <string name="ChangeOrder">Change Options Order</string>
     <string name="Check">Check For Update</string>
@@ -51,7 +52,9 @@
     <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Divers</string>
     <string name="NotificationHide">Cacher la notification de téléchargement</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
     <string name="Push">Afficher la notification - Téléchargement</string>
+    <string name="Search">Disable Search History</string>
     <string name="Show">Afficher l\'\appli</string>
     <string name="Slide">Disable Slide Navigation</string>
     <string name="Sound">Activer la lecture automatique du son (Vidéos)</string>

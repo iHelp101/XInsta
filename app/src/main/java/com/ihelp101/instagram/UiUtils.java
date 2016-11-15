@@ -10,11 +10,10 @@ public class UiUtils {
 		int enabled = pm.getComponentEnabledSetting(new ComponentName(
 				context, context.getPackageName() + ".IntroActivity-Alias"));
 
-		switch (enabled) {
-		case PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
-			return true;
-		default:
+		if (enabled == 2) {
 			return false;
+		} else {
+			return true;
 		}
 	}
 

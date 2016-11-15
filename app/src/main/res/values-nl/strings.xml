@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Okee</string>
+    <string name="Warning">Je kunt de app openen vanuit Xposed indien de app verborgen is.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Dag</string>
+    <string name="Hour">Uur</string>
+    <string name="Minute">Minuut</string>
+    <string name="Month">Maand</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Seconde</string>
+    <string name="Space">---LEEG---</string>
+    <string name="Year">Jaar</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Nieuwe map</string>
+    <string name="nnf_create_folder_error">Map maken mislukt</string>
+    <string name="nnf_name">Naam</string>
+    <string name="nnf_select_something_first">Graag eerst iets selecteren</string>
+    <string name="nnf_permission_external_write_denied">Toegang tot bestandsysteem geweigerd</string>
+
+    <!-- ListView -->
+    <string name="Image">Locatie afbeelding</string>
+    <string name="Profile">Locatie profiel icoon</string>
+    <string name="Recommended">Aanbevolen</string>
+    <string name="Save">Locaties opslaan</string>
+    <string name="Update">Hooks updaten</string>
+    <string name="Video">Locatie video</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Change">Verander scheidingsteken</string>
+    <string name="ChangeOrder">Verander optievolgorde</string>
+    <string name="Check">Check op updates</string>
+    <string name="Comment">Kopieer comment bij aanraking</string>
+    <string name="Contact">Contacteer ontwikkelaar</string>
+    <string name="Custom">Aangepaste taal</string>
+    <string name="Customization">Aanpassingen</string>
+    <string name="Date">Datumnotatie</string>
+    <string name="Default">Standaard Hook bron</string>
+    <string name="Error_log">Stuur errorlogs</string>
+    <string name="File">Bestand - Wijzig datumnotatie</string>
+    <string name="Folder">Map - Gebruikersnaam invoegen</string>
+    <string name="Follow">Volg indicator - Kleur</string>
+    <string name="Hide">Verberg App</string>
+    <string name="Like">Like knop uitschakelen</string>
+    <string name="Logging">Xposed loggen uitschakelen</string>
+    <string name="Manual">Hook handmatig wijzigen</string>
+    <string name="Misc">Overig</string>
+    <string name="NotificationHide">Verberg downloadnotificatie</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Push">Push Notificatie - Download</string>
+    <string name="Search">Disable Search History</string>
+    <string name="Show">App weergeven</string>
+    <string name="Slide">Slidenavigatie uitschakelen</string>
+    <string name="Sound">Geluid auto-play inschakelen (Videos)</string>
+    <string name="Special">Speciale dank</string>
+    <string name="Story">Stories Timer uitschakelen</string>
+    <string name="Suggestion">Suggesties verbergen</string>
+    <string name="Translations">Vertaal XInsta</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Download compleet</string>
+    <string name="Download_Failed">Download mislukt</string>
+    <string name="DownloadDots">Downloaden&#8230;</string>
+    <string name="Please">Update je hooks via de module.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Download</string>
+    <string name="the_not_so_big_but_big_button2">Feed vastzetten</string>
+    <string name="the_not_so_big_but_big_button3">Feed losmaken</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Opmerking gekopieerd</string>
+    <string name="Downloading">Downloaden %1$s</string>
+    <string name="Hooks_Latest">Je hebt de laatste hooks al.</string>
+    <string name="Hooks_Updated">Hooks zijn geupdate.\nStop de Instagram app.</string>
+    <string name="I_LocationChanged">Opslaglocatie afbeeldingen hersteld naar standaard.</string>
+    <string name="Incorrect_Location">Kan hier niet opslaan.\nKies een andere locatie.</string>
+    <string name="P_LocationChanged">Opslaglocatie profiel icoon hersteld naar standaard.</string>
+    <string name="Picture_Not">Klik op de afbeelding en probeer opnieuw.</string>
+    <string name="V_LocationChanged">Opslaglocatie videos hersteld naar standaard.</string>
+</resources>

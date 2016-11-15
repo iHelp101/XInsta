@@ -33,6 +33,7 @@
     <string name="Video">Videospeicherort</string>
 
     <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
     <string name="Change">Trennsymbol ändern</string>
     <string name="ChangeOrder">Change Options Order</string>
     <string name="Check">Check For Update</string>
@@ -52,7 +53,9 @@
     <string name="Manual">Hooks manuell ändern</string>
     <string name="Misc">Sonstiges</string>
     <string name="NotificationHide">Verstecke Download Benachrichtigung</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
     <string name="Push">Automatischer Download bei Benachrichtigung</string>
+    <string name="Search">Disable Search History</string>
     <string name="Show">App anzeigen</string>
     <string name="Slide">Disable Slide Navigation</string>
     <string name="Sound">Autoplay mit Sound (Videos)</string>

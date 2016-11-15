@@ -5,7 +5,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -28,6 +31,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -38,6 +42,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,19 +56,24 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import de.robv.android.xposed.XposedBridge;
+
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ActionBarDrawerToggle drawerToggle;
     Adapter mAdapter;
     ListView listView;
+    ProgressDialog mDialog;
 
     static int FILE_CODE = 0;
     String currentAction;
     String getDirectory = Environment.getExternalStorageDirectory().toString();
+    String newVersion = "None";
     String saveLocation = "None";
     String saveSD;
     String version = "123";
 
+    String automaticUpdate;
     String changeOrder;
     String changeVersion;
     String comment;
@@ -81,7 +91,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     String hide;
     String misc;
     String notifHide;
+    String pass;
     String push;
+    String searchHistory;
     String sound;
     String slide;
     String story;
@@ -182,7 +194,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         saveLocation = "None";
                     } else if (!Helper.getSaveLocation(saveLocation).contains("com.android.externalstorage.documents")){
                         saveSD = Location.getPath() + "/";
-                        startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), 12);
+                        showSDTip();
                     } else {
                         Helper.setSetting(saveLocation, Helper.getSaveLocation(saveLocation).split(";")[0] + ";" + Location.getPath() + "/");
                         saveLocation = "None";
@@ -339,8 +351,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         }
                     }
                 }
+                mDialog.cancel();
                 setToast(toast);
             } catch (Exception e) {
+                mDialog.cancel();
                 Helper.setError("Hooks Parse Failed - " +e);
             }
         }
@@ -362,7 +376,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                 response = Helper.convertStreamToString(c.getInputStream());
 
-                u = new URL("https://raw.githubusercontent.com/iHelp101/XInsta/master/Translate.txt");
+                u = new URL("https://raw.githubusercontent.com/iHelp101/XInsta/master/app/src/main/res/values/strings.xml");
                 c = u.openConnection();
                 c.connect();
                 responseDefaultLanguage = Helper.convertStreamToString(c.getInputStream());
@@ -375,6 +389,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 } catch (Exception e) {
                     responseLanguage = "None";
                 }
+
+                responseLanguage = "Please translate the translate the strings below. An example is below that should help you understand the required formatting. Thank you for taking the time to help out.\n\nExample:\nOriginal - <string name=\"Hide\">Hide App</string>\nSpanish - <string name=\"Hide\">Ocultar App</string>\n\nLanguage - Which Language Are You Translating?\n\n" + responseLanguage;
+                responseDefaultLanguage = "Please translate the translate the strings below. An example is below that should help you understand the required formatting. Thank you for taking the time to help out.\n\nExample:\nOriginal - <string name=\"Hide\">Hide App</string>\nSpanish - <string name=\"Hide\">Ocultar App</string>\n\nLanguage - Which Language Are You Translating?\n\n" + responseDefaultLanguage;
+
             } catch (Exception e) {
                 Helper.setError("Translation - " + e);
             }
@@ -385,14 +403,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             try {
-                System.out.println("Info: " +responseLanguage);
                 if (response.contains(userLocale) && !responseLanguage.equals("None")) {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    System.out.println("Yes");
                                     Intent intent = new Intent(Intent.ACTION_SEND);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"XInsta@ihelp101.com"});
@@ -453,7 +469,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 responseString = Helper.convertStreamToString(inputStream);
 
             } catch (Exception e) {
-                responseString = "Nope";
+                Helper.setError("Update GitHub Failed - " +e);
+                responseString = "None";
             }
 
             return responseString.trim();
@@ -464,10 +481,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             super.onPostExecute(result);
 
             try {
+                mDialog.cancel();
                 version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
                 version = version.trim();
 
-                if (result.equals(version)) {
+                if (result.equals(version) & !result.equals("None")) {
                     Toast.makeText(getApplicationContext(), "XInsta Up-To-Date", Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
@@ -503,6 +521,50 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     });
 
                     builder.show();
+                }
+            } catch (Throwable t) {
+                Helper.setError("Update Check Failed - " +t);
+                Toast.makeText(getApplicationContext(), "Failed To Check Update", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    class VersionCheckNoDialog extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... uri) {
+            String responseString = "Nope";
+
+            try {
+                Random r = new Random();
+                int cacheInt = r.nextInt(9999999 - 1) + 9999999;
+
+                URL u = new URL("https://raw.githubusercontent.com/iHelp101/XInsta/master/Version.txt?" +cacheInt);
+                URLConnection c = u.openConnection();
+                c.connect();
+
+                InputStream inputStream = c.getInputStream();
+
+                responseString = Helper.convertStreamToString(inputStream);
+
+            } catch (Exception e) {
+                responseString = "None";
+            }
+
+            return responseString.trim();
+        }
+
+        @Override
+        protected void onPostExecute(final String result) {
+            super.onPostExecute(result);
+
+            try {
+                version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+                version = version.trim();
+
+                if (!result.equals(version) && !result.equals("None")) {
+                    newVersion = result;
+                    updateListView();
                 }
             } catch (Throwable t) {
             }
@@ -543,6 +605,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             video = "Video Location";
         }
 
+        if (currentAction.contains("Update To XInsta")) {
+            mDialog = new ProgressDialog(Main.this);
+            mDialog.setMessage("Please wait...");
+            mDialog.setCancelable(false);
+            mDialog.show();
+            new VersionCheck().execute();
+        }
+
         if (currentAction.equals(image) || currentAction.equals(profile) || currentAction.equals(video)) {
             saveLocation = "Image";
             if (currentAction.equals(profile)) {
@@ -557,8 +627,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             if (save.contains("com.android.externalstorage.documents") && android.os.Build.VERSION.SDK_INT >= 21) {
                 save = save.split(";")[1];
             }
-
-            System.out.println("Info: " +save);
 
             Intent i = new Intent(Main.this, FilePickerActivity.class);
             i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
@@ -576,12 +644,24 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             startActivityForResult(i, FILE_CODE);
         }
         if (currentAction.equals("GitHub")) {
+            mDialog = new ProgressDialog(Main.this);
+            mDialog.setMessage("Please wait...");
+            mDialog.setCancelable(false);
+            mDialog.show();
             new HookCheck().execute("https://raw.githubusercontent.com/iHelp101/XInsta/master/Hooks.txt");
         }
         if (currentAction.equals("Pastebin")) {
+            mDialog = new ProgressDialog(Main.this);
+            mDialog.setMessage("Please wait...");
+            mDialog.setCancelable(false);
+            mDialog.show();
             new HookCheck().execute("http://pastebin.com/raw.php?i=sTXbUFcx");
         }
         if (currentAction.equals("Alternate Source")) {
+            mDialog = new ProgressDialog(Main.this);
+            mDialog.setMessage("Please wait...");
+            mDialog.setCancelable(false);
+            mDialog.show();
             new HookCheck().execute("http://www.snapprefs.com/xinsta/Hooks.txt");
         }
         if (currentAction.equals("One Tap Video Download")) {
@@ -649,6 +729,18 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 listAction();
             }
         });
+
+        try {
+            if (getIntent().getStringExtra("Update").equals("Yes")) {
+                mDialog = new ProgressDialog(Main.this);
+                mDialog.setMessage("Please wait...");
+                mDialog.setCancelable(false);
+                mDialog.show();
+                new VersionCheck().execute();
+            }
+        } catch (Throwable t) {
+        }
+
     }
 
     @Override
@@ -667,6 +759,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
 
         if (clicked.equals(checkVersion)) {
+            mDialog = new ProgressDialog(Main.this);
+            mDialog.setMessage("Please wait...");
+            mDialog.setCancelable(false);
+            mDialog.show();
             new VersionCheck().execute();
         }
 
@@ -974,6 +1070,19 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                 final SwitchCompat item = (SwitchCompat) menuItem.getActionView();
 
+                if (menuTitle.equals(getResources().getString(R.string.Automatically))) {
+                    try {
+                        automaticUpdate = Helper.getResourceString(getApplicationContext(), R.string.Automatically);
+                    } catch (Throwable t) {
+                        automaticUpdate = getResources().getString(R.string.Automatically);
+                    }
+
+                    menuItem.setTitle(automaticUpdate);
+                    if (Helper.getSettings("Update")) {
+                        item.setChecked(true);
+                    }
+                }
+
                 if (menuTitle.equals(getResources().getString(R.string.ChangeOrder))) {
                     try {
                         changeOrder = Helper.getResourceString(getApplicationContext(), R.string.ChangeOrder);
@@ -981,7 +1090,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         changeOrder = getResources().getString(R.string.ChangeOrder);
                     }
 
-                    menuItem.setTitle(changeVersion);
+                    menuItem.setTitle(changeOrder);
                     if (Helper.getSettings("Order")) {
                         item.setChecked(true);
                     }
@@ -1171,6 +1280,18 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     }
                 }
 
+                if (menuTitle.equals(getResources().getString(R.string.Pass))) {
+                    try {
+                        pass = Helper.getResourceString(getApplicationContext(), R.string.Pass);
+                    } catch (Throwable t) {
+                        pass = getResources().getString(R.string.Pass);
+                    }
+                    menuItem.setTitle(pass);
+                    if (Helper.getSettings("Pass")) {
+                        item.setChecked(true);
+                    }
+                }
+
                 if (menuTitle.equals(getResources().getString(R.string.Push))) {
                     try {
                         push = Helper.getResourceString(getApplicationContext(), R.string.Push);
@@ -1179,6 +1300,18 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     }
                     menuItem.setTitle(push);
                     if (Helper.getSettings("Push")) {
+                        item.setChecked(true);
+                    }
+                }
+
+                if (menuTitle.equals(getResources().getString(R.string.Search))) {
+                    try {
+                        searchHistory = Helper.getResourceString(getApplicationContext(), R.string.Search);
+                    } catch (Throwable t) {
+                        searchHistory = getResources().getString(R.string.Search);
+                    }
+                    menuItem.setTitle(searchHistory);
+                    if (Helper.getSettings("History")) {
                         item.setChecked(true);
                     }
                 }
@@ -1247,6 +1380,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             String clicked = menuTitle;
 
+                            if (clicked.equals(automaticUpdate)) {
+                                Helper.setSetting("Update", Boolean.toString(item.isChecked()));
+                            }
+
                             if (clicked.equals(changeOrder)) {
                                 Helper.setSetting("Order", Boolean.toString(item.isChecked()));
                             }
@@ -1293,7 +1430,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                             }
 
                             if (clicked.equals(file)) {
-                                System.out.println("File: " +isChecked);
                                 if (!isChecked) {
                                     Helper.setSetting("File", "Instagram");
                                 } else {
@@ -1348,8 +1484,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                 Helper.setSetting("Notification", Boolean.toString(item.isChecked()));
                             }
 
+                            if (clicked.equals(pass)) {
+                                Helper.setSetting("Pass", Boolean.toString(item.isChecked()));
+                            }
+
                             if (clicked.equals(push)) {
                                 Helper.setSetting("Push", Boolean.toString(item.isChecked()));
+                            }
+
+                            if (clicked.equals(searchHistory)) {
+                                Helper.setSetting("History", Boolean.toString(item.isChecked()));
                             }
 
                             if (clicked.equals(slide)) {
@@ -1373,6 +1517,39 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 }
             }
         }
+    }
+
+    void showSDTip() {
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.test;
+        VideoView videoView = new VideoView(this);
+        videoView.setVideoPath(path);
+        videoView.setZOrderOnTop(true);
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
+        videoView.start();
+
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this)
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), 12);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setView(videoView);
+
+        builder.create().show();
     }
 
     void updateListView() {
@@ -1400,6 +1577,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
 
         mAdapter = new Adapter(Main.this);
+        if (!newVersion.equals("None")) {
+            mAdapter.addSectionHeaderItem("UPDATE XINSTA");
+            mAdapter.addItem("Update To XInsta " + newVersion);
+        } else {
+            new VersionCheckNoDialog().execute();
+        }
         mAdapter.addSectionHeaderItem(save);
         mAdapter.addItem(image);
         mAdapter.addItem(profile);
@@ -1408,7 +1591,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         mAdapter.addItem("GitHub");
         mAdapter.addItem("Pastebin");
         mAdapter.addItem("Alternate Source");
-        mAdapter.addSectionHeaderItem(recommended);
+        mAdapter.addSectionHeaderItem(recommended.toUpperCase());
         mAdapter.addItem("One Tap Video Download");
         mAdapter.addItem("Zoom For Instagram");
 

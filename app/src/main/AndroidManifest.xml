@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ihelp101.instagram">
+    package="com.ihelp101.instagram"
+    android:installLocation="internalOnly" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -61,9 +62,21 @@
                 </action>
             </intent-filter>
         </receiver>
+        <receiver android:name=".Update">
+            <intent-filter>
+                <action android:name= "com.ihelp101.instagram.UPDATE">
+                    <category android:name = "android.intent.category.DEFAULT" />
+                </action>
+            </intent-filter>
+        </receiver>
         <service android:name=".Download" android:exported="true">
             <intent-filter>
                 <action android:name="com.ihelp101.instagram.DOWNLOAD"/>
+            </intent-filter>
+        </service>
+        <service android:name=".Download_Passed" android:exported="true">
+            <intent-filter>
+                <action android:name="com.ihelp101.instagram.PASS_DOWNLOAD"/>
             </intent-filter>
         </service>
         <service android:name=".Downloader">

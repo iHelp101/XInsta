@@ -395,8 +395,27 @@ public class Download extends IntentService {
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(myIntent);
             } else {
-                checkSDCard();
+                downloadOrPass();
             }
+        } else {
+            downloadOrPass();
+        }
+    }
+
+    void downloadOrPass() {
+        SAVE = Helper.getSaveLocation(fileType);
+
+        if (!SAVE.toLowerCase().contains("com.android.externalstorage.documents")) {
+            Intent downloadIntent = new Intent();
+            downloadIntent.setPackage("com.ihelp101.instagram");
+            downloadIntent.setAction("com.ihelp101.instagram.PASS_DOWNLOAD");
+            downloadIntent.putExtra("URL", linkToDownload);
+            downloadIntent.putExtra("SAVE", SAVE);
+            downloadIntent.putExtra("Notification", notificationTitle);
+            downloadIntent.putExtra("Filename", fileName);
+            downloadIntent.putExtra("Filetype", fileType);
+            downloadIntent.putExtra("User", userName);
+            getApplicationContext().startService(downloadIntent);
         } else {
             checkSDCard();
         }

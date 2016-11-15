@@ -27,6 +27,8 @@
                 <item android:id="@+id/like"
                     android:title="@string/Like"
                     app:actionLayout="@layout/menu_switch"/>
+                <item android:title="@string/Search"
+                    app:actionLayout="@layout/menu_switch"/>
                 <item android:title="@string/Slide"
                     app:actionLayout="@layout/menu_switch"/>
                 <item android:title="@string/Story"
@@ -40,13 +42,15 @@
                     app:actionLayout="@layout/menu_switch"/>
                 <item android:title="@string/the_not_so_big_but_big_button2"
                     app:actionLayout="@layout/menu_switch"/>
-                <item android:title="Change Options Order"
+                <item android:title="@string/ChangeOrder"
                     app:actionLayout="@layout/menu_switch"/>
             </group>
         </menu>
         </item>
     <item android:title="@string/Misc">
         <menu>
+            <item android:title="@string/Automatically"
+                app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/Check"/>
             <item android:title="@string/Default"/>
             <item android:title="@string/Logging"
@@ -65,6 +69,9 @@
             <item android:title="@string/Manual"/>
             <item android:id="@+id/onetap"
                 android:title="One Tap Video Download"
+                app:actionLayout="@layout/menu_switch"/>
+            <item android:id="@+id/pass"
+                android:title="@string/Pass"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:id="@+id/push"
                 android:title="@string/Push"
