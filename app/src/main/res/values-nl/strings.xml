@@ -32,7 +32,7 @@
     <string name="Video">Locatie video</string>
 
     <!-- Menu Items !-->
-    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Automatically">Automatische update checker</string>
     <string name="Change">Verander scheidingsteken</string>
     <string name="ChangeOrder">Verander optievolgorde</string>
     <string name="Check">Check op updates</string>
@@ -52,9 +52,9 @@
     <string name="Manual">Hook handmatig wijzigen</string>
     <string name="Misc">Overig</string>
     <string name="NotificationHide">Verberg downloadnotificatie</string>
-    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Pass">Stuur downloads naar XInsta</string>
     <string name="Push">Push Notificatie - Download</string>
-    <string name="Search">Disable Search History</string>
+    <string name="Search">Zoekhistorie uitschakelen</string>
     <string name="Show">App weergeven</string>
     <string name="Slide">Slidenavigatie uitschakelen</string>
     <string name="Sound">Geluid auto-play inschakelen (Videos)</string>
