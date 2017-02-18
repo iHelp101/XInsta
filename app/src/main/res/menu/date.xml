@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item android:title="@string/Misc">
+    <menu>
+        <item android:id="@+id/clock"
+            android:title="24"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:actionLayout="@layout/menu_switch"/>
+        <item android:id="@+id/change"
+            android:title="@string/Change"/>
+        <item android:id="@+id/reset"
+            android:title="@string/Reset"/>
+    </menu>
+</item>
+</menu>

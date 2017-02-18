@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">باشه‌</string>
+    <string name="Warning">كاتێك ئه‌م پرۆگرامه‌ت‌ شارده‌وه‌، ده‌توانییت له‌ ئێكسپۆسید بیكه‌یته‌وه‌.</string>
+
+    <!-- Date -->
+    <string name="AM">به‌یانی/شه‌و</string>
+    <string name="Day">رۆژ</string>
+    <string name="Hour">كاژێر</string>
+    <string name="Minute">خولوك</string>
+    <string name="Month">مانگ</string>
+    <string name="Reset">رێكخستن</string>
+    <string name="Second">چركه‌</string>
+    <string name="Space">---بۆشایی---</string>
+    <string name="Year">ساڵ</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">فۆڵده‌ری نوێ</string>
+    <string name="nnf_create_folder_error">ناتوانرێت فۆڵده‌رێكی نوێ دروست بكرێت</string>
+    <string name="nnf_name">ناو</string>
+    <string name="nnf_select_something_first">تكایه‌ پێشتر شتێك هه‌ڵبژێره‌</string>
+    <string name="nnf_permission_external_write_denied">رێگه‌ نادرێت كه‌ فایله‌كان ببینرێن</string>
+
+    <!-- ListView -->
+    <string name="Image">شوێنی وێنه‌كان</string>
+    <string name="Profile">شوێنی وێنۆچكه‌كان</string>
+    <string name="Recommended">پێشنیاركراو</string>
+    <string name="Save">شوێنی داگرتن</string>
+    <string name="Update">نوێكردنه‌وه‌ی قولاپه‌كان</string>
+    <string name="Video">شوێنی ڤیدیۆ</string>
+
+    <!-- Menu Items !-->
+    <string name="Change">گۆڕینی جیاكه‌ره‌وه‌</string>
+    <string name="Comment">كۆپی كردنی كۆممێنت - ده‌ست لێدان</string>
+    <string name="Contact">په‌یوه‌دندی كردن به‌ گه‌شه‌پێده‌ر</string>
+    <string name="Customization">هه‌ڵبژارده‌كان</string>
+    <string name="Date">رێكخستنی كات</string>
+    <string name="Default">سه‌رچاوه‌ی سه‌ره‌كی قولاپ</string>
+    <string name="Error_log">ناردنی هه‌ڵه‌</string>
+    <string name="File">فایل - گۆڕینی رێكخستنی كات</string>
+    <string name="Folder">فۆڵده‌ر - ناوی كه‌س</string>
+    <string name="Follow">فۆڵڵۆوی كردومه‌ - ره‌نگ</string>
+    <string name="Hide">شاردنه‌وه‌ی ئه‌پ</string>
+    <string name="Like">راگرتنی دوگمه‌ی ڵایك</string>
+    <string name="Logging">راگرتنی لۆگ</string>
+    <string name="Misc">زیاتر</string>
+    <string name="NotificationHide">شاردنه‌وه‌ی ئاگاداركه‌ره‌وه‌ - داونڵۆد</string>
+    <string name="Push">پێشاندانی ئاگاداركه‌ره‌وه‌ - داونڵۆد</string>
+    <string name="Show">پێشاندانی ئه‌پ</string>
+    <string name="Sound">به‌كارخستنی ده‌نگ به‌خۆكار - ڤیدیۆ</string>
+    <string name="Suggestion">شاردنه‌وه‌ی سه‌گێشن</string>
+    <string name="Translations">وه‌رگێڕانی XInsta</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">داگرتن سه‌ركه‌وتوو بوو</string>
+    <string name="Download_Failed">داگرتن سه‌ركه‌وتوو نه‌بوو</string>
+    <string name="DownloadDots">دایده‌گرێت...&#8230;</string>
+    <string name="Please">تكایه‌ قولاپه‌كان نوێبكه‌وه‌</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">وێنه‌</string>
+    <string name="video">ڤیدیۆ</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">داگرتن</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">كۆممێنت كۆپی كرا</string>
+    <string name="Downloading">دایده‌گرێت... %1$s</string>
+    <string name="Hooks_Latest">قولاپه‌كانت نوێن.</string>
+    <string name="Hooks_Updated">قولاپه‌كان نوێكرانه‌وه‌.\nتكایه‌ ئینستاگرام ریستارت بكه‌.</string>
+    <string name="I_LocationChanged">شوێنی داگرتنی وێنه‌كان وه‌ك خۆی لێكراوه‌یه‌.</string>
+    <string name="Incorrect_Location">ناتوانرێت لێره‌ دابگیرێت.\nتكایه‌ شوێنێكی تر هه‌ڵبژێره‌.</string>
+    <string name="P_LocationChanged">شوێنی داگرتنی وێنۆچكه‌كان وه‌ك خۆی لێكراوه‌یه‌.</string>
+    <string name="Picture_Not">كلیك له‌سه‌ر وێنه‌كه‌ بكه‌و دووباره‌ هه‌وڵبده‌وه‌.</string>
+    <string name="V_LocationChanged">شوێنی داگرتنی ڤیدیۆكان وه‌ك خۆی لێكراوه‌یه‌.</string>
+</resources>

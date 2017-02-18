@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Tamam</string>
+    <string name="Warning">Uygulamayı gizledikten sonra Xposed Installer üzerinden erişebilirsiniz.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Gün</string>
+    <string name="Hour">Saat</string>
+    <string name="Minute">Dakika</string>
+    <string name="Month">Ay</string>
+    <string name="Reset">Sıfırla</string>
+    <string name="Second">Saniye</string>
+    <string name="Space">---BOŞLUK---</string>
+    <string name="Year">Yıl</string>
+
+    <!-- File Browser -->
+    <string name="nnf_create_folder_error">Klasör oluşturulamadı</string>
+    <string name="nnf_name">İsim</string>
+    <string name="nnf_new_folder">Yeni klasör</string>
+    <string name="nnf_permission_external_write_denied">Sistem dosyasına erişim sağlanamadı</string>
+    <string name="nnf_select_something_first">Lütfen bir şey seçiniz</string>
+
+    <!-- ListView -->
+    <string name="Image">Resim Konumu</string>
+    <string name="Profile">Profil Resmi Konumu</string>
+    <string name="Recommended">Önerilen</string>
+    <string name="Save">KAYDETME KONUMU</string>
+    <string name="Update">BAĞLANTILARI GÜNCELLE</string>
+    <string name="Video">Video Konumu</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Change">Change Separator</string>
+    <string name="ChangeApp">Change XInsta App Icon</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
+    <string name="Comment">Copy Comment On Tap</string>
+    <string name="Contact">Contact Developer</string>
+    <string name="Custom">Custom Language</string>
+    <string name="Customization">Customization</string>
+    <string name="Date">Tarih Formatı</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">Hata Kaydını Gönder</string>
+    <string name="File">File - Change Date Format</string>
+    <string name="FileFormat">File - Change File Format</string>
+    <string name="Folder">Klasör - Kullacı adı ekle</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Hide">Uyglmyı gizle</string>
+    <string name="Like">Bğnme btnnu dvredışı bırak</string>
+    <string name="Logging">Disable Xposed Logging</string>
+    <string name="Manual">Manually Change Hooks</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">Kaydetme bldrimini gizle</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Pin">Pin/Save - Download</string>
+    <string name="Push">Bildirim al</string>
+    <string name="Search">Disable Search History</string>
+    <string name="Show">Uyglmyı göster</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
+    <string name="Suggestion">Önerileri gizle</string>
+    <string name="Translations">XInstayı Çevir</string>
+    <string name="VideoLikes">Video Likes Count</string>
+
+    <!-- Module -->
+    <string name="DownloadDots">Kaydediliyor…</string>
+    <string name="Download_Completed">Kaydetme Başarılı</string>
+    <string name="Download_Failed">Kaydetme Başarısız</string>
+    <string name="Please">Lüften modül üzerinden bağlantıyı gnclleyin.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Resim</string>
+    <string name="video">Video</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Kaydet</string>
+    <string name="the_not_so_big_but_big_button2">Privacy Lock</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">"%1$s's %2$s"</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Yorum kopyalandı</string>
+    <string name="Downloading">%1$s kaydediliyor</string>
+    <string name="Hooks_Latest">Son sürüm bağlantıya zaten sahipsiniz.</string>
+    <string name="Hooks_Updated">"Bağlantı güncellendi.\nLüften Instagram uygulamasını kapatın."</string>
+    <string name="I_LocationChanged">Resimlerin kaydedilme konumu varsayılana ayarlandı.</string>
+    <string name="Incorrect_Location">"Buraya kaydedilemiyor.\nLütfen farklı bir konum seçin."</string>
+    <string name="P_LocationChanged">Profil resimlerinin kaydedilme konumu varsayılana ayarlandı.</string>
+    <string name="Picture_Not">Lüften resme tıklayıp tekrar deneyiniz</string>
+    <string name="V_LocationChanged">Videoların kaydedilme konumu varsayılana ayarlandı.</string>
+</resources>
