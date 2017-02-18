@@ -4,7 +4,7 @@
 
     <!-- Alert Dialog -->
     <string name="Okay">Okay</string>
-    <string name="Warning">Du kannst die App über den Xposed Installer wiederfinden, sobald die sie versteckt hast.</string>
+    <string name="Warning">Du kannst die App über den Xposed Installer wiederfinden, nachdem du sie versteckt hast.</string>
 
     <!-- Date -->
     <string name="AM">AM/PM</string>
@@ -33,13 +33,13 @@
     <string name="Video">Videospeicherort</string>
 
     <!-- Menu Items !-->
-    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Automatically">Automatisch nach Aktualisierungen suchen</string>
     <string name="Change">Trennsymbol ändern</string>
-    <string name="ChangeOrder">Change Options Order</string>
-    <string name="Check">Check For Update</string>
-    <string name="Comment">Kommentar auf antippen kopieren</string>
+    <string name="ChangeOrder">Ändere die Reihenfolge der Optionen</string>
+    <string name="Check">Nach Aktualisierungen suchen</string>
+    <string name="Comment">Kommentar per Antippen kopieren</string>
     <string name="Contact">Entwickler kontaktieren</string>
-    <string name="Custom">Custom Language</string>
+    <string name="Custom">Benutzerdefinierte Sprache</string>
     <string name="Customization">Anpassung</string>
     <string name="Date">Datumsformat</string>
     <string name="Default">Standard Hook Quelle</string>
@@ -55,14 +55,14 @@
     <string name="NotificationHide">Verstecke Download Benachrichtigung</string>
     <string name="Pass">Pass Downloads To XInsta</string>
     <string name="Push">Automatischer Download bei Benachrichtigung</string>
-    <string name="Search">Disable Search History</string>
+    <string name="Search">Suchverlauf deaktivieren</string>
     <string name="Show">App anzeigen</string>
-    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Slide">Slide Navigation deaktivieren</string>
     <string name="Sound">Autoplay mit Sound (Videos)</string>
-    <string name="Special">Special Thanks</string>
+    <string name="Special">Besonderes Dankeschön</string>
     <string name="Story">Stories Timer deaktivieren</string>
     <string name="Suggestion">Verstecke Vorschläge</string>
-    <string name="Translations">Xinsta übersetzten</string>
+    <string name="Translations">XInsta übersetzten</string>
 
     <!-- Module -->
     <string name="Download_Completed">Download beendet</string>
@@ -75,9 +75,9 @@
     <string name="video">Video</string>
 
     <!-- The Download button -->
-    <string name="the_not_so_big_but_big_button">Download</string>
-    <string name="the_not_so_big_but_big_button2">Lock Feed</string>
-    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+    <string name="the_not_so_big_but_big_button">Herunterladen</string>
+    <string name="the_not_so_big_but_big_button2">Feed sperren</string>
+    <string name="the_not_so_big_but_big_button3">Feed entsperren</string>
 
     <!-- Title in notification -->
     <string name="username_thing">%1$s\'s %2$s</string>
@@ -87,9 +87,9 @@
     <string name="Downloading">Lädt herunter %1$s</string>
     <string name="Hooks_Latest">Die Hooks sind bereits auf neustem Stand.</string>
     <string name="Hooks_Updated">Hooks wurden aktualisiert.\nBitte beende die Instagram App.</string>
-    <string name="I_LocationChanged">Bildspeicherort auf Standart zurückgesetzt.</string>
+    <string name="I_LocationChanged">Bildspeicherort auf Standardwert zurückgesetzt.</string>
     <string name="Incorrect_Location">Es ist nicht möglich hier zu speichern.\nBitte wähle einen anderen Speicherort.</string>
-    <string name="P_LocationChanged">Profilbildspeicherort auf Standart zurückgesetzt.</string>
+    <string name="P_LocationChanged">Profilbildspeicherort auf Standardwert zurückgesetzt.</string>
     <string name="Picture_Not">Bitte tippe aufs Bild und versuche es erneut.</string>
-    <string name="V_LocationChanged">Videospeicherort auf Standart zurückgesetzt.</string>
+    <string name="V_LocationChanged">Videospeicherort auf Standardwert zurückgesetzt.</string>
 </resources>
