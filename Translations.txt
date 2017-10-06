@@ -1,1 +1,1 @@
-ar;bs;el;es;fa;fi;fr;hi;in;it;ko;lt;nb;pt-rbr;ro;ru;sk;tr;zh-rTW;
+ar;bs;el;es;fa;fi;fr;hi;in;it;ko;lt;nb;pt-rbr;ro;ru;sk;tr;zh-rCN;zh-rTW;
