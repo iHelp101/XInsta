@@ -1,0 +1,98 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">好的</string>
+    <string name="Warning">一旦这个应用被隐藏，你可以从 Xposed Installer 存取。</string>
+
+    <!-- Date -->
+    <string name="AM">上午/下午</string>
+    <string name="Day">日</string>
+    <string name="Hour">时</string>
+    <string name="Minute">分</string>
+    <string name="Month">月</string>
+    <string name="Reset">重设</string>
+    <string name="Second">秒</string>
+    <string name="Space">---空格---</string>
+    <string name="Year">年</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">新文件夹</string>
+    <string name="nnf_create_folder_error">无法新增新文件夹</string>
+    <string name="nnf_name">名称</string>
+    <string name="nnf_select_something_first">请先选择某个东西</string>
+    <string name="nnf_permission_external_write_denied">无法存取档案系统</string>
+
+    <!-- ListView -->
+    <string name="Image">图片位址</string>
+    <string name="Profile">大头照位址</string>
+    <string name="Recommended">建议</string>
+    <string name="Save">储存位址</string>
+    <string name="Update">更新钩子</string>
+    <string name="Video">视频位址/string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">自动检查更新</string>
+    <string name="Change">更改分隔符号</string>
+    <string name="ChangeApp">更改 XInsta 应用程式图标</string>
+    <string name="ChangeOrder">更改选项顺序</string>
+    <string name="Check">检查更新</string>
+    <string name="Comment">轻触复制留言</string>
+    <string name="Contact">联络开发者</string>
+    <string name="Custom">自订语言</string>
+    <string name="Customization">自订选项</string>
+    <string name="Date">日期格式</string>
+    <string name="Default">默认钩子来源</string>
+    <string name="Error_log">传送错误纪录</string>
+    <string name="File">档案 - 更改日期格式</string>
+    <string name="FileFormat">档案 - 更改档案格式</string>
+    <string name="Folder">文件夹 - 加上使用者名称</string>
+    <string name="Follow">追踪名单 - 颜色</string>
+    <string name="Hide">隐藏应用程式</string>
+    <string name="Like">停用赞好按钮</string>
+    <string name="Logging">停用 Xposed 记录</string>
+    <string name="Manual">手动更改钩子</string>
+    <string name="Misc">杂项</string>
+    <string name="NotificationHide">隐藏下载通知</string>
+    <string name="Pass">将下载传给 XInsta</string>
+    <string name="Pin">钉选/储存 - 下载</string>
+    <string name="Push">推送通知 - 下载</string>
+    <string name="Search">停用搜寻记录</string>
+    <string name="Show">显示应用程式</string>
+    <string name="Slide">停用滑动导览</string>
+    <string name="Sound">自动开启视频声音</string>
+    <string name="Special">特别感谢</string>
+    <string name="Story">停用限时动态计时器</string>
+    <string name="Suggestion">隐藏搜寻建议</string>
+    <string name="Translations">翻译 XInsta</string>
+    <string name="VideoLikes">视频赞好计数</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">下载完成</string>
+    <string name="Download_Failed">下载失败</string>
+    <string name="DownloadDots">下载中&#8230;</string>
+    <string name="Please">请从模组更新钩子。</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">照片</string>
+    <string name="video">视频</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">下载</string>
+    <string name="the_not_so_big_but_big_button2">隐私锁</string>
+    <string name="the_not_so_big_but_big_button3">解锁动态</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s 的 %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">已复制留言</string>
+    <string name="Downloading">正在下载 %1$s</string>
+    <string name="Hooks_Latest">你已经有最新的钩子。</string>
+    <string name="Hooks_Updated">钩子已被更新。请重启 Instagram 应用。</string>
+    <string name="I_LocationChanged">图片储存位址已重设为默认值。</string>
+    <string name="Incorrect_Location">无法存在这里，请选择其他储存位址。</string>
+    <string name="P_LocationChanged">大头贴储存位址已重设为默认值。</string>
+    <string name="Picture_Not">请点击图片并重试。</string>
+    <string name="V_LocationChanged">视频储存位址已重设为默认值。</string>
+</resources>
