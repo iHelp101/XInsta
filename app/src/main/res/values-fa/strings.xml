@@ -46,10 +46,13 @@
     <string name="Error_log">ارسال لاگ خطا</string>
     <string name="File">فایل - تغییر قالب بندی تاریخ</string>
     <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
     <string name="Folder">فایل - اضافه کردن نام کاربر</string>
     <string name="Follow">نشانگر دنبال کننده - رنگ</string>
     <string name="Hide">مخفی کردن برنامه</string>
     <string name="Like">غیرفعال سازی دکمه لایک</string>
+    <string name="Liked">Disable Liked Post</string>
     <string name="Logging">غیر فعال کردن لاگ اکسپوزد</string>
     <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">متفرقه.</string>
@@ -63,6 +66,7 @@
     <string name="Sound">فعال کردن صدا به صورت خودکار-پخش (ویدیو)</string>
     <string name="Special">Special Thanks</string>
     <string name="Story">Disable Stories Timer</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">مخفی کردن پیشنهادات</string>
     <string name="Translations">ترجمه XInsta</string>
     <string name="VideoLikes">Video Likes Count</string>

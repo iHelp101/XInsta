@@ -1,10 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ihelp101.instagram"
-    android:installLocation="internalOnly" >
+    android:installLocation="internalOnly">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +13,8 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Material"
         android:installLocation="internalOnly"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        android:largeHeap="true">
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -78,11 +80,21 @@
                 </action>
             </intent-filter>
         </receiver>
+        <receiver android:name=".Receiver">
+            <intent-filter>
+                <action android:name="com.ihelp101.instagram.TESTING"/>
+            </intent-filter>
+        </receiver>
         <receiver android:name=".Update">
             <intent-filter>
                 <action android:name= "com.ihelp101.instagram.UPDATE">
                     <category android:name = "android.intent.category.DEFAULT" />
                 </action>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".Updated">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
             </intent-filter>
         </receiver>
         <service android:name=".Download" android:exported="true">
@@ -100,6 +112,12 @@
                 <action android:name="com.ihelp101.instagram.PASS"/>
             </intent-filter>
         </service>
+        <service android:name=".Live" android:exported="true">
+            <intent-filter>
+                <action android:name= "com.ihelp101.instagram.LIVE"/>
+            </intent-filter>
+        </service>
+
         <meta-data android:name="storeprefs_mainclass" android:value="com.ihelp101.instagram.Module" />
     </application>
 </manifest>

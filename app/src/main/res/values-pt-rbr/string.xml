@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">XInsta</string>
 
     <!-- Alert Dialog -->
     <string name="Okay">Ok</string>
-    <string name="Warning">Você só poderá acessar o App via Xposed Installer se o App estiver oculto.</string>
+    <string name="Warning">Só pode acedera a App pelo Xposed Installer se o App estiver oculto.</string>
 
     <!-- Date -->
     <string name="AM">AM/PM</string>
@@ -11,7 +12,7 @@
     <string name="Hour">Hora</string>
     <string name="Minute">Minuto</string>
     <string name="Month">Mês</string>
-    <string name="Reset">Resetar</string>
+    <string name="Reset">Respor</string>
     <string name="Second">Segundo</string>
     <string name="Space">---ESPAÇO---</string>
     <string name="Year">Ano</string>
@@ -20,22 +21,22 @@
     <string name="nnf_new_folder">Nova Pasta</string>
     <string name="nnf_create_folder_error">Falha ao criar a pasta</string>
     <string name="nnf_name">Nome</string>
-    <string name="nnf_select_something_first">Por favor selecione algo primeiro</string>
+    <string name="nnf_select_something_first">Por favor selecionar algo primeiro</string>
     <string name="nnf_permission_external_write_denied">Permissão para acesso dos arquivos negada</string>
 
     <!-- ListView -->
     <string name="Image">Local das Imagens</string>
     <string name="Profile">Local das Fotos de Perfil</string>
     <string name="Recommended">Recomendado</string>
-    <string name="Save">Local de Download</string>
-    <string name="Update">ATUALIZAR HOOKS</string>
+    <string name="Save">Local das transferências</string>
+    <string name="Update">Atualizar HOOKS</string>
     <string name="Video">Local dos Vídeos</string>
 
     <!-- Menu Items !-->
-    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Automatically">Procurar actualizações automaticamente</string>
     <string name="Change">Alterar separador</string>
-    <string name="ChangeApp">Change XInsta App Icon</string>
-    <string name="ChangeOrder">Alterar opções de Ordem</string>
+    <string name="ChangeApp">Mudar Icon da App</string>
+    <string name="ChangeOrder">Alterar opções de ordem</string>
     <string name="Check">Verificar Atualização</string>
     <string name="Comment">Copiar comentário num toque</string>
     <string name="Contact">Contactar desenvolvedor</string>
@@ -44,33 +45,37 @@
     <string name="Date">Formatação de data</string>
     <string name="Default">Hook Source Padrão</string>
     <string name="Error_log">Enviar Registro de Erros</string>
-    <string name="File">Arquivo - Alterar formato de data</string>
-    <string name="FileFormat">File - Change File Format</string>
-    <string name="Folder">Pastas por Usuários</string>
+    <string name="File">Arquivo - Alterar formato da data</string>
+    <string name="FileFormat">File - Mudar formato ficheiro</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
+    <string name="Folder">Pastas por utilizador</string>
     <string name="Follow">Indicador de Seguidor - Cor</string>
     <string name="Hide">Ocultar App</string>
-    <string name="Like">Botão de curtir - Clique Duplo </string>
-    <string name="Logging">Desabilitar Xposed Logging</string>
-    <string name="Manual">Alterar manualmente Hooks</string>
+    <string name="Like">Botão de gosto - Clique Duplo </string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">Desativar Xposed Logging</string>
+    <string name="Manual">Alterar manualmente o Hooks</string>
     <string name="Misc">Diversos</string>
-    <string name="NotificationHide">Ocultar Notificação de Download</string>
-    <string name="Pass">Pass Downloads To XInsta</string>
-    <string name="Pin">Pin/Save - Download</string>
+    <string name="NotificationHide">Ocultar notificação de transferência</string>
+    <string name="Pass">Senha transferência do XInsta</string>
+    <string name="Pin">Pin/Save - Tranferências</string>
     <string name="Push">Notificação Push</string>
-    <string name="Search">Disable Search History</string>
+    <string name="Search">Desativar histórico da pesquisa</string>
     <string name="Show">Mostrar App</string>
-    <string name="Slide">Desabilitar Navegaço Slide</string>
-    <string name="Sound">Habilitar Som Auto-Play (Videos)</string>
+    <string name="Slide">Desabilitar navegação Slide</string>
+    <string name="Sound">Ativar Som -reprodução automática (Vídeos)</string>
     <string name="Special">Agradecimentos especiais</string>
-    <string name="Story">Desativar Timer de Histórias</string>
+    <string name="Story">Desativar o tempo das Histórias</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">Ocultar Sugestões</string>
     <string name="Translations">Traduza o Xinsta</string>
-    <string name="VideoLikes">Video Likes Count</string>
+    <string name="VideoLikes">Contador de gostos no vídeo</string>
 
     <!-- Module -->
-    <string name="Download_Completed">Download Concluído</string>
-    <string name="Download_Failed">Download Falhou</string>
-    <string name="DownloadDots">Baixando&#8230;</string>
+    <string name="Download_Completed">Transferência Concluída</string>
+    <string name="Download_Failed">Transferência Falhada</string>
+    <string name="DownloadDots">Transferindo&#8230;</string>
     <string name="Please">Por favor, atualize os hooks no módulo.</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
@@ -78,7 +83,7 @@
     <string name="video">Vídeo</string>
 
     <!-- The Download button -->
-    <string name="the_not_so_big_but_big_button">Download</string>
+    <string name="the_not_so_big_but_big_button">Transferir</string>
     <string name="the_not_so_big_but_big_button2">Bloquear Feed</string>
     <string name="the_not_so_big_but_big_button3">Desbloquear Feed</string>
 
@@ -87,12 +92,12 @@
 
     <!-- Toast Messages -->
     <string name="Copied">Comentário Copiado</string>
-    <string name="Downloading">Baixando%1$s</string>
-    <string name="Hooks_Latest">Você já tem os últimos hooks.</string>
-    <string name="Hooks_Updated">Os hooks foram atualizados, por favor reinicie o app do Instagram.</string>
-    <string name="I_LocationChanged">O local de download foi alterado para o padrão.</string>
-    <string name="Incorrect_Location">Impossível salvar aqui. Por favor, salve em outro local.</string>
-    <string name="P_LocationChanged"> O local de download de imagens do perfil foi alterado para o padrão.</string>
+    <string name="Downloading">Transferindo%1$s</string>
+    <string name="Hooks_Latest">Já tem os últimos hooks.</string>
+    <string name="Hooks_Updated">Os hooks foram atualizados, por favor reinicie a app do Instagram.</string>
+    <string name="I_LocationChanged">O local de tranferência foi alterado para o padrão.</string>
+    <string name="Incorrect_Location">Impossível guardar aqui. Por favor, guarde em outro local.</string>
+    <string name="P_LocationChanged"> O local de tranferência de imagens do perfil foi alterado para o padrão.</string>
     <string name="Picture_Not">Por favor, clique na imagem e tente novamente.</string>
-    <string name="V_LocationChanged">O local de download de vídeos foi alterado para o padrão.</string>
+    <string name="V_LocationChanged">O local de tranferência de vídeos foi alterado para o padrão.</string>
 </resources>

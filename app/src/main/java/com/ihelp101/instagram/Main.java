@@ -15,7 +15,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.PointF;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -34,7 +33,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -51,10 +49,13 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.TimeZone;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -65,7 +66,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     static int FILE_CODE = 0;
     int itemSelected;
-    CharSequence fileItems[] = null;
     String currentAction;
     String getDirectory = Environment.getExternalStorageDirectory().toString();
     String newVersion = "None";
@@ -85,9 +85,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     String errorLog;
     String file;
     String fileFormat;
+    String fileUsername;
+    String fileURL;
     String folder;
     String follow;
     String like;
+    String liked;
     String lockFeed;
     String logging;
     String hide;
@@ -99,6 +102,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     String searchHistory;
     String slide;
     String story;
+    String storyPrivacy;
     String suggestion;
     String translate;
     String videoLikes;
@@ -490,10 +494,19 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         protected void onPostExecute(final String result) {
             super.onPostExecute(result);
 
+            int skip = 0;
+
             try {
                 mDialog.cancel();
                 version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
                 version = version.trim();
+
+                int versionCheck = Integer.parseInt(result.replaceAll("\\.", ""));
+                int currentVersion = Integer.parseInt(version.replaceAll("\\.", ""));
+
+                if (currentVersion > versionCheck) {
+                    skip = 1;
+                }
 
                 if (result.equals(version) & !result.equals("None")) {
                     if (logCheck.equals("Log")) {
@@ -503,7 +516,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     }
                 } else if (logCheck.equals("Log")) {
                     showErrorLogUpdate(result);
-                } else {
+                } else if (skip == 0){
                     AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
 
                     builder.setTitle("Update XInsta To " +result+ "?");
@@ -537,10 +550,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     });
 
                     builder.show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "XInsta Up-To-Date", Toast.LENGTH_SHORT).show();
                 }
             } catch (Throwable t) {
                 Helper.setError("Update Check Failed - " +t);
                 Toast.makeText(getApplicationContext(), "Failed To Check Update", Toast.LENGTH_SHORT).show();
+
+                if (logCheck.equals("Log")) {
+                    sendErrorLog();
+                }
             }
         }
     }
@@ -888,6 +907,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
 
         if (clicked.equals(fileDate)) {
+            System.out.println("Clack");
             fileDate();
         }
 
@@ -1052,6 +1072,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Helper.setSetting("File", String.valueOf(items[which].toString()));
+
+                if (!Helper.getSetting("FileFormat").equals("Instagram")) {
+                    String fileFormat = Helper.getSetting("FileFormat");
+                    fileFormat = fileFormat.replace("UserID", "Date");
+                    Helper.setSetting("FileFormat", fileFormat);
+                }
+
                 dialog.dismiss();
             }
         });
@@ -1116,6 +1143,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     void setupNav() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(null);
         navigationView.setNavigationItemSelectedListener(this);
 
         for (int menuSize = 0; menuSize < navigationView.getMenu().size();menuSize++) {
@@ -1125,6 +1153,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 final String menuTitle = navigationView.getMenu().getItem(menuSize).getSubMenu().getItem(subMenuSize).getTitle().toString();
 
                 final SwitchCompat item = (SwitchCompat) menuItem.getActionView();
+
+                if (item != null) {
+                    item.setOnCheckedChangeListener(null);
+                }
 
                 if (menuTitle.equals(getResources().getString(R.string.Automatically))) {
                     try {
@@ -1237,6 +1269,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     menuItem.setTitle(defaultSource);
                 }
 
+                if (menuTitle.equals("Direct Message - Download")) {
+                    if (Helper.getSettings("Disappearing")) {
+                        item.setChecked(true);
+                    }
+                }
+
                 if (menuTitle.equals(getResources().getString(R.string.Error_log))) {
                     try {
                         errorLog = Helper.getResourceString(getApplicationContext(), R.string.Error_log);
@@ -1270,6 +1308,30 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     }
                 }
 
+                if (menuTitle.equals(getResources().getString( R.string.FileUsername))) {
+                    try {
+                        fileUsername = Helper.getResourceString(getApplicationContext(), R.string.FileUsername);
+                    } catch (Throwable t) {
+                        fileUsername = getResources().getString(R.string.FileUsername);
+                    }
+                    menuItem.setTitle(fileUsername);
+                    if (Helper.getSettings("Username")) {
+                        item.setChecked(true);
+                    }
+                }
+
+                if (menuTitle.equals(getResources().getString( R.string.FileURL))) {
+                    try {
+                        fileURL = Helper.getResourceString(getApplicationContext(), R.string.FileURL);
+                    } catch (Throwable t) {
+                        fileURL = getResources().getString(R.string.FileURL);
+                    }
+                    menuItem.setTitle(fileURL);
+                    if (Helper.getSettings("URLFileName")) {
+                        item.setChecked(true);
+                    }
+                }
+
                 if (menuTitle.equals(getResources().getString( R.string.Folder))) {
                     try {
                         folder = Helper.getResourceString(getApplicationContext(), R.string.Folder);
@@ -1299,6 +1361,18 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     }
                     menuItem.setTitle(like);
                     if (Helper.getSettings("Like")) {
+                        item.setChecked(true);
+                    }
+                }
+
+                if (menuTitle.equals(getResources().getString(R.string.Liked))) {
+                    try {
+                        liked = Helper.getResourceString(getApplicationContext(), R.string.Liked);
+                    } catch (Throwable t) {
+                        liked = getResources().getString(R.string.Liked);
+                    }
+                    menuItem.setTitle(liked);
+                    if (Helper.getSettings("LikePrivacy")) {
                         item.setChecked(true);
                     }
                 }
@@ -1390,6 +1464,9 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                         pin = getResources().getString(R.string.Pin);
                     }
                     menuItem.setTitle(pin);
+                    if (!Helper.getSetting("Alternate").equals("Instagram")) {
+                        item.setChecked(true);
+                    }
                 }
 
                 if (menuTitle.equals(getResources().getString(R.string.Push))) {
@@ -1440,6 +1517,18 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                     }
                 }
 
+                if (menuTitle.equals(getResources().getString(R.string.StoryPrivacy))) {
+                    try {
+                        storyPrivacy = Helper.getResourceString(getApplicationContext(), R.string.StoryPrivacy);
+                    } catch (Throwable t) {
+                        storyPrivacy = getResources().getString(R.string.StoryPrivacy);
+                    }
+                    menuItem.setTitle(storyPrivacy);
+                    if (Helper.getSettings("StoryPrivacy")) {
+                        item.setChecked(true);
+                    }
+                }
+
                 if (menuTitle.equals(getResources().getString(R.string.Suggestion))) {
                     try {
                         suggestion = Helper.getResourceString(getApplicationContext(), R.string.Suggestion);
@@ -1477,6 +1566,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                 try {
                     item.setOnClickListener(null);
+                    item.setOnCheckedChangeListener(null);
                     item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1511,8 +1601,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     openCustomLanguages();
                                 } else {
                                     Helper.setSetting("Language", "Instagram");
-                                    updateListView();
                                     setupNav();
+                                    updateListView();
                                 }
                             }
 
@@ -1528,8 +1618,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                 }
                             }
 
+                            if (clicked.equals("Direct Message - Download")) {
+                                Helper.setSetting("Disappearing", Boolean.toString(item.isChecked()));
+                            }
+
                             if (clicked.equals(like)) {
                                 Helper.setSetting("Like", Boolean.toString(item.isChecked()));
+                            }
+
+                            if (clicked.equals(liked)) {
+                                Helper.setSetting("LikePrivacy", Boolean.toString(item.isChecked()));
                             }
 
                             if (clicked.equals(lockFeed)) {
@@ -1543,6 +1641,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                             if (clicked.equals(file)) {
                                 if (!isChecked) {
                                     Helper.setSetting("File", "Instagram");
+
+                                    if (!Helper.getSetting("FileFormat").equals("Instagram")) {
+                                        String fileFormat = Helper.getSetting("FileFormat");
+                                        fileFormat = fileFormat.replace("Date", "UserID");
+                                        Helper.setSetting("FileFormat", fileFormat);
+                                    }
                                 } else {
                                     fileDate();
                                 }
@@ -1555,6 +1659,14 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                     Intent myIntent = new Intent(getApplicationContext(), FileFormat.class);
                                     startActivity(myIntent);
                                 }
+                            }
+
+                            if (clicked.equals(fileUsername)) {
+                                Helper.setSetting("Username", Boolean.toString(item.isChecked()));
+                            }
+
+                            if (clicked.equals(fileURL)) {
+                                Helper.setSetting("URLFileName", Boolean.toString(item.isChecked()));
                             }
 
                             if (clicked.equals(folder)) {
@@ -1628,6 +1740,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                                 Helper.setSetting("Pass", Boolean.toString(item.isChecked()));
                             }
 
+                            if (clicked.equals(pin)) {
+                                Helper.setSetting("Alternate", Boolean.toString(item.isChecked()));
+                            }
+
                             if (clicked.equals(push)) {
                                 Helper.setSetting("Push", Boolean.toString(item.isChecked()));
                             }
@@ -1642,6 +1758,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
                             if (clicked.equals(story)) {
                                 Helper.setSetting("Story", Boolean.toString(item.isChecked()));
+                            }
+
+                            if (clicked.equals(storyPrivacy)) {
+                                Helper.setSetting("StoryPrivacy", Boolean.toString(item.isChecked()));
                             }
 
                             if (clicked.equals(suggestion)) {
@@ -1896,19 +2016,5 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         mAdapter.addItem("Zoom For Instagram");
 
         listView.setAdapter(mAdapter);
-    }
-
-    private float spacing(MotionEvent event)
-    {
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return (float) Math.sqrt(x * x + y * y);
-    }
-
-    private void midPoint(PointF point, MotionEvent event)
-    {
-        float x = event.getX(0) + event.getX(1);
-        float y = event.getY(0) + event.getY(1);
-        point.set(x / 2, y / 2);
     }
 }

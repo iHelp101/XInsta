@@ -46,10 +46,13 @@
     <string name="Error_log">Stuur errorlogs</string>
     <string name="File">Bestand - Wijzig datumnotatie</string>
     <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
     <string name="Folder">Map - Gebruikersnaam invoegen</string>
     <string name="Follow">Volg indicator - Kleur</string>
     <string name="Hide">Verberg App</string>
     <string name="Like">Like knop uitschakelen</string>
+    <string name="Liked">Disable Liked Post</string>
     <string name="Logging">Xposed loggen uitschakelen</string>
     <string name="Manual">Hook handmatig wijzigen</string>
     <string name="Misc">Overig</string>
@@ -63,6 +66,7 @@
     <string name="Sound">Geluid auto-play inschakelen (Videos)</string>
     <string name="Special">Speciale dank</string>
     <string name="Story">Stories Timer uitschakelen</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">Suggesties verbergen</string>
     <string name="Translations">Vertaal XInsta</string>
     <string name="VideoLikes">Video Likes Count</string>

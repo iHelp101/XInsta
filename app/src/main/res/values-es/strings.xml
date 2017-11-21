@@ -46,10 +46,13 @@
     <string name="Error_log">Enviar logs de errores</string>
     <string name="File">Archivo - Cambiar formato de fecha</string>
     <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
     <string name="Folder">Carpeta - Agregar usuario</string>
     <string name="Follow">Color - Indicador de Seguidor</string>
     <string name="Hide">Ocultar app</string>
     <string name="Like">Deshabilitar boton Like</string>
+    <string name="Liked">Disable Liked Post</string>
     <string name="Logging">Desabilitar registro Xposed</string>
     <string name="Manual">Cambiar los hooks manualmente.</string>
     <string name="Misc">Otra información.</string>
@@ -62,6 +65,7 @@
     <string name="Sound">Habilitar sonido Auto-Play (Videos)</string>
     <string name="Slide">Disable Slide Navigation</string>
     <string name="Story">Deshabilitar temporizador en Historias</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Special">Gracias Especiales</string>
     <string name="Suggestion">Ocultar sugerencias</string>
     <string name="Translations">Traducir XInsta</string>

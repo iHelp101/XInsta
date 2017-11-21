@@ -46,14 +46,18 @@ public class Download_Passed extends IntentService {
     String notificationTitle;
     String userName;
     String SAVE;
-    Uri uriLocation;
     Context mContext;
 
     int count = 0;
     int id = 1;
 
-    NotificationCompat.Builder mBuilder;
-    NotificationManager mNotifyManager;
+    String[] links;
+    String[] fileNames;
+    String[] fileTypes;
+    String[] notificationTitles;
+    String[] saveLocations;
+    String[] userNames;
+    int current = 0;
 
     class Download extends AsyncTask<String, String, String> {
 
@@ -81,8 +85,16 @@ public class Download_Passed extends IntentService {
                 id = r.nextInt(9999999 - 65) + 65;
 
                 if (link.contains("notification")) {
-                    link = link.replace("notification", "");
+                    link = link.replaceAll("notification", "");
                     logNotification = 1;
+                }
+
+                if (link.contains("media123;")) {
+                    link = link.replaceAll("media123;", "");
+                }
+
+                if (save.contains("_LiveAudio.mp4")) {
+                    id = 12345;
                 }
 
                 String iconString = "iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAABHNCSVQICAgIfAhkiAAAAyVJREFU\n" +
@@ -203,7 +215,7 @@ public class Download_Passed extends IntentService {
 
                 try {
                     downloadComplete = Helper.getResourceString(mContext, R.string.Download_Completed);
-                } catch (Throwable t) {
+                } catch (Throwable t2) {
                     downloadComplete = "Download Completed";
                 }
 
@@ -219,8 +231,14 @@ public class Download_Passed extends IntentService {
                                     }
                                 }
                             });
-                } catch (Throwable t) {
-                    Helper.setError("Scan Failed - " +t);
+                } catch (Throwable t2) {
+                    Helper.setError("Scan Failed - " + t2);
+                }
+
+                if (save.contains("_LiveVideo.mp4")) {
+                    Helper.passLiveStory(save, userName, getApplicationContext());
+                    mNotifyManager.cancel(12345);
+                    mNotifyManager.cancel(id);
                 }
             } else {
                 String downloadFailed;
@@ -243,6 +261,21 @@ public class Download_Passed extends IntentService {
 
                 Toast(downloadFailed);
             }
+
+            try {
+                if (current + 1 < links.length && downloadFailed == 1) {
+                    current = current + 1;
+                    linkToDownload = links[current];
+                    userName = userNames[current];
+                    notificationTitle = notificationTitles[current];
+                    fileName = fileNames[current];
+                    fileType = fileTypes[current];
+                    SAVE = saveLocations[current];
+
+                    passDownload();
+                }
+            } catch (Throwable t) {
+            }
         }
     }
 
@@ -256,15 +289,33 @@ public class Download_Passed extends IntentService {
 
         mContext = getApplicationContext();
 
-        linkToDownload = intent.getStringExtra("URL");
-        fileName = intent.getStringExtra("Filename");
-        fileType = intent.getStringExtra("Filetype");
-        notificationTitle = intent.getStringExtra("Notification");
-        userName = intent.getStringExtra("User");
-        SAVE = Helper.getSaveLocation(fileType);
-        getDirectory = Environment.getExternalStorageDirectory().toString();
+        if (intent.getStringExtra("URL").contains(";")) {
+            links = intent.getStringExtra("URL").split(";");
+            userNames = intent.getStringExtra("User").split(";");
+            notificationTitles = intent.getStringExtra("Notification").split(";");
+            fileNames = intent.getStringExtra("Filename").split(";");
+            fileTypes = intent.getStringExtra("Filetype").split(";");
+            saveLocations = intent.getStringExtra("SAVE").split(";");
 
-        checkPermission();
+            linkToDownload = links[0];
+            userName = userNames[0];
+            notificationTitle = notificationTitles[0];
+            fileName = fileNames[0];
+            fileType = fileTypes[0];
+            SAVE = saveLocations[0];
+
+            checkPermission();
+        } else {
+            linkToDownload = intent.getStringExtra("URL");
+            fileName = intent.getStringExtra("Filename");
+            fileType = intent.getStringExtra("Filetype");
+            notificationTitle = intent.getStringExtra("Notification");
+            userName = intent.getStringExtra("User");
+            SAVE = Helper.getSaveLocation(fileType);
+            getDirectory = Environment.getExternalStorageDirectory().toString();
+
+            checkPermission();
+        }
     }
 
     void checkPermission() {
@@ -294,6 +345,7 @@ public class Download_Passed extends IntentService {
         } else {
             SAVE = Helper.checkSave(SAVE, userName, fileName);
         }
+
         new Download().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, linkToDownload, SAVE, notificationTitle);
     }
 

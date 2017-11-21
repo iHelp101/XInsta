@@ -47,9 +47,12 @@
     <string name="Error_log">ऐरर लौग बेजे</string>
     <string name="File">File - Change Date Format</string>
     <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
     <string name="Folder">फोल्डर  - युसर का नाम</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Like"> बंद करे डबल टेप लाईक</string>
+    <string name="Liked">Disable Liked Post</string>
     <string name="Logging">Disable Xposed Logging</string>
     <string name="Manual">Manually Change Hooks</string>
     <string name="Hide">ऐप छुपाना</string>
@@ -64,6 +67,7 @@
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Special">Special Thanks</string>
     <string name="Story">Disable Stories Timer</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">सूझाव</string>
     <string name="Translations">परीवरटन XInsta</string>
     <string name="VideoLikes">Video Likes Count</string>

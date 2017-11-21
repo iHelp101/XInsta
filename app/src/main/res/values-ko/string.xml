@@ -46,10 +46,13 @@
     <string name="Error_log">오류 기록 보내기</string>
     <string name="File">File - Change Date Format</string>
     <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
     <string name="Folder">유저명을 폴더이름으로</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">앱 숨기기</string>
     <string name="Like">두드려서 좋아요 비활성</string>
+    <string name="Liked">Disable Liked Post</string>
     <string name="Logging">Disable Xposed Logging</string>
     <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Misc.</string>
@@ -63,6 +66,7 @@
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Special">Special Thanks</string>
     <string name="Story">Disable Stories Timer</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">Hide Suggestions</string>
     <string name="Translations">XInsta 번역</string>
     <string name="VideoLikes">Video Likes Count</string>

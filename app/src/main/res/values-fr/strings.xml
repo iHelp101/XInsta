@@ -46,10 +46,13 @@
     <string name="Error_log">Envoyer les journaux d\'\erreur</string>
     <string name="File">Fichier - Changer le format de la date</string>
     <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
     <string name="Folder">Dossier - Ajouter le nom d\&#39;utilisateur</string>
     <string name="Follow">Indicateur de suivi - Couleur</string>
     <string name="Hide">Cacher l\'\appli</string>
     <string name="Like">Désactiver le bouton Like</string>
+    <string name="Liked">Disable Liked Post</string>
     <string name="Logging">Désactiver la journalisation Xposed</string>
     <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Divers</string>
@@ -63,6 +66,7 @@
     <string name="Sound">Activer la lecture automatique du son (Vidéos)</string>
     <string name="Special">Special Thanks</string>
     <string name="Story">Disable Stories Timer</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">Cacher les suggestions</string>
     <string name="Translations">Traduire XInsta</string>
     <string name="VideoLikes">Video Likes Count</string>

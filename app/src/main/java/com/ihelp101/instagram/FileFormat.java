@@ -57,6 +57,7 @@ public class FileFormat extends AppCompatActivity {
 
                 if (!Helper.getSetting("File").equals("Instagram")) {
                     list = "Username_MediaID_Date";
+                    Helper.setSetting("FileFormat", list);
                 }
             }
 

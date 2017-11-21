@@ -47,10 +47,13 @@
     <string name="Error_log">مسائل کے لاگ بھیجیں</string>
     <string name="File">فائل - تاریخ کی ساخت بدلیں</string>
     <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
     <string name="Folder">فولڈر - اسم صارف شامل کریں</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">ایپ چھپا دیں</string>
     <string name="Like">پسند کا بٹن غیر فعال کریں</string>
+    <string name="Liked">Disable Liked Post</string>
     <string name="Logging">ایکسپوزڈ لاگنگ غیر فعال کریں</string>
     <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">متفرقات</string>
@@ -64,6 +67,7 @@
     <string name="Sound">ویڈیو آٹو پلے میں آواز چلائیں</string>
     <string name="Special">خاص شکریہ</string>
     <string name="Story">Disable Stories Timer</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">تجویزیں چھپائیں</string>
     <string name="Translations">ایکس انسٹا کا ترجمہ کریں</string>
     <string name="VideoLikes">Video Likes Count</string>

@@ -27,6 +27,9 @@
                 <item android:id="@+id/like"
                     android:title="@string/Like"
                     app:actionLayout="@layout/menu_switch"/>
+                <item android:id="@+id/liked"
+                    android:title="@string/Liked"
+                    app:actionLayout="@layout/menu_switch"/>
                 <item android:title="@string/Search"
                     app:actionLayout="@layout/menu_switch"/>
                 <item android:title="@string/Slide"
@@ -55,12 +58,18 @@
                 app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/Check"/>
             <item android:title="@string/Default"/>
+            <item android:title="Direct Message - Download"
+                app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/Logging"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:title="Download Options"/>
             <item android:title="@string/File"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/FileFormat"
+                app:actionLayout="@layout/menu_switch"/>
+            <item android:title="@string/FileUsername"
+                app:actionLayout="@layout/menu_switch"/>
+            <item android:title="@string/FileURL"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:id="@+id/folder"
                 android:title="@string/Folder"
@@ -72,9 +81,12 @@
                 android:title="@string/NotificationHide"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/Manual"/>
-            <item android:title="@string/Pin"/>
+            <item android:title="@string/Pin"
+                app:actionLayout="@layout/menu_switch"/>
             <item android:id="@+id/push"
                 android:title="@string/Push"
+                app:actionLayout="@layout/menu_switch"/>
+            <item android:title="@string/StoryPrivacy"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/Special"/>
         </menu>

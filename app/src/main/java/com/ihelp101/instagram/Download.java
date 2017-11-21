@@ -9,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -48,10 +49,13 @@ public class Download extends IntentService {
     Uri uriLocation;
 
     int count = 0;
-    int id = 1;
 
-    NotificationCompat.Builder mBuilder;
-    NotificationManager mNotifyManager;
+    String[] links;
+    String[] fileNames;
+    String[] fileTypes;
+    String[] notificationTitles;
+    String[] userNames;
+    int current = 0;
 
     boolean isPermission() {
         if (android.os.Build.VERSION.SDK_INT >= 21) {
@@ -68,7 +72,15 @@ public class Download extends IntentService {
 
     class RequestTask extends AsyncTask<String, String, String> {
 
+        String link;
+        String save;
+        String title;
+
+        NotificationCompat.Builder mBuilder;
+        NotificationManager mNotifyManager;
         int downloadFailed = 1;
+        int id = 1;
+        int logNotification = 0;
 
         @Override
         protected String doInBackground(String... uri) {
@@ -77,6 +89,23 @@ public class Download extends IntentService {
             try {
                 Random r = new Random();
                 id = r.nextInt(9999999 - 65) + 65;
+
+                link = uri[0];
+                save = uri[1];
+                title = uri[2];
+
+                if (save.contains("_LiveAudio.mp4")) {
+                    id = 12345;
+                }
+
+                if (link.contains("media123;")) {
+                    link = link.replaceAll("media123;", "");
+                }
+
+                if (link.contains("notification")) {
+                    link = link.replaceAll("notification", "");
+                    logNotification = 1;
+                }
 
                 if (!Helper.getSettings("Notification")) {
                     String downloading;
@@ -89,14 +118,14 @@ public class Download extends IntentService {
 
                     mNotifyManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(getApplicationContext());
-                    mBuilder.setContentTitle(notificationTitle)
+                    mBuilder.setContentTitle(title)
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                             .setContentText(downloading);
                     mNotifyManager.notify(id, mBuilder.build());
                 }
 
-                URL url = new URL (linkToDownload);
+                URL url = new URL (link);
                 URLConnection connection = url.openConnection();
                 connection.setRequestProperty("User-Agent","Instagram");
                 connection.connect();
@@ -104,7 +133,7 @@ public class Download extends IntentService {
                 InputStream input = new BufferedInputStream(url.openStream());
                 OutputStream output;
 
-                output = getContentResolver().openOutputStream(getDocumentFile(new File(SAVE), false).getUri());
+                output = getContentResolver().openOutputStream(getDocumentFile(new File(save), false).getUri());
 
                 byte data[] = new byte[1024];
 
@@ -119,6 +148,10 @@ public class Download extends IntentService {
                 if (!Helper.getSettings("Notification")) {
                     String downloadComplete;
 
+                    if (logNotification == 1) {
+                        Helper.setPush("Downloaded: " +title);
+                    }
+
                     try {
                         downloadComplete = Helper.getResourceString(getApplicationContext(), R.string.Download_Completed);
                     } catch (Throwable t) {
@@ -126,7 +159,7 @@ public class Download extends IntentService {
                     }
 
                     mBuilder.setContentText(downloadComplete).setTicker(downloadComplete);
-                    mBuilder.setContentTitle(notificationTitle)
+                    mBuilder.setContentTitle(title)
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                             .setAutoCancel(true);
@@ -135,8 +168,8 @@ public class Download extends IntentService {
                     notificationIntent.setAction(Intent.ACTION_VIEW);
 
 
-                    File file = new File(SAVE);
-                    if (SAVE.contains("jpg")) {
+                    File file = new File(save);
+                    if (save.contains("jpg")) {
                         notificationIntent.setDataAndType(Uri.fromFile(file), "image/*");
                     } else {
                         notificationIntent.setDataAndType(Uri.fromFile(file), "video/*");
@@ -151,7 +184,7 @@ public class Download extends IntentService {
                 }
 
                 MediaScannerConnection.scanFile(getApplicationContext(),
-                        new String[]{SAVE}, null,
+                        new String[]{save}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             public void onScanCompleted(String path, Uri uri) {
                                 if (uri != null) {
@@ -159,6 +192,12 @@ public class Download extends IntentService {
                                 }
                             }
                         });
+
+                if (save.contains("_LiveVideo.mp4")) {
+                    Helper.passLiveStory(save, userName, getApplicationContext());
+                    mNotifyManager.cancel(12345);
+                    mNotifyManager.cancel(id);
+                }
             } catch (Exception e) {
                 downloadFailed = 2;
                 Helper.setError("Download Error: " + e);
@@ -194,12 +233,27 @@ public class Download extends IntentService {
 
                 if (!Helper.getSettings("Notification")) {
                     mBuilder.setContentText(downloadFailed).setTicker(downloadFailed);
-                    mBuilder.setContentTitle(notificationTitle)
+                    mBuilder.setContentTitle(title)
                             .setSmallIcon(R.drawable.ic_launcher)
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                             .setAutoCancel(true);
                     mNotifyManager.notify(id, mBuilder.build());
                 }
+            }
+
+            try {
+                if (current + 1 < links.length) {
+                    current = current + 1;
+                    linkToDownload = links[current];
+                    userName = userNames[current];
+                    notificationTitle = notificationTitles[current];
+                    fileName = fileNames[current];
+                    fileType = fileTypes[current];
+                    SAVE = Helper.getSaveLocation(fileType);
+
+                    downloadOrPass();
+                }
+            } catch (Throwable t) {
             }
         }
     }
@@ -359,7 +413,7 @@ public class Download extends IntentService {
 
     void checkSDPermission() {
         if (isPermission()) {
-            new RequestTask().execute();
+            new RequestTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, linkToDownload, SAVE, notificationTitle);
         } else {
             Intent myIntent = new Intent(Download.this, SD.class);
             myIntent.putExtra("URL", linkToDownload);
@@ -381,15 +435,32 @@ public class Download extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Helper.setError("SD Request Received");
 
-        linkToDownload = intent.getStringExtra("URL");
-        fileName = intent.getStringExtra("Filename");
-        fileType = intent.getStringExtra("Filetype");
-        notificationTitle = intent.getStringExtra("Notification");
-        userName = intent.getStringExtra("User");
-        SAVE = Helper.getSaveLocation(fileType);
-        getDirectory = Environment.getExternalStorageDirectory().toString();
+        if (intent.getStringExtra("URL").contains(";")) {
+            current = 0;
+            links = intent.getStringExtra("URL").split(";");
+            userNames = intent.getStringExtra("User").split(";");
+            notificationTitles = intent.getStringExtra("Notification").split(";");
+            fileNames = intent.getStringExtra("Filename").split(";");
+            fileTypes = intent.getStringExtra("Filetype").split(";");
 
-        checkPermission();
+            linkToDownload = links[0];
+            userName = userNames[0];
+            notificationTitle = notificationTitles[0];
+            fileName = fileNames[0];
+            fileType = fileTypes[0];
+            SAVE = Helper.getSaveLocation(fileType);
+
+            checkPermission();
+        } else {
+            linkToDownload = intent.getStringExtra("URL");
+            fileName = intent.getStringExtra("Filename");
+            fileType = intent.getStringExtra("Filetype");
+            notificationTitle = intent.getStringExtra("Notification");
+            userName = intent.getStringExtra("User");
+            SAVE = Helper.getSaveLocation(fileType);
+            getDirectory = Environment.getExternalStorageDirectory().toString();
+            checkPermission();
+        }
     }
 
     void checkPermission() {

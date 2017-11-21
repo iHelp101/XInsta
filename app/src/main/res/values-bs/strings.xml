@@ -47,10 +47,13 @@
     <string name="Error_log">Enviar Relatório de Erros</string>
     <string name="File">File - Change Date Format</string>
     <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
     <string name="Folder">Pasta - Adicionar Usuário</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Sakrij aplikaciju</string>
     <string name="Like">Desabilitar Botão Curtir - Toque Duplo</string>
+    <string name="Liked">Disable Liked Post</string>
     <string name="Logging">Disable Xposed Logging</string>
     <string name="Manual">Manually Change Hooks</string>
     <string name="Misc">Misc.</string>
@@ -64,6 +67,7 @@
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Special">Special Thanks</string>
     <string name="Story">Disable Stories Timer</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">Esconder Sugestões</string>
     <string name="Translations">Traduza XInsta</string>
     <string name="VideoLikes">Video Likes Count</string>

@@ -1,0 +1,99 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">好的</string>
+    <string name="Warning">一旦這個應用程式被隱藏，你可以從 Xposed Installer 存取。</string>
+
+    <!-- Date -->
+    <string name="AM">上午/下午</string>
+    <string name="Day">日</string>
+    <string name="Hour">時</string>
+    <string name="Minute">分</string>
+    <string name="Month">月</string>
+    <string name="Reset">重設</string>
+    <string name="Second">秒</string>
+    <string name="Space">---空格---</string>
+    <string name="Year">年</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">新資料夾</string>
+    <string name="nnf_create_folder_error">無法新增新資料夾</string>
+    <string name="nnf_name">名稱</string>
+    <string name="nnf_select_something_first">請先選擇某個東西</string>
+    <string name="nnf_permission_external_write_denied">無法存取檔案系統</string>
+
+    <!-- ListView -->
+    <string name="Image">圖片位址</string>
+    <string name="Profile">大頭照位址</string>
+    <string name="Recommended">建議</string>
+    <string name="Save">儲存位址</string>
+    <string name="Update">更新鉤子</string>
+    <string name="Video">影片位址</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">自動檢查更新</string>
+    <string name="Change">更改分隔符號</string>
+    <string name="ChangeApp">更改 XInsta 應用程式圖標</string>
+    <string name="ChangeOrder">更改選項順序</string>
+    <string name="Check">檢查更新</string>
+    <string name="Comment">輕觸複製留言</string>
+    <string name="Contact">聯絡開發者</string>
+    <string name="Custom">自訂語言</string>
+    <string name="Customization">自訂選項</string>
+    <string name="Date">日期格式</string>
+    <string name="Default">預設鉤子來源</string>
+    <string name="Error_log">傳送錯誤紀錄</string>
+    <string name="File">檔案 - 更改日期格式</string>
+    <string name="FileFormat">檔案 - 更改檔案格式</string>
+    <string name="Folder">資料夾 - 加上使用者名稱</string>
+    <string name="Follow">追蹤名單 - 顏色</string>
+    <string name="Hide">隱藏應用程式</string>
+    <string name="Like">停用讚好按鈕</string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">停用 Xposed 記錄</string>
+    <string name="Manual">手動更改鉤子</string>
+    <string name="Misc">雜項</string>
+    <string name="NotificationHide">隱藏下載通知</string>
+    <string name="Pass">將下載傳給 XInsta</string>
+    <string name="Pin">釘選/儲存 - 下載</string>
+    <string name="Push">推送通知 - 下載</string>
+    <string name="Search">停用搜尋記錄</string>
+    <string name="Show">顯示應用程式</string>
+    <string name="Slide">停用滑動導覽</string>
+    <string name="Sound">自動開啟影片聲音</string>
+    <string name="Special">特別感謝</string>
+    <string name="Story">停用限時動態計時器</string>
+    <string name="Suggestion">隱藏搜尋建議</string>
+    <string name="Translations">翻譯 XInsta</string>
+    <string name="VideoLikes">影片讚好計數</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">下載完成</string>
+    <string name="Download_Failed">下載失敗</string>
+    <string name="DownloadDots">下載中&#8230;</string>
+    <string name="Please">請從模組更新鉤子。</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">照片</string>
+    <string name="video">影片</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">下載</string>
+    <string name="the_not_so_big_but_big_button2">隱私鎖</string>
+    <string name="the_not_so_big_but_big_button3">解鎖動態</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s 的 %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">已複製留言</string>
+    <string name="Downloading">正在下載 %1$s</string>
+    <string name="Hooks_Latest">你已經有最新的鉤子。</string>
+    <string name="Hooks_Updated">鉤子已被更新。請重啟 Instagram 應用程式。</string>
+    <string name="I_LocationChanged">圖片儲存位址已重設為預設值。</string>
+    <string name="Incorrect_Location">無法存在這裡，請選擇其他儲存位址。</string>
+    <string name="P_LocationChanged">大頭貼儲存位址已重設為預設值。</string>
+    <string name="Picture_Not">請點擊圖片並重試。</string>
+    <string name="V_LocationChanged">影片儲存位址已重設為預設值。</string>
+</resources>

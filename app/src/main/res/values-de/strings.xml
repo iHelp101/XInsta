@@ -47,10 +47,13 @@
     <string name="Error_log">Fehler Logs senden</string>
     <string name="File">Datei - Datumsformat</string>
     <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
     <string name="Folder">Ordner - Nutzername hinzufügen</string>
     <string name="Follow">Abonnenten Anzeige - Farbe</string>
     <string name="Hide">App verstecken</string>
     <string name="Like">Deaktiviere Like Button</string>
+    <string name="Liked">Disable Liked Post</string>
     <string name="Logging">Deaktiviere Xposed Logging</string>
     <string name="Manual">Hooks manuell ändern</string>
     <string name="Misc">Sonstiges</string>
@@ -64,6 +67,7 @@
     <string name="Sound">Autoplay mit Sound (Videos)</string>
     <string name="Special">Besonderes Dankeschön</string>
     <string name="Story">Stories Timer deaktivieren</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">Verstecke Vorschläge</string>
     <string name="Translations">XInsta übersetzten</string>
     <string name="VideoLikes">Video Likes Count</string>

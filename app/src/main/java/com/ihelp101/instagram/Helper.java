@@ -1,11 +1,17 @@
 package com.ihelp101.instagram;
 
+import android.app.DownloadManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 
@@ -33,6 +39,8 @@ import de.robv.android.xposed.XposedBridge;
 
 public class Helper {
 
+    static DownloadManager downloadManager;
+
     static boolean getSettings(String saveName) {
         String setting;
         File notification = new File(Environment.getExternalStorageDirectory().toString() + "/.Instagram/" + saveName + ".txt");
@@ -53,6 +61,27 @@ public class Helper {
         }
 
         return Boolean.valueOf(setting);
+    }
+
+    static int getFileCount(File f) {
+        StringBuilder text = new StringBuilder();
+        int lineCount = 0;
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                text.append("\n");
+
+                lineCount++;
+            }
+            br.close();
+        } catch (IOException e) {
+            return 0;
+        }
+        return lineCount;
     }
 
     static long getFolderSize(File f) {
@@ -98,9 +127,9 @@ public class Helper {
             Date date = new Date(epochTime * 1000L);
             TimeZone timeZone = TimeZone.getDefault();
 
-            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Month), "MM");
-            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Day), "dd");
-            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Year), "yyyy");
+            dateFormat = dateFormat.replace("Month", "MM");
+            dateFormat = dateFormat.replace("Day", "dd");
+            dateFormat = dateFormat.replace("Year", "yyyy");
             dateFormat = dateFormat.replaceAll("/", "");
 
             DateFormat format = new SimpleDateFormat(dateFormat);
@@ -119,9 +148,9 @@ public class Helper {
             Date date = new Date(epochTime);
             TimeZone timeZone = TimeZone.getDefault();
 
-            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Month), "MM");
-            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Day), "dd");
-            dateFormat = dateFormat.replace(Helper.getResourceString(nContext, R.string.Year), "yyyy");
+            dateFormat = dateFormat.replace("Month", "MM");
+            dateFormat = dateFormat.replace("Day", "dd");
+            dateFormat = dateFormat.replace("Year", "yyyy");
             dateFormat = dateFormat.replaceAll("/", "");
 
             DateFormat format = new SimpleDateFormat(dateFormat);
@@ -132,6 +161,29 @@ public class Helper {
             return "Instagram";
         }
     }
+
+    static String getDateEpochWithTime (Long epochTime, Context nContext) {
+        try {
+            String dateFormat = Helper.getSetting("File");
+
+            Date date = new Date(epochTime * 1000L);
+            TimeZone timeZone = TimeZone.getDefault();
+
+            dateFormat = dateFormat.replace("Month", "MM");
+            dateFormat = dateFormat.replace("Day", "dd");
+            dateFormat = dateFormat.replace("Year", "yyyy");
+            dateFormat = dateFormat.replaceAll("/", "");
+            dateFormat = dateFormat + "HHmm";
+
+            DateFormat format = new SimpleDateFormat(dateFormat);
+            format.setTimeZone(timeZone);
+
+            return format.format(date);
+        } catch (Throwable t) {
+            return "Instagram";
+        }
+    }
+
 
     static Resources getOwnResources(Context context) {
         return getResourcesForPackage(context, "com.ihelp101.instagram");
@@ -298,7 +350,10 @@ public class Helper {
                 if (Helper.getSettings("Folder")) {
                     saveLocation = saveLocation + userName + "/";
                 }
-                File directory = new File(URI.create(saveLocation).getPath());
+
+                Uri uri = Uri.parse(saveLocation);
+
+                File directory = new File(uri.getPath());
                 if (!directory.exists()) {
                     directory.mkdirs();
                 }
@@ -306,12 +361,16 @@ public class Helper {
                 if (Helper.getSettings("Folder")) {
                     saveLocation = saveLocation + userName + "/";
                 }
-                File directory = new File(URI.create(saveLocation).getPath());
+
+                Uri uri = Uri.parse(saveLocation);
+
+                File directory = new File(uri.getPath());
                 if (!directory.exists()) {
                     directory.mkdirs();
                 }
             }
         } catch (Exception e) {
+            System.out.println("Errrror: " +e);
             setError("Save Location Check Failed: " + e);
             saveLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Instagram/";
         }
@@ -328,7 +387,10 @@ public class Helper {
                 if (Helper.getSettings("Folder")) {
                     saveLocation = saveLocation + userName + "/";
                 }
-                File directory = new File(URI.create(saveLocation).getPath());
+
+                Uri uri = Uri.parse(saveLocation);
+
+                File directory = new File(uri.getPath());
                 if (!directory.exists()) {
                     directory.mkdirs();
                 }
@@ -336,7 +398,10 @@ public class Helper {
                 if (Helper.getSettings("Folder")) {
                     saveLocation = saveLocation + userName + "/";
                 }
-                File directory = new File(URI.create(saveLocation).getPath());
+
+                Uri uri = Uri.parse(saveLocation);
+
+                File directory = new File(uri.getPath());
                 if (!directory.exists()) {
                     directory.mkdirs();
                 }
@@ -356,9 +421,10 @@ public class Helper {
     }
 
     static void setError(String data) {
+        System.out.println("Set Error: " +data);
         if (data.equals("XInsta Initialized")) {
             try {
-                if (Helper.getFolderSize(new File(Environment.getExternalStorageDirectory(), ".Instagram/Error.txt")) > 10000) {
+                if (Helper.getFolderSize(new File(Environment.getExternalStorageDirectory(), ".Instagram/Error.txt")) > 20000) {
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
                         String time = sdf.format(new Date());
@@ -424,22 +490,54 @@ public class Helper {
 
     static void setPush(String data) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
-            String time = sdf.format(new Date());
+            if (Helper.getFileCount(new File(Environment.getExternalStorageDirectory(), ".Instagram/Notification Log.txt")) > Integer.parseInt(Helper.getSetting("Filesize"))) {
+                File root = new File(Environment.getExternalStorageDirectory(), ".Instagram");
+                if (!root.exists()) {
+                    root.mkdirs();
+                }
+                File file = new File(root, "Notification Log.txt");
+                File to = new File(root, "Notification Log.txtold");
 
-            data = time + " - " + data;
+                file.renameTo(to);
+                Helper.setPush(data);
+            } else {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
+                    String time = sdf.format(new Date());
 
-            File root = new File(Environment.getExternalStorageDirectory(), ".Instagram");
-            if (!root.exists()) {
-                root.mkdirs();
+                    data = time + " - " + data;
+
+                    File root = new File(Environment.getExternalStorageDirectory(), ".Instagram");
+                    if (!root.exists()) {
+                        root.mkdirs();
+                    }
+                    File file = new File(root, "Notification Log.txt");
+                    BufferedWriter buf = new BufferedWriter(new FileWriter(file, true));
+                    buf.newLine();
+                    buf.append(data);
+                    buf.close();
+                } catch (IOException e) {
+
+                }
             }
-            File file = new File(root, "Notification Log.txt");
-            BufferedWriter buf = new BufferedWriter(new FileWriter(file, true));
-            buf.newLine();
-            buf.append(data);
-            buf.close();
-        } catch (IOException e) {
+        } catch (Throwable t) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
+                String time = sdf.format(new Date());
 
+                data = time + " - " + data;
+
+                File root = new File(Environment.getExternalStorageDirectory(), ".Instagram");
+                if (!root.exists()) {
+                    root.mkdirs();
+                }
+                File file = new File(root, "Notification Log.txt");
+                BufferedWriter buf = new BufferedWriter(new FileWriter(file, true));
+                buf.newLine();
+                buf.append(data);
+                buf.close();
+            } catch (IOException e) {
+            }
         }
     }
 
@@ -471,6 +569,15 @@ public class Helper {
         mContext.startService(downloadIntent);
     }
 
+    static void passLiveStory(String SAVE, String title, Context mContext) {
+        Intent downloadIntent = new Intent();
+        downloadIntent.setPackage("com.ihelp101.instagram");
+        downloadIntent.setAction("com.ihelp101.instagram.LIVE");
+        downloadIntent.putExtra("SAVE", SAVE);
+        downloadIntent.putExtra("Title", title);
+        mContext.startService(downloadIntent);
+    }
+
     static void writeToFollower(String name) {
         try {
             File root = new File(Environment.getExternalStorageDirectory().toString(), ".Instagram");
@@ -499,5 +606,15 @@ public class Helper {
         } catch (Throwable t) {
             XposedBridge.log("Issue: " +t);
         }
+    }
+
+    public static Bitmap scaleBitmap (Bitmap bitmap, int wantedWidth, int wantedHeight) {
+        Bitmap output = Bitmap.createBitmap(wantedWidth, wantedHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        Matrix m = new Matrix();
+        m.setScale((float) wantedWidth / bitmap.getWidth(), (float) wantedHeight / bitmap.getHeight());
+        canvas.drawBitmap(bitmap, m, new Paint());
+
+        return output;
     }
 }

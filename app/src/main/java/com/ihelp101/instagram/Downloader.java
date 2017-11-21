@@ -5,13 +5,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -20,26 +18,19 @@ import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Random;
-
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class Downloader extends Service {
 
@@ -54,8 +45,24 @@ public class Downloader extends Service {
     String fileName;
     String fileType;
     String notificationTitle;
+    String postCode = "";
     String userName;
     String SAVE = "Instagram";
+    String jsonInformation;
+
+
+    String[] links;
+    String[] fileNames;
+    String[] fileTypes;
+    String[] notificationTitles;
+    String[] saveLocations;
+    String[] userNames;
+    int current = 0;
+    int skip = 0;
+
+    Intent serviceIntent;
+    Elements elements;
+
 
     @Nullable
     @Override
@@ -77,8 +84,12 @@ public class Downloader extends Service {
                 Random r = new Random();
                 id = r.nextInt(9999999 - 65) + 65;
 
+                if (linkToDownload.contains("media123;")) {
+                    linkToDownload = linkToDownload.replaceAll("media123;", "");
+                }
+
                 if (linkToDownload.contains("notification")) {
-                    linkToDownload = linkToDownload.replace("notification", "");
+                    linkToDownload = linkToDownload.replaceAll("notification", "");
                     logNotification = 1;
                 }
 
@@ -139,7 +150,6 @@ public class Downloader extends Service {
                 output.close();
                 input.close();
 
-
                 if (!Helper.getSettings("Notification")) {
                     String downloadComplete;
 
@@ -187,7 +197,7 @@ public class Downloader extends Service {
                     downloadFailed = "Download Failed";
                 }
 
-                if (!Helper.getSettings("Notification")) {
+                if (!Helper.getSettings("Notification") || Helper.getSettings("PushFailed")) {
                     mBuilder.setContentText(downloadFailed)
                             .setTicker(downloadFailed)
                             .setContentTitle(notificationTitle)
@@ -210,21 +220,21 @@ public class Downloader extends Service {
 
                 try {
                     downloadComplete = Helper.getResourceString(mContext, R.string.Download_Completed);
-                } catch (Throwable t) {
+                } catch (Throwable t2) {
                     downloadComplete = "Download Complete";
                 }
 
                 Toast(downloadComplete);
 
                 MediaScannerConnection.scanFile(mContext,
-                        new String[]{SAVE}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            public void onScanCompleted(String path, Uri uri) {
-                                if (uri != null) {
-                                    int scan = 1;
+                            new String[]{SAVE}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                public void onScanCompleted(String path, Uri uri) {
+                                    if (uri != null) {
+                                        int scan = 1;
+                                    }
                                 }
-                            }
-                        });
+                            });
             } else {
                 String downloadFailed;
 
@@ -235,6 +245,24 @@ public class Downloader extends Service {
                 }
 
                 Toast(downloadFailed);
+            }
+
+            try {
+                if (current + 1 < links.length) {
+                    current = current + 1;
+                    linkToDownload = links[current];
+                    userName = userNames[current];
+                    notificationTitle = notificationTitles[current];
+                    fileName = fileNames[current];
+                    fileType = fileTypes[current];
+                    SAVE = saveLocations[current];
+
+                    downloadOrPass();
+                } else {
+                    stopSelf();
+                }
+            } catch (Throwable t) {
+                stopSelf();
             }
         }
     }
@@ -247,8 +275,9 @@ public class Downloader extends Service {
                         URL u;
 
                         if (linkToDownload.contains("media123")) {
-                            u = new URL("https://www.instagram.com/" + userName + "/media/");
+                            u = new URL("https://www.instagram.com/" + userName + "/?__a=1");
                         } else {
+                            linkToDownload = linkToDownload.replaceAll("notification", "");
                             u = new URL(linkToDownload);
                         }
 
@@ -257,19 +286,33 @@ public class Downloader extends Service {
 
                         String JSONInfo = Helper.convertStreamToString(u.openStream());
 
+                        jsonInformation = JSONInfo;
+
                         JSONObject jsonObject = new JSONObject(JSONInfo);
 
                         String descriptionType;
 
                         try {
-                            descriptionType = jsonObject.getJSONArray("items").getJSONObject(0).getString("type");
+                            descriptionType = jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("is_video");
                         } catch (Throwable t) {
                             setError("Video Fetch Type Failed: " +t);
-                            setError("Info: " +linkToDownload);
+                            if (linkToDownload.contains("media123")) {
+                                Helper.setPush("Private Account - Trying Image4");
+                                linkToDownload = serviceIntent.getStringExtra("URL").replaceAll("media123;", "");
+                                linkToDownload = "notification" + linkToDownload;
+
+                                downloadOrPass();
+                            }
                             descriptionType = "None";
                         }
 
-                        if (descriptionType.equals("video")) {
+                        System.out.println("Hi!");
+
+                        if (descriptionType.equals("false")) {
+                            linkToDownload = "https://www.instagram.com/p/" + jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("code") + "/media";
+                        }
+
+                        if (descriptionType.equals("true")) {
                             try {
                                 descriptionType = Helper.getResourceString(mContext, R.string.video);
                             } catch (Throwable t) {
@@ -277,7 +320,7 @@ public class Downloader extends Service {
                             }
                             String fileExtension = ".mp4";
                             try {
-                                fileName = userName + "_" + jsonObject.getJSONArray("items").getJSONObject(0).getString("id") + fileExtension;
+                                fileName = userName + "_" + jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("id") + fileExtension;
                             } catch (Throwable t) {
                                 setError("Video Fetch File Name Failed: " +t);
                             }
@@ -286,9 +329,9 @@ public class Downloader extends Service {
                             if (!Helper.getSetting("File").equals("Instagram")) {
                                 try {
                                     String itemToString = Helper.getDateEpoch(System.currentTimeMillis(), getApplicationContext());
-                                    String itemId = jsonObject.getJSONArray("items").getJSONObject(0).getString("id");
+                                    String itemId = jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("id");
 
-                                    itemId = itemId.replace(itemId.split("_")[1], "") + itemToString;
+                                    itemId = itemId + itemToString;
 
                                     fileName = userName + "_" + itemId + fileExtension;
                                 } catch (Throwable t) {
@@ -297,9 +340,23 @@ public class Downloader extends Service {
                             }
 
                             try {
-                                linkToDownload = jsonObject.getJSONArray("items").getJSONObject(0).getJSONObject("videos").getJSONObject("standard_resolution").getString("url");
+                                String videoUrl = "https://www.instagram.com/p/" + jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("code");
+
+                                u = new URL(videoUrl);
+
+                                URLConnection c2 = u.openConnection();
+                                c2.connect();
+
+                                String videoHTML = Helper.convertStreamToString(u.openStream());
+
+                                linkToDownload = videoHTML.split("og:video:secure_url\" content=\"")[1].split("\"")[0];
                             } catch (Throwable t) {
                                 setError("Video Fetch Link To Download Failed: " +t);
+                            }
+
+                            if (Helper.getSettings("URLFileName")) {
+                                int value = linkToDownload.replace("https://", "").replace("http://", "").split("/").length - 1;
+                                fileName = linkToDownload.replace("https://", "").replace("http://", "").split("/")[value].split("\\?")[0];
                             }
 
                             linkToDownload = linkToDownload.replace("750x750", "");
@@ -320,21 +377,28 @@ public class Downloader extends Service {
 
                             downloadOrPass();
                         } else if (linkToDownload.contains("media123")){
-                            linkToDownload = linkToDownload.replace("media123;", "");
+                            linkToDownload = linkToDownload.replaceAll("media123;", "");
                             linkToDownload = "notification" + linkToDownload;
 
+                            downloadOrPass();
+                        } else if (descriptionType.equals("false")) {
+                            linkToDownload = "https://www.instagram.com/p/" + jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("code") + "/media";
+
+                            linkToDownload = "notification" + linkToDownload;
                             downloadOrPass();
                         }
                     } catch (Exception e) {
                         if (linkToDownload.contains("media123")){
                             Helper.setPush("Private Account");
-                            linkToDownload = linkToDownload.replace("media123;", "");
+                            linkToDownload = serviceIntent.getStringExtra("URL").replaceAll("media123;", "");
                             linkToDownload = "notification" + linkToDownload;
 
                             downloadOrPass();
                         } else {
                             setError("Notification Fetch Failed: " + e);
                             Helper.setPush("Notification Fetch Failed: " +e);
+                            Helper.setPush("Notification Fetch Failed URL - " +linkToDownload);
+                            Helper.setPush("Notification JSON: " +jsonInformation);
                         }
                     }
             return responseString;
@@ -344,8 +408,10 @@ public class Downloader extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mContext = getApplicationContext();
+        serviceIntent = intent;
+        skip = 0;
         try {
-            if (intent.getStringExtra("URL").contains("/media/") || intent.getStringExtra("URL").contains("media123;") ) {
+            if (intent.getStringExtra("URL").contains("/?__a=1") || intent.getStringExtra("URL").contains("media123;") ) {
                 linkToDownload = intent.getStringExtra("URL");
                 userName = intent.getStringExtra("User");
 
@@ -356,7 +422,24 @@ public class Downloader extends Service {
                 } catch (Throwable t) {
                 }
 
-                new RequestTask().execute();
+                getPostUrl();
+            } else if (intent.getStringExtra("URL").contains(";")) {
+                current = 0;
+                links = intent.getStringExtra("URL").split(";");
+                userNames = intent.getStringExtra("User").split(";");
+                notificationTitles = intent.getStringExtra("Notification").split(";");
+                fileNames = intent.getStringExtra("Filename").split(";");
+                fileTypes = intent.getStringExtra("Filetype").split(";");
+                saveLocations =intent.getStringExtra("SAVE").split(";");
+
+                linkToDownload = links[0];
+                userName = userNames[0];
+                notificationTitle = notificationTitles[0];
+                fileName = fileNames[0];
+                fileType = fileTypes[0];
+                SAVE = saveLocations[0];
+
+                downloadOrPass();
             } else {
                 Intent downloadIntent = new Intent();
                 downloadIntent.setPackage("com.ihelp101.instagram");
@@ -371,19 +454,317 @@ public class Downloader extends Service {
                 stopSelf();
             }
         } catch (Throwable t) {
-            setError("Download Pass Failed: " +t);
+            setError("Download Pass Failed: " + t);
         }
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    void checkForMulti(final String postUrl) {
+        elements = null;
+        try {
+            Thread checkMedia = new Thread() {
+                public void run() {
+                    try {
+                        URL u = new URL(postUrl);
+                        URLConnection c = u.openConnection();
+                        c.connect();
+
+                        InputStream inputStream = u.openStream();
+
+                        elements = Jsoup.parse(Helper.convertStreamToString(inputStream)).select("body").first().children();
+                    } catch (Exception e) {
+                        Helper.setError("Multi Check Failed: " + e);
+                    }
+                }
+            };
+            checkMedia.start();
+            checkMedia.join();
+
+            if (elements.toString().contains("edge_sidecar_to_children")) {
+                downloadMulti();
+            } else {
+                new RequestTask().execute();
+            }
+
+        } catch (Throwable t) {
+            Helper.setError("Check For Multi Failed - " +t);
+            Helper.setPush("Private Account - Trying Image5");
+            Helper.setError("Private Account - Trying Image");
+            linkToDownload = serviceIntent.getStringExtra("URL").replaceAll("media123;", "");
+            linkToDownload = "notification" + linkToDownload;
+
+            downloadOrPass();
+        }
+    }
+
+    void downloadMulti() {
+        try {
+            String JSONCheck = Jsoup.parse(elements.toString()).select("script[type=text/javascript]:not([src~=[a-zA-Z0-9./\\s]+)").first().html();
+            JSONCheck = JSONCheck.replace("window._sharedData = ", "");
+
+            JSONObject myjson = new JSONObject(JSONCheck).getJSONObject("entry_data");
+            myjson = myjson.getJSONArray("PostPage").getJSONObject(0).getJSONObject("graphql").getJSONObject("shortcode_media");
+            JSONArray jsonArray = myjson.getJSONObject("edge_sidecar_to_children").getJSONArray("edges");
+
+            String Authors = "";
+            String URLs = "";
+            String IDs = "";
+            String fileNames = "";
+            String fileLocations = "";
+            String fileTypes = "";
+            String notifTitles = "";
+            String fullName;
+
+            try {
+                fullName = myjson.getJSONObject("owner").getString("full_name");
+
+                if (fullName.isEmpty()) {
+                    fullName = myjson.getJSONObject("owner").getString("username");
+                }
+            } catch (Throwable t) {
+                setError("Info: " +t);
+                fullName = myjson.getJSONObject("owner").getString("username");
+            }
+
+            for (int i=0;i < jsonArray.length();i++) {
+                if (!Authors.equals("")) {
+                    Authors = Authors + ";" + myjson.getJSONObject("owner").getString("username");
+                } else {
+                    Authors = myjson.getJSONObject("owner").getString("username");
+                }
+
+                if (!URLs.equals("")) {
+                    try {
+                        URLs = URLs + ";" + jsonArray.getJSONObject(i).getJSONObject("node").getString("video_url");
+
+                        if (!fileLocations.equals("")) {
+                            fileLocations = fileLocations + ";" + Helper.getSaveLocation("Video");
+                        } else {
+                            fileLocations = Helper.getSaveLocation("Video");
+                        }
+
+                        if (!notifTitles.equals("")) {
+                            notifTitles = notifTitles + ";" + fullName + "'s Video";
+                        } else {
+                            notifTitles = fullName + "'s Video";
+                        }
+
+                        if (!fileTypes.equals("")) {
+                            fileTypes = fileTypes + ";" +"Video";
+                        } else {
+                            fileTypes = "Video";
+                        }
+                    } catch (Throwable t) {
+                        URLs = URLs + ";" + jsonArray.getJSONObject(i).getJSONObject("node").getString("display_url");
+
+                        if (!fileLocations.equals("")) {
+                            fileLocations = fileLocations + ";" + Helper.getSaveLocation("Image");
+                        } else {
+                            fileLocations = Helper.getSaveLocation("Image");
+                        }
+
+                        if (!notifTitles.equals("")) {
+                            notifTitles = notifTitles + ";" + fullName + "'s Photo";
+                        } else {
+                            notifTitles = fullName + "'s Photo";
+                        }
+
+                        if (!fileTypes.equals("")) {
+                            fileTypes = fileTypes + ";" +"Image";
+                        } else {
+                            fileTypes = "Image";
+                        }
+                    }
+                } else {
+                    try {
+                        URLs = jsonArray.getJSONObject(i).getJSONObject("node").getString("video_url");
+
+                        if (!fileLocations.equals("")) {
+                            fileLocations = fileLocations + ";" + Helper.getSaveLocation("Video");
+                        } else {
+                            fileLocations = Helper.getSaveLocation("Video");
+                        }
+
+                        if (!notifTitles.equals("")) {
+                            notifTitles = notifTitles + ";" + fullName + "'s Video";
+                        } else {
+                            notifTitles = fullName + "'s Video";
+                        }
+
+                        if (!fileTypes.equals("")) {
+                            fileTypes = fileTypes + ";" +"Video";
+                        } else {
+                            fileTypes = "Video";
+                        }
+                    } catch (Throwable t) {
+                        URLs = jsonArray.getJSONObject(i).getJSONObject("node").getString("display_url");
+
+                        if (!fileLocations.equals("")) {
+                            fileLocations = fileLocations + ";" + Helper.getSaveLocation("Image");
+                        } else {
+                            fileLocations = Helper.getSaveLocation("Image");
+                        }
+
+                        if (!notifTitles.equals("")) {
+                            notifTitles = notifTitles + ";" + fullName + "'s Photo";
+                        } else {
+                            notifTitles = fullName + "'s Photo";
+                        }
+
+                        if (!fileTypes.equals("")) {
+                            fileTypes = fileTypes + ";" +"Image";
+                        } else {
+                            fileTypes = "Image";
+                        }
+                    }
+                }
+
+                if (!IDs.equals("")) {
+                    IDs = IDs + ";" + jsonArray.getJSONObject(i).getJSONObject("node").getString("id");
+                } else {
+                    IDs = jsonArray.getJSONObject(i).getJSONObject("node").getString("id");
+                }
+
+                if (!fileNames.equals("")) {
+                    String fileFormat = "";
+                    String mediaId = jsonArray.getJSONObject(i).getJSONObject("node").getString("id");
+                    String userId = myjson.getJSONObject("owner").getString("id");
+                    String date = Helper.getDate(System.currentTimeMillis() / 1000, getApplicationContext());
+                    String filenameExtension;
+
+                    try {
+                        if (!jsonArray.getJSONObject(i).getJSONObject("node").getString("video_url").equals("")) {
+                            filenameExtension = "mp4";
+                        } else {
+                            filenameExtension = "jpg";
+                        }
+                    } catch (Throwable t) {
+                        filenameExtension = "jpg";
+                    }
+
+                    if (!Helper.getSetting("FileFormat").equals("Instagram") && !Helper.getSetting("File").equals("Instagram")) {
+                        fileFormat = Helper.getSetting("FileFormat");
+                        fileFormat = fileFormat.replace("Username", userName);
+                        fileFormat = fileFormat.replace("MediaID", mediaId);
+                        fileFormat = fileFormat.replace("Date", date);
+                        fileFormat = fileFormat + "." + filenameExtension;
+                    } else if (!Helper.getSetting("FileFormat").equals("Instagram")) {
+                        fileFormat = Helper.getSetting("FileFormat");
+                        fileFormat = fileFormat.replace("Username", userName);
+                        fileFormat = fileFormat.replace("MediaID", mediaId);
+                        fileFormat = fileFormat.replace("UserID", userId);
+                        fileFormat = fileFormat + "." + filenameExtension;
+                    } else {
+                        fileFormat = userName + "_ " + mediaId + "_ " + userId + "." + filenameExtension;
+                    }
+
+                    if (Helper.getSettings("URLFileName")) {
+                        int value = linkToDownload.replace("https://", "").replace("http://", "").split("/").length - 1;
+                        fileFormat = linkToDownload.replace("https://", "").replace("http://", "").split("/")[value].split("\\?")[0];
+                    }
+
+                    fileNames = fileNames + ";" + fileFormat;
+                } else {
+                    String fileFormat = "";
+                    String mediaId = jsonArray.getJSONObject(i).getJSONObject("node").getString("id");
+                    String userId = myjson.getJSONObject("owner").getString("id");
+                    String date = Helper.getDate(System.currentTimeMillis() / 1000, getApplicationContext());
+                    String filenameExtension;
+
+                    try {
+                        if (!jsonArray.getJSONObject(i).getJSONObject("node").getString("video_url").equals("")) {
+                            filenameExtension = "mp4";
+                        } else {
+                            filenameExtension = "jpg";
+                        }
+                    } catch (Throwable t) {
+                        filenameExtension = "jpg";
+                    }
+
+                    if (!Helper.getSetting("FileFormat").equals("Instagram") && !Helper.getSetting("File").equals("Instagram")) {
+                        fileFormat = Helper.getSetting("FileFormat");
+                        fileFormat = fileFormat.replace("Username", userName);
+                        fileFormat = fileFormat.replace("MediaID", mediaId);
+                        fileFormat = fileFormat.replace("Date", date);
+                        fileFormat = fileFormat + "." + filenameExtension;
+                    } else if (!Helper.getSetting("FileFormat").equals("Instagram")) {
+                        fileFormat = Helper.getSetting("FileFormat");
+                        fileFormat = fileFormat.replace("Username", userName);
+                        fileFormat = fileFormat.replace("MediaID", mediaId);
+                        fileFormat = fileFormat.replace("UserID", userId);
+                        fileFormat = fileFormat + "." + filenameExtension;
+                    } else {
+                        fileFormat = userName + "_ " + mediaId + "_ " + userId + "." + filenameExtension;
+                    }
+
+                    if (Helper.getSettings("URLFileName")) {
+                        int value = linkToDownload.replace("https://", "").replace("http://", "").split("/").length - 1;
+                        fileFormat = linkToDownload.replace("https://", "").replace("http://", "").split("/")[value].split("\\?")[0];
+                    }
+
+                    fileNames = fileFormat;
+                }
+            }
+
+            Intent downloadIntent = new Intent();
+            downloadIntent.setPackage("com.ihelp101.instagram");
+            downloadIntent.setAction("com.ihelp101.instagram.PASS");
+            downloadIntent.putExtra("URL", URLs);
+            downloadIntent.putExtra("SAVE", fileLocations);
+            downloadIntent.putExtra("Notification", notifTitles);
+            downloadIntent.putExtra("Filename", fileNames);
+            downloadIntent.putExtra("Filetype", fileTypes);
+            downloadIntent.putExtra("User", Authors);
+            mContext.startService(downloadIntent);
+
+            stopSelf();
+        } catch (Throwable t) {
+            Helper.setError("Get Multi Post Failed - " +t);
+            Helper.setPush("Private Account - Trying Image1");
+            linkToDownload = serviceIntent.getStringExtra("URL").replaceAll("media123;", "");
+            linkToDownload = "notification" + linkToDownload;
+
+            skip = 1;
+            downloadOrPass();
+        }
     }
 
     void downloadOrPass() {
         SAVE = Helper.getSaveLocation(fileType);
 
         if (!SAVE.toLowerCase().contains("com.android.externalstorage.documents")) {
+            if (Helper.getSettings("URLFileName")) {
+                int value = linkToDownload.replace("https://", "").replace("http://", "").split("/").length - 1;
+                fileName = linkToDownload.replace("https://", "").replace("http://", "").split("/")[value].split("\\?")[0];
+            }
+
             SAVE = Helper.getSaveLocation(fileType);
             SAVE = Helper.checkSave(SAVE, userName, fileName);
 
             new Download().execute();
+        } else if (serviceIntent.getStringExtra("URL").contains(";") && skip == 0) {
+            linkToDownload = serviceIntent.getStringExtra("URL");
+            userName = serviceIntent.getStringExtra("User");
+            notificationTitle = serviceIntent.getStringExtra("Notification");
+            fileName = serviceIntent.getStringExtra("Filename");
+            fileType = serviceIntent.getStringExtra("Filetype");
+            SAVE = serviceIntent.getStringExtra("SAVE");
+
+            if (Helper.getSettings("URLFileName")) {
+                int value = linkToDownload.replace("https://", "").replace("http://", "").split("/").length - 1;
+                fileName = linkToDownload.replace("https://", "").replace("http://", "").split("/")[value].split("\\?")[0];
+            }
+
+            Intent downloadIntent = new Intent();
+            downloadIntent.setPackage("com.ihelp101.instagram");
+            downloadIntent.setAction("com.ihelp101.instagram.DOWNLOAD");
+            downloadIntent.putExtra("URL", linkToDownload);
+            downloadIntent.putExtra("SAVE", SAVE);
+            downloadIntent.putExtra("Notification", notificationTitle);
+            downloadIntent.putExtra("Filename", fileName);
+            downloadIntent.putExtra("Filetype", fileType);
+            downloadIntent.putExtra("User", userName);
+            mContext.startService(downloadIntent);
         } else {
             Intent downloadIntent = new Intent();
             downloadIntent.setPackage("com.ihelp101.instagram");
@@ -395,6 +776,44 @@ public class Downloader extends Service {
             downloadIntent.putExtra("Filetype", fileType);
             downloadIntent.putExtra("User", userName);
             mContext.startService(downloadIntent);
+        }
+    }
+
+    void getPostUrl() {
+        postCode = "";
+        try {
+            Thread checkMedia = new Thread() {
+                public void run() {
+                    try {
+                        URL u = new URL("https://www.instagram.com/" + userName + "/?__a=1");
+                        URLConnection c = u.openConnection();
+                        c.connect();
+
+                        String JSONInfo = Helper.convertStreamToString(u.openStream());
+
+                        JSONObject jsonObject = new JSONObject(JSONInfo);
+
+                        postCode = "https://www.instagram.com/p/" + jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("code");
+                    } catch (Exception e) {
+                        Helper.setError("Getting Post URL Failed - " +e);
+                        Helper.setPush("Private Account - Trying Image2");
+                        linkToDownload = serviceIntent.getStringExtra("URL").replaceAll("media123;", "");
+                        linkToDownload = "notification" + linkToDownload;
+                    }
+                }
+            };
+            checkMedia.start();
+            checkMedia.join();
+
+            checkForMulti(postCode);
+        } catch (Throwable t) {
+            Helper.setError("Get Post URL Failed - " +t);
+            Helper.setPush("Private Account - Trying Image3");
+            linkToDownload = serviceIntent.getStringExtra("URL").replaceAll("media123;", "");
+            linkToDownload = "notification" + linkToDownload;
+
+            skip = 1;
+            downloadOrPass();
         }
     }
 
