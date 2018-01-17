@@ -76,6 +76,7 @@ public class Thanks extends AppCompatActivity {
         mAdapter.addItem("Russian - Александр Спутай");
         mAdapter.addItem("Slovak - Árva");
         mAdapter.addItem("Spanish - Daniel/Lucas/Marcos");
+        mAdapter.addItem("Thai - Vattikorn Donsakul");
         mAdapter.addItem("Turkish - Picknick/Sedat");
         listView.setAdapter(mAdapter);
     }

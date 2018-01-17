@@ -65,6 +65,7 @@
     <string name="Sound">Habilitar sonido Auto-Play (Videos)</string>
     <string name="Slide">Disable Slide Navigation</string>
     <string name="Story">Deshabilitar temporizador en Historias</string>
+    <string name="StoryHide">Hide Stories</string>
     <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Special">Gracias Especiales</string>
     <string name="Suggestion">Ocultar sugerencias</string>

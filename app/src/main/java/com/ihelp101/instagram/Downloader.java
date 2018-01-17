@@ -292,6 +292,8 @@ public class Downloader extends Service {
 
                         String descriptionType;
 
+                        System.out.println("JSON: " +jsonObject);
+
                         try {
                             descriptionType = jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("is_video");
                         } catch (Throwable t) {
@@ -310,6 +312,54 @@ public class Downloader extends Service {
 
                         if (descriptionType.equals("false")) {
                             linkToDownload = "https://www.instagram.com/p/" + jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("code") + "/media";
+
+                            String fileExtension = "jpg";
+                            String mediaId = jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("id");
+                            String userId = jsonObject.getJSONObject("user").getString("id");
+                            String date = jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("date");
+                            date = Helper.getDate(Long.parseLong(date), mContext);
+
+                            if (!Helper.getSetting("FileFormat").equals("Instagram") && !Helper.getSetting("File").equals("Instagram")) {
+                                fileName = Helper.getSetting("FileFormat");
+                                fileName = fileName.replace("Username", userName);
+                                fileName = fileName.replace("MediaID", mediaId);
+                                fileName = fileName.replace("UserID", userId);
+                                fileName = fileName.replace("Date", date);
+                                fileName = fileName + "." + fileExtension;
+                            } else if (!Helper.getSetting("FileFormat").equals("Instagram")) {
+                                fileName = Helper.getSetting("FileFormat");
+                                fileName = fileName.replace("Username", userName);
+                                fileName = fileName.replace("MediaID", mediaId);
+                                fileName = fileName.replace("UserID", userId);
+                                fileName = fileName.replace("Date", date);
+                                fileName = fileName + "." + fileExtension;
+                            } else if (!Helper.getSetting("File").equals("Instagram")) {
+                                try {
+                                    String itemToString = Helper.getDateEpoch(System.currentTimeMillis(), getApplicationContext());
+                                    String itemId = jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("id");
+
+                                    itemId = itemId + itemToString;
+
+                                    fileName = userName + "_" + itemId + fileExtension;
+                                } catch (Throwable t) {
+                                    setError("Auto Epoch Failed - " +t);
+                                }
+                            } else {
+                                fileName = userName + "_ " + mediaId + "_ " + date + "." + fileExtension;
+                            }
+
+                            if (Helper.getSettings("URLFileName")) {
+                                int value = linkToDownload.replace("https://", "").replace("http://", "").split("/").length - 1;
+                                fileName = linkToDownload.replace("https://", "").replace("http://", "").split("/")[value].split("\\?")[0];
+                            }
+
+                            linkToDownload = linkToDownload.replace("750x750", "");
+                            linkToDownload = linkToDownload.replace("640x640", "");
+                            linkToDownload = linkToDownload.replace("480x480", "");
+                            linkToDownload = linkToDownload + "/?size=l";
+                            linkToDownload = linkToDownload.replace("320x320", "");
+                            linkToDownload = "notification" + linkToDownload;
+
                         }
 
                         if (descriptionType.equals("true")) {
@@ -326,7 +376,26 @@ public class Downloader extends Service {
                             }
                             fileType = "Video";
 
-                            if (!Helper.getSetting("File").equals("Instagram")) {
+                            String mediaId = jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("id");
+                            String userId = jsonObject.getJSONObject("user").getString("id");
+                            String date = jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("date");
+                            date = Helper.getDate(Long.parseLong(date), mContext);
+
+                            if (!Helper.getSetting("FileFormat").equals("Instagram") && !Helper.getSetting("File").equals("Instagram")) {
+                                fileName = Helper.getSetting("FileFormat");fileName = Helper.getSetting("FileFormat");
+                                fileName = fileName.replace("Username", userName);
+                                fileName = fileName.replace("MediaID", mediaId);
+                                fileName = fileName.replace("UserID", userId);
+                                fileName = fileName.replace("Date", date);
+                                fileName = fileName + "." + fileExtension;
+                            } else if (!Helper.getSetting("FileFormat").equals("Instagram")) {
+                                fileName = Helper.getSetting("fileName");fileName = Helper.getSetting("FileFormat");
+                                fileName = fileName.replace("Username", userName);
+                                fileName = fileName.replace("MediaID", mediaId);
+                                fileName = fileName.replace("UserID", userId);
+                                fileName = fileName.replace("Date", date);
+                                fileName = fileName + "." + fileExtension;
+                            } else if (!Helper.getSetting("File").equals("Instagram")) {
                                 try {
                                     String itemToString = Helper.getDateEpoch(System.currentTimeMillis(), getApplicationContext());
                                     String itemId = jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("id");
@@ -337,6 +406,8 @@ public class Downloader extends Service {
                                 } catch (Throwable t) {
                                     setError("Auto Epoch Failed - " +t);
                                 }
+                            } else {
+                                fileName = userName + "_ " + mediaId + "_ " + date + "." + fileExtension;
                             }
 
                             try {
@@ -382,9 +453,7 @@ public class Downloader extends Service {
 
                             downloadOrPass();
                         } else if (descriptionType.equals("false")) {
-                            linkToDownload = "https://www.instagram.com/p/" + jsonObject.getJSONObject("user").getJSONObject("media").getJSONArray("nodes").getJSONObject(0).getString("code") + "/media";
-
-                            linkToDownload = "notification" + linkToDownload;
+                            SAVE = Helper.getSaveLocation(fileType);
                             downloadOrPass();
                         }
                     } catch (Exception e) {

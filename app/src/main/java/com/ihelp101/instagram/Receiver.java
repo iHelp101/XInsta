@@ -53,10 +53,12 @@ public class Receiver extends BroadcastReceiver {
                 }
                 fileName = userName + "_" + jsonObject.getString("ig").replace("media?id=", "") + fileExtension;
 
+                String itemId;
+
                 if (!Helper.getSetting("File").equals("Instagram")) {
                     try {
                         String itemToString = Helper.getDateEpoch(System.currentTimeMillis(), mContext);
-                        String itemId = jsonObject.getString("ig").replace("media?id=", "");
+                        itemId = jsonObject.getString("ig").replace("media?id=", "");
 
                         itemId = itemId.replace(itemId.split("_")[1], "") + itemToString;
 
@@ -64,6 +66,8 @@ public class Receiver extends BroadcastReceiver {
                     } catch (Throwable t) {
                         Helper.setError("Auto Epoch Failed - " + t);
                     }
+                } else {
+
                 }
 
                 fileType = "Image";

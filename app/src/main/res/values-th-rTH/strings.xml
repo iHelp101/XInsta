@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">ตกลง</string>
+    <string name="Warning">คุณสามารถเข้าถึงแอปนี้ได้จาก Xposed Installer เมื่อแอปนี้ถูกซ่อน</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">วัน</string>
+    <string name="Hour">ชั่วโมง</string>
+    <string name="Minute">นาที</string>
+    <string name="Month">เดือน</string>
+    <string name="Reset">รีเซ็ต</string>
+    <string name="Second">Second</string>
+    <string name="Space">---ที่ว่าง---</string>
+    <string name="Year">ปี</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">สร้างโฟล์เดอร์ใหม่</string>
+    <string name="nnf_create_folder_error">การสร้างโฟล์เดอร์ล้มเหลว</string>
+    <string name="nnf_name">ชื่อ</string>
+    <string name="nnf_select_something_first">โปรดเลือกสิ่งต่างๆก่อน</string>
+    <string name="nnf_permission_external_write_denied">สิทธิการเข้าถึงไฟล์ระบบถูกปฎิเสธ</string>
+
+    <!-- ListView -->
+    <string name="Image">ตำแหน่งที่จะให้จัดเก็บรูปภาพ</string>
+    <string name="Profile">ตำแหน่งที่จะให้จัดเก็บไอคอนโพรไฟล์</string>
+    <string name="Recommended">แนะนำ</string>
+    <string name="Save">ตำแหน่งที่จะให้จัดเก็บไฟล์</string>
+    <string name="Update">การปรับปรุงฮูกส์</string>
+    <string name="Video">ตำแหน่งที่จะให้จัดเก็บคลิปวีดีโอ</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">ตรวจสอบการปรับปรุงอัตโนมัติ</string>
+    <string name="Change">เปลี่ยนตัวแยก</string>
+    <string name="ChangeApp">เปลี่ยนไอคอนของ XInsta</string>
+    <string name="ChangeOrder">จัดเรียงตำแหน่งตัวเลือก</string>
+    <string name="Check">ตรวจสอบการปรับปรุง</string>
+    <string name="Comment">คัดลอกความคิดเห็นเมื่อแตะ</string>
+    <string name="Contact">ติดต่อผู้พัฒนา</string>
+    <string name="Custom">เปลี่ยนภาษา</string>
+    <string name="การกำหนดค่าเอง">Customization</string>
+    <string name="Date">รูปแบบวันที่</string>
+    <string name="Default">ฺฮูกส์ต้นฉบับเริ่มต้น</string>
+    <string name="Error_log">ส่งรายงานข้อผิดพลาด</string>
+    <string name="File">File - เปลี่ยนรูปแบบวันที่</string>
+    <string name="FileFormat">ไฟล์ - เปลี่ยนรูปแบบไฟล์</string>
+    <string name="Folder">โฟลเดอร์ - เพิ่มชื่อผู้ใช้</string>
+    <string name="Follow">สีแสดงผู้ติดตาม - สี</string>
+    <string name="Hide">ซ่อนแอป</string>
+    <string name="Like">ปิดการใช้งานปุ่มถูกใจ</string>
+    <string name="Logging">ปิดการบันทึก Xposed</string>
+    <string name="Manual">เปลี่ยนฮูกส์ด้วยตนเอง</string>
+    <string name="Misc">อื่นๆ</string>
+    <string name="NotificationHide">ปิดการแจ้งเตือน</string>
+    <string name="Pass">บายพาสการดาวน์โหลดมายัง XInsta</string>
+    <string name="Pin">ปักหมุด/บันทึก - ดาวน์โหลด</string>
+    <string name="Push">การแจ้งเตือนแบบพุซ - ดาวน์โหลด</string>
+    <string name="Search">ไม่แสดงประวัติการค้นหา</string>
+    <string name="Show">แสดงแอป</string>
+    <string name="Slide">ปิดการนำทางด้วยการเลื่อน</string>
+    <string name="Sound">เปิดการเล่นเสียงอัตโนมัติ (วีดีโอ)</string>
+    <string name="Special">ขอขอบคุณ</string>
+    <string name="Story">ปิดตัวบอกเวลาเรื่องราว</string>
+    <string name="Suggestion">ซ่อนการแนะนำ</string>
+    <string name="Translations">แปลภาษาแอป XInsta</string>
+    <string name="VideoLikes">นับยอดถูกใจวีดีโอ</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">การดาวน์โหลดสำเร็จ</string>
+    <string name="Download_Failed">การดาวน์โหลดล้มเหลว</string>
+    <string name="DownloadDots">กำลังดาวน์โหลด&#8230;</string>
+    <string name="Please">โปรดปรับปรุงฮูกส์ผ่านโมดูล</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">รูปภาพ</string>
+    <string name="video">คลิปวีดีโอ</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">ดาวน์โหลด</string>
+    <string name="the_not_so_big_but_big_button2">ล๊อคความเป็นส่วนตัว</string>
+    <string name="the_not_so_big_but_big_button3">ปลดล๊อคฟีด</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">คัดลอกความคิดเห็นแล้ว</string>
+    <string name="Downloading">กำลังดาวน์โหลด %1$s</string>
+    <string name="Hooks_Latest">คุณมีฮูกส์ล่าสุดแล้ว.</string>
+    <string name="Hooks_Updated">ปรับปรุงฮูส์แล้ว\nโปรดปิดแอป Instagram ทิ้ง</string>
+    <string name="I_LocationChanged">ตำแหน่งเก็บภาพถูกตั้งค่าใหม่แล้ว</string>
+    <string name="Incorrect_Location">ไม่สามารถบันทีึกได้\nโปรดเลือกตำแหน่งอืี่น.</string>
+    <string name="P_LocationChanged">ตำแหน่งเก็บไอคอนโพรไฟล์ถูกตั้งค่าใหม่แล้ว</string>
+    <string name="Picture_Not">โปรดคลิกรูปภาพแล้วลองอีกครั้ง</string>
+    <string name="V_LocationChanged">ตำแหน่งเก็บวีดีโอถูกตั้งค่าใหม่แล้ว</string>
+</resources>

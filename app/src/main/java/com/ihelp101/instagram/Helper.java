@@ -276,7 +276,7 @@ public class Helper {
         }
     }
 
-    static String getResourceString (Context context, int id) throws Throwable {
+    static String getResourceString (Context context, int id) {
         try {
             if (!Helper.getSetting("Language").equals("Instagram")) {
                 String originalString = Helper.getSetting("Language");
@@ -291,7 +291,7 @@ public class Helper {
                 return getString(context, id);
             }
         } catch (Throwable t) {
-            return getString(context, id);
+            return context.getString(id);
         }
     }
 

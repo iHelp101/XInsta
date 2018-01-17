@@ -51,6 +51,7 @@
     <string name="Folder">Folder - Add Username</string>
     <string name="Follow">Follow Indicator - Color</string>
     <string name="Hide">Hide App</string>
+    <string name="HidePost">Hide Paid Partnership Post</string>
     <string name="Like">Disable Like Button</string>
     <string name="Liked">Disable Liked Post</string>
     <string name="Logging">Disable Xposed Logging</string>
@@ -61,15 +62,53 @@
     <string name="Pin">Pin/Save - Download</string>
     <string name="Push">Push Notification - Download</string>
     <string name="Search">Disable Search History</string>
+    <string name="SaveHooks">Save Hooks To File</string>
     <string name="Show">Show App</string>
     <string name="Slide">Disable Slide Navigation</string>
     <string name="Sound">Enable Sound Auto-Play (Videos)</string>
     <string name="Special">Special Thanks</string>
     <string name="Story">Disable Stories Timer</string>
+    <string name="StoryHide">Hide Stories</string>
     <string name="StoryPrivacy">Stories Privacy</string>
     <string name="Suggestion">Hide Suggestions</string>
     <string name="Translations">Translate XInsta</string>
     <string name="VideoLikes">Video Likes Count</string>
+
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">Checks for XInsta updates when Instagram is opened.</string>
+    <string name="Change_Summary">Change File Separator</string>
+    <string name="ChangeApp_Summary">Change XInsta App Icon To Newer Icon</string>
+    <string name="ChangeOrder_Summary">Change Instagram\'s Options Order When Clicking Three Dot Icon</string>
+    <string name="Check_Summary">Manually Check For XInsta Update</string>
+    <string name="Comment_Summary">Tap Comments To Copy</string>
+    <string name="Custom_Summary">Use A Language Not Supported By Android</string>
+    <string name="Date_Summary">Set Date Format For Exact Posted Time Of Post (Instead of X Minutes Ago)</string>
+    <string name="Default_Summary">Choose Default Hook Source Used By XInsta</string>
+    <string name="File_Summary">Choose Date Format For Files (Month/Day/Year)</string>
+    <string name="FileFormat_Summary">Change File Parameters Format (Username_Date_MediaID)</string>
+    <string name="FileURL_Summary">Use Filename From Instagram Post URL as Filename</string>
+    <string name="FileUsername_Summary">Use Users Full Instagram Name (National Geographic vs Natgeo)</string>
+    <string name="Folder_Summary">Save Into Folder With Username Of Poster</string>
+    <string name="Follow_Summary">Change The Follow Indicator Color</string>
+    <string name="Hide_Summary">Hide XInsta From Your Drawer</string>
+    <string name="HidePost_Summary">Hide Post That Have Paid Sponsorships</string>
+    <string name="Like_Summary">Disable Double Tap To Like For Post</string>
+    <string name="Liked_Summary">Hides Liked Post Section In Instagram</string>
+    <string name="Logging_Summary">Disable Xposed Logging</string>
+    <string name="Manual_Summary">Manually Change Hooks</string>
+    <string name="NotificationHide_Summary">Hide Download Notification For Completed Download</string>
+    <string name="Pin_Summary">Use The Pin/Save Button To Download Post</string>
+    <string name="Push_Summary">Automatically Download Push Notifications</string>
+    <string name="Search_Summary">Disable Explore Tab Search History</string>
+    <string name="SaveHooks_Summary">XInsta Will Automatically Load Hooks Without Fetching Them.</string>
+    <string name="Show_Summary">Show XInsta In Your Drawer</string>
+    <string name="Slide_Summary">Disable Swiping Left to Right or Right To Left To Change Views In Instagram</string>
+    <string name="Story_Summary">Prevent Stories From Closing Automatically</string>
+    <string name="StoryHide_Summary">Hide Stories Tray On Main and Explore Tab</string>
+    <string name="StoryPrivacy_Summary">Prevent Users From Seeing You Viewing Their Story</string>
+    <string name="VideoLikes_Summary">Adds Video Likes To Post</string>
+
+    <string name="the_not_so_big_but_big_button2_summary">Allows You To Open A Post In A Private Window</string>
 
     <!-- Module -->
     <string name="Download_Completed">Download Completed</string>

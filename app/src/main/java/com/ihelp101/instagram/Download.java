@@ -433,6 +433,7 @@ public class Download extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        //This Class Is Passed To Download To SD Cards
         Helper.setError("SD Request Received");
 
         if (intent.getStringExtra("URL").contains(";")) {

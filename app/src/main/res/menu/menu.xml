@@ -38,8 +38,8 @@
                     app:actionLayout="@layout/menu_switch"/>
                 <item android:id="@+id/follow"
                     android:title="@string/Follow"/>
-                <item android:id="@+id/suggestion"
-                    android:title="@string/Suggestion"
+                <item android:id="@+id/stories"
+                    android:title="@string/StoryHide"
                     app:actionLayout="@layout/menu_switch"/>
                 <item android:title="@string/the_not_so_big_but_big_button2"
                     app:actionLayout="@layout/menu_switch"/>

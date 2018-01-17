@@ -102,6 +102,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     String searchHistory;
     String slide;
     String story;
+    String storyHide;
     String storyPrivacy;
     String suggestion;
     String translate;
@@ -907,7 +908,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         }
 
         if (clicked.equals(fileDate)) {
-            System.out.println("Clack");
             fileDate();
         }
 
@@ -1142,640 +1142,659 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     void setupNav() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(null);
-        navigationView.setNavigationItemSelectedListener(this);
+        try {
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(null);
+            navigationView.setNavigationItemSelectedListener(this);
 
-        for (int menuSize = 0; menuSize < navigationView.getMenu().size();menuSize++) {
-            for (int subMenuSize = 0; subMenuSize < navigationView.getMenu().getItem(menuSize).getSubMenu().size(); subMenuSize++) {
+            for (int menuSize = 0; menuSize < navigationView.getMenu().size(); menuSize++) {
+                for (int subMenuSize = 0; subMenuSize < navigationView.getMenu().getItem(menuSize).getSubMenu().size(); subMenuSize++) {
 
-                final MenuItem menuItem = navigationView.getMenu().getItem(menuSize).getSubMenu().getItem(subMenuSize);
-                final String menuTitle = navigationView.getMenu().getItem(menuSize).getSubMenu().getItem(subMenuSize).getTitle().toString();
+                    final MenuItem menuItem = navigationView.getMenu().getItem(menuSize).getSubMenu().getItem(subMenuSize);
+                    final String menuTitle = navigationView.getMenu().getItem(menuSize).getSubMenu().getItem(subMenuSize).getTitle().toString();
 
-                final SwitchCompat item = (SwitchCompat) menuItem.getActionView();
+                    final SwitchCompat item = (SwitchCompat) menuItem.getActionView();
 
-                if (item != null) {
-                    item.setOnCheckedChangeListener(null);
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Automatically))) {
-                    try {
-                        automaticUpdate = Helper.getResourceString(getApplicationContext(), R.string.Automatically);
-                    } catch (Throwable t) {
-                        automaticUpdate = getResources().getString(R.string.Automatically);
+                    if (item != null) {
+                        item.setOnCheckedChangeListener(null);
                     }
 
-                    menuItem.setTitle(automaticUpdate);
-                    if (Helper.getSettings("Update")) {
-                        item.setChecked(true);
-                    }
-                }
+                    if (menuTitle.equals(getResources().getString(R.string.Automatically))) {
+                        try {
+                            automaticUpdate = Helper.getResourceString(getApplicationContext(), R.string.Automatically);
+                        } catch (Throwable t) {
+                            automaticUpdate = getResources().getString(R.string.Automatically);
+                        }
 
-                if (menuTitle.equals(getResources().getString(R.string.ChangeApp))) {
-                    try {
-                        changeApp= Helper.getResourceString(getApplicationContext(), R.string.ChangeApp);
-                    } catch (Throwable t) {
-                        changeApp = getResources().getString(R.string.ChangeApp);
-                    }
-
-                    menuItem.setTitle(changeApp);
-
-                    if (Helper.getSettings("AppIcon")) {
-                        item.setChecked(true);
-                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
-                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", true);
-                    } else {
-                        item.setChecked(false);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.ChangeOrder))) {
-                    try {
-                        changeOrder = Helper.getResourceString(getApplicationContext(), R.string.ChangeOrder);
-                    } catch (Throwable t) {
-                        changeOrder = getResources().getString(R.string.ChangeOrder);
+                        menuItem.setTitle(automaticUpdate);
+                        if (Helper.getSettings("Update")) {
+                            item.setChecked(true);
+                        }
                     }
 
-                    menuItem.setTitle(changeOrder);
-                    if (Helper.getSettings("Order")) {
-                        item.setChecked(true);
-                    }
-                }
+                    if (menuTitle.equals(getResources().getString(R.string.ChangeApp))) {
+                        try {
+                            changeApp = Helper.getResourceString(getApplicationContext(), R.string.ChangeApp);
+                        } catch (Throwable t) {
+                            changeApp = getResources().getString(R.string.ChangeApp);
+                        }
 
-                if (menuTitle.equals(getResources().getString(R.string.Check))) {
-                    try {
-                        changeVersion = Helper.getResourceString(getApplicationContext(), R.string.Check);
-                    } catch (Throwable t) {
-                        changeVersion = getResources().getString(R.string.Check);
-                    }
-                    menuItem.setTitle(changeVersion);
-                }
+                        menuItem.setTitle(changeApp);
 
-                if (menuTitle.equals(getResources().getString(R.string.Comment))) {
-                    try {
-                        comment = Helper.getResourceString(getApplicationContext(), R.string.Comment);
-                    } catch (Throwable t) {
-                        comment = getResources().getString(R.string.Comment);
+                        if (Helper.getSettings("AppIcon")) {
+                            item.setChecked(true);
+                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
+                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", true);
+                        } else {
+                            item.setChecked(false);
+                        }
                     }
 
-                    menuItem.setTitle(comment);
-                    if (Helper.getSettings("Comment")) {
-                        item.setChecked(true);
-                    }
-                }
+                    if (menuTitle.equals(getResources().getString(R.string.ChangeOrder))) {
+                        try {
+                            changeOrder = Helper.getResourceString(getApplicationContext(), R.string.ChangeOrder);
+                        } catch (Throwable t) {
+                            changeOrder = getResources().getString(R.string.ChangeOrder);
+                        }
 
-                if (menuTitle.equals(getResources().getString(R.string.Contact))) {
-                    try {
-                        contact = Helper.getResourceString(getApplicationContext(), R.string.Contact);
-                    } catch (Throwable t) {
-                        contact = getResources().getString(R.string.Contact);
+                        menuItem.setTitle(changeOrder);
+                        if (Helper.getSettings("Order")) {
+                            item.setChecked(true);
+                        }
                     }
-                    menuItem.setTitle(contact);
-                }
 
-                if (menuTitle.equals(getResources().getString(R.string.Customization))) {
-                    try {
-                        customization = Helper.getResourceString(getApplicationContext(), R.string.Customization);
-                    } catch (Throwable t) {
-                        customization = getResources().getString(R.string.Customization);
+                    if (menuTitle.equals(getResources().getString(R.string.Check))) {
+                        try {
+                            changeVersion = Helper.getResourceString(getApplicationContext(), R.string.Check);
+                        } catch (Throwable t) {
+                            changeVersion = getResources().getString(R.string.Check);
+                        }
+                        menuItem.setTitle(changeVersion);
                     }
-                    menuItem.setTitle(customization);
-                }
 
-                if (menuTitle.equals("Custom Language")) {
-                    if (!Helper.getSetting("Language").equals("Instagram")) {
-                        item.setChecked(true);
-                    }
-                }
+                    if (menuTitle.equals(getResources().getString(R.string.Comment))) {
+                        try {
+                            comment = Helper.getResourceString(getApplicationContext(), R.string.Comment);
+                        } catch (Throwable t) {
+                            comment = getResources().getString(R.string.Comment);
+                        }
 
-                if (menuTitle.equals(getResources().getString(R.string.Date))) {
-                    try {
-                        date = Helper.getResourceString(getApplicationContext(), R.string.Date);
-                    } catch (Throwable t) {
-                        date = getResources().getString(R.string.Date);
+                        menuItem.setTitle(comment);
+                        if (Helper.getSettings("Comment")) {
+                            item.setChecked(true);
+                        }
                     }
-                    menuItem.setTitle(date);
+
+                    if (menuTitle.equals(getResources().getString(R.string.Contact))) {
+                        try {
+                            contact = Helper.getResourceString(getApplicationContext(), R.string.Contact);
+                        } catch (Throwable t) {
+                            contact = getResources().getString(R.string.Contact);
+                        }
+                        menuItem.setTitle(contact);
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Customization))) {
+                        try {
+                            customization = Helper.getResourceString(getApplicationContext(), R.string.Customization);
+                        } catch (Throwable t) {
+                            customization = getResources().getString(R.string.Customization);
+                        }
+                        menuItem.setTitle(customization);
+                    }
+
+                    if (menuTitle.equals("Custom Language")) {
+                        if (!Helper.getSetting("Language").equals("Instagram")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Date))) {
+                        try {
+                            date = Helper.getResourceString(getApplicationContext(), R.string.Date);
+                        } catch (Throwable t) {
+                            date = getResources().getString(R.string.Date);
+                        }
+                        menuItem.setTitle(date);
                         if (!Helper.getSetting("Date").equals("Instagram")) {
                             item.setChecked(true);
                         }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Default))) {
-                    try {
-                        defaultSource = Helper.getResourceString(getApplicationContext(), R.string.Default);
-                    } catch (Throwable t) {
-                        defaultSource = getResources().getString(R.string.Default);
                     }
-                    menuItem.setTitle(defaultSource);
-                }
 
-                if (menuTitle.equals("Direct Message - Download")) {
-                    if (Helper.getSettings("Disappearing")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Error_log))) {
-                    try {
-                        errorLog = Helper.getResourceString(getApplicationContext(), R.string.Error_log);
-                    } catch (Throwable t) {
-                        errorLog = getResources().getString(R.string.Error_log);
-                    }
-                    menuItem.setTitle(errorLog);
-                }
-
-                if (menuTitle.equals(getResources().getString( R.string.File))) {
-                    try {
-                        file = Helper.getResourceString(getApplicationContext(), R.string.File);
-                    } catch (Throwable t) {
-                        file = getResources().getString(R.string.File);
-                    }
-                    menuItem.setTitle(file);
-                    if (!Helper.getSetting("File").equals("Instagram")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString( R.string.FileFormat))) {
-                    try {
-                        fileFormat = Helper.getResourceString(getApplicationContext(), R.string.FileFormat);
-                    } catch (Throwable t) {
-                        fileFormat = getResources().getString(R.string.FileFormat);
-                    }
-                    menuItem.setTitle(fileFormat);
-                    if (!Helper.getSetting("FileFormat").equals("Instagram")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString( R.string.FileUsername))) {
-                    try {
-                        fileUsername = Helper.getResourceString(getApplicationContext(), R.string.FileUsername);
-                    } catch (Throwable t) {
-                        fileUsername = getResources().getString(R.string.FileUsername);
-                    }
-                    menuItem.setTitle(fileUsername);
-                    if (Helper.getSettings("Username")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString( R.string.FileURL))) {
-                    try {
-                        fileURL = Helper.getResourceString(getApplicationContext(), R.string.FileURL);
-                    } catch (Throwable t) {
-                        fileURL = getResources().getString(R.string.FileURL);
-                    }
-                    menuItem.setTitle(fileURL);
-                    if (Helper.getSettings("URLFileName")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString( R.string.Folder))) {
-                    try {
-                        folder = Helper.getResourceString(getApplicationContext(), R.string.Folder);
-                    } catch (Throwable t) {
-                        folder = getResources().getString(R.string.Folder);
-                    }
-                    menuItem.setTitle(folder);
-                    if (Helper.getSettings("Folder")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Follow))) {
-                    try {
-                        follow = Helper.getResourceString(getApplicationContext(), R.string.Follow);
-                    } catch (Throwable t) {
-                        follow = getResources().getString(R.string.Follow);
-                    }
-                    menuItem.setTitle(follow);
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Like))) {
-                    try {
-                        like = Helper.getResourceString(getApplicationContext(), R.string.Like);
-                    } catch (Throwable t) {
-                        like = getResources().getString(R.string.Like);
-                    }
-                    menuItem.setTitle(like);
-                    if (Helper.getSettings("Like")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Liked))) {
-                    try {
-                        liked = Helper.getResourceString(getApplicationContext(), R.string.Liked);
-                    } catch (Throwable t) {
-                        liked = getResources().getString(R.string.Liked);
-                    }
-                    menuItem.setTitle(liked);
-                    if (Helper.getSettings("LikePrivacy")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Logging))) {
-                    try {
-                        logging = Helper.getResourceString(getApplicationContext(), R.string.Logging);
-                    } catch (Throwable t) {
-                        logging = getResources().getString(R.string.Logging);
-                    }
-                    menuItem.setTitle(logging);
-                    if (Helper.getSettings("Log")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Hide))) {
-                    try {
-                        hide = Helper.getResourceString(getApplicationContext(), R.string.Hide);
-                    } catch (Throwable t) {
-                        hide = getResources().getString(R.string.Hide);
-                    }
-                    menuItem.setTitle(hide);
-
-                    if (Helper.getSettings("HideApp")) {
-                        item.setChecked(true);
-                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
-                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
-                    } else {
-                        item.setChecked(false);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Misc))) {
-                    try {
-                        misc = Helper.getResourceString(getApplicationContext(), R.string.Misc);
-                    } catch (Throwable t) {
-                        misc = getResources().getString(R.string.Misc);
-                    }
-                    menuItem.setTitle(misc);
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.NotificationHide))) {
-                    try {
-                        notifHide = Helper.getResourceString(getApplicationContext(), R.string.NotificationHide);
-                    } catch (Throwable t) {
-                        notifHide = getResources().getString(R.string.NotificationHide);
-                    }
-                    menuItem.setTitle(notifHide);
-                    if (Helper.getSettings("Notification")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.the_not_so_big_but_big_button2))) {
-                    try {
-                        lockFeed = Helper.getResourceString(getApplicationContext(), R.string.the_not_so_big_but_big_button2);
-                    } catch (Throwable t) {
-                        lockFeed = getResources().getString(R.string.the_not_so_big_but_big_button2);
-                    }
-                    menuItem.setTitle(lockFeed);
-                    if (Helper.getSettings("Lock")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals("One Tap Video Download")) {
-                    if (Helper.getSettings("OneTap")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Pass))) {
-                    try {
-                        pass = Helper.getResourceString(getApplicationContext(), R.string.Pass);
-                    } catch (Throwable t) {
-                        pass = getResources().getString(R.string.Pass);
-                    }
-                    menuItem.setTitle(pass);
-                    if (Helper.getSettings("Pass")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Pin))) {
-                    try {
-                        pin = Helper.getResourceString(getApplicationContext(), R.string.Pin);
-                    } catch (Throwable t) {
-                        pin = getResources().getString(R.string.Pin);
-                    }
-                    menuItem.setTitle(pin);
-                    if (!Helper.getSetting("Alternate").equals("Instagram")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Push))) {
-                    try {
-                        push = Helper.getResourceString(getApplicationContext(), R.string.Push);
-                    } catch (Throwable t) {
-                        push = getResources().getString(R.string.Push);
-                    }
-                    menuItem.setTitle(push);
-                    if (Helper.getSettings("Push")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Search))) {
-                    try {
-                        searchHistory = Helper.getResourceString(getApplicationContext(), R.string.Search);
-                    } catch (Throwable t) {
-                        searchHistory = getResources().getString(R.string.Search);
-                    }
-                    menuItem.setTitle(searchHistory);
-                    if (Helper.getSettings("History")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Slide))) {
-                    try {
-                        slide = Helper.getResourceString(getApplicationContext(), R.string.Slide);
-                    } catch (Throwable t) {
-                        slide = getResources().getString(R.string.Sound);
-                    }
-                    menuItem.setTitle(slide);
-                    if (Helper.getSettings("Slide")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Story))) {
-                    try {
-                        story = Helper.getResourceString(getApplicationContext(), R.string.Story);
-                    } catch (Throwable t) {
-                        story = getResources().getString(R.string.Story);
-                    }
-                    menuItem.setTitle(story);
-                    if (Helper.getSettings("Story")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.StoryPrivacy))) {
-                    try {
-                        storyPrivacy = Helper.getResourceString(getApplicationContext(), R.string.StoryPrivacy);
-                    } catch (Throwable t) {
-                        storyPrivacy = getResources().getString(R.string.StoryPrivacy);
-                    }
-                    menuItem.setTitle(storyPrivacy);
-                    if (Helper.getSettings("StoryPrivacy")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Suggestion))) {
-                    try {
-                        suggestion = Helper.getResourceString(getApplicationContext(), R.string.Suggestion);
-                    } catch (Throwable t) {
-                        suggestion = getResources().getString(R.string.Suggestion);
-                    }
-                    menuItem.setTitle(suggestion);
-                    if (Helper.getSettings("Suggestion")) {
-                        item.setChecked(true);
-                    }
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.Translations))) {
-                    try {
-                        translate = Helper.getResourceString(getApplicationContext(), R.string.Translations);
-                    } catch (Throwable t) {
-                        translate = getResources().getString(R.string.Translations);
-                    }
-                    menuItem.setTitle(translate);
-                }
-
-                if (menuTitle.equals(getResources().getString(R.string.VideoLikes))) {
-                    try {
-                        videoLikes = Helper.getResourceString(getApplicationContext(), R.string.VideoLikes);
-                    } catch (Throwable t) {
-                        videoLikes = getResources().getString(R.string.VideoLikes);
-                    }
-                    menuItem.setTitle(videoLikes);
-
-                    if (Helper.getSettings("VideoLikes")) {
-                        item.setChecked(true);
-                    } else {
-                    }
-                }
-
-                try {
-                    item.setOnClickListener(null);
-                    item.setOnCheckedChangeListener(null);
-                    item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            String clicked = menuTitle;
-
-                            if (clicked.equals(automaticUpdate)) {
-                                Helper.setSetting("Update", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(changeApp)) {
-                                if (item.isChecked()) {
-                                    Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
-                                    Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", true);
-                                } else {
-                                    Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", true);
-                                    Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
-                                }
-                                Helper.setSetting("AppIcon", Boolean.toString(item.isChecked()));
-                                setupNav();
-                            }
-
-                            if (clicked.equals(changeOrder)) {
-                                Helper.setSetting("Order", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(comment)) {
-                                Helper.setSetting("Comment", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals("Custom Language")) {
-                                if (item.isChecked()) {
-                                    openCustomLanguages();
-                                } else {
-                                    Helper.setSetting("Language", "Instagram");
-                                    setupNav();
-                                    updateListView();
-                                }
-                            }
-
-                            if (clicked.equals(date)) {
-                                if (item.isChecked() && Helper.getSetting("Date").equals("Instagram")) {
-                                    if (Helper.getSettings("Hour")) {
-                                        Helper.setSetting("Date", "MM;/dd;/yyyy; ;HH:;mm:;ss:;a;");
-                                    } else {
-                                        Helper.setSetting("Date","MM;/dd;/yyyy; ;hh:;mm:;ss:;a;");
-                                    }
-                                } else if (!item.isChecked()) {
-                                    Helper.setSetting("Date", "Instagram");
-                                }
-                            }
-
-                            if (clicked.equals("Direct Message - Download")) {
-                                Helper.setSetting("Disappearing", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(like)) {
-                                Helper.setSetting("Like", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(liked)) {
-                                Helper.setSetting("LikePrivacy", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(lockFeed)) {
-                                Helper.setSetting("Lock", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(logging)) {
-                                Helper.setSetting("Log", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(file)) {
-                                if (!isChecked) {
-                                    Helper.setSetting("File", "Instagram");
-
-                                    if (!Helper.getSetting("FileFormat").equals("Instagram")) {
-                                        String fileFormat = Helper.getSetting("FileFormat");
-                                        fileFormat = fileFormat.replace("Date", "UserID");
-                                        Helper.setSetting("FileFormat", fileFormat);
-                                    }
-                                } else {
-                                    fileDate();
-                                }
-                            }
-
-                            if (clicked.equals(fileFormat)) {
-                                if (!isChecked) {
-                                    Helper.setSetting("FileFormat", "Instagram");
-                                } else {
-                                    Intent myIntent = new Intent(getApplicationContext(), FileFormat.class);
-                                    startActivity(myIntent);
-                                }
-                            }
-
-                            if (clicked.equals(fileUsername)) {
-                                Helper.setSetting("Username", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(fileURL)) {
-                                Helper.setSetting("URLFileName", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(folder)) {
-                                Helper.setSetting("Folder", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(hide)) {
-                                if (item.isChecked()) {
-                                    if (Helper.getSettings("AppIcon")) {
-                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
-                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", true);
-                                    } else {
-                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", true);
-                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
-                                    }
-
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
-
-                                    String okay;
-                                    String warning;
-
-                                    try {
-                                        okay = Helper.getResourceString(getApplicationContext(), R.string.Okay);
-                                        warning = Helper.getResourceString(getApplicationContext(), R.string.Warning);
-                                    } catch (Throwable t) {
-                                        okay = getResources().getString(R.string.Okay);
-                                        warning = getResources().getString(R.string.Warning);
-                                    }
-
-                                    builder.setMessage(warning);
-                                    builder.setPositiveButton(okay, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
-                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
-                                            Helper.setSetting("HideApp", "true");
-                                        }
-                                    }).setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                        @Override
-                                        public void onCancel(DialogInterface dialogInterface) {
-                                            item.setChecked(false);
-                                        }
-                                    });
-                                    AlertDialog dialog = builder.create();
-                                    dialog.show();
-                                } else {
-                                    if (Helper.getSettings("AppIcon")) {
-                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
-                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", true);
-                                    } else {
-                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", true);
-                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
-                                    }
-                                    Helper.setSetting("HideApp", "false");
-                                }
-                            }
-
-                            if (clicked.equals("One Tap Video Download")) {
-                                if (item.isChecked()) {
-                                    Helper.setSetting("OneTap", Boolean.toString(item.isChecked()));
-                                } else {
-                                    Helper.setSetting("OneTap", Boolean.toString(item.isChecked()));
-                                }
-                            }
-
-                            if (clicked.equals(notifHide)) {
-                                Helper.setSetting("Notification", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(pass)) {
-                                Helper.setSetting("Pass", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(pin)) {
-                                Helper.setSetting("Alternate", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(push)) {
-                                Helper.setSetting("Push", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(searchHistory)) {
-                                Helper.setSetting("History", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(slide)) {
-                                Helper.setSetting("Slide", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(story)) {
-                                Helper.setSetting("Story", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(storyPrivacy)) {
-                                Helper.setSetting("StoryPrivacy", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(suggestion)) {
-                                Helper.setSetting("Suggestion", Boolean.toString(item.isChecked()));
-                            }
-
-                            if (clicked.equals(videoLikes)) {
-                                Helper.setSetting("VideoLikes", Boolean.toString(item.isChecked()));
-                            }
+                    if (menuTitle.equals(getResources().getString(R.string.Default))) {
+                        try {
+                            defaultSource = Helper.getResourceString(getApplicationContext(), R.string.Default);
+                        } catch (Throwable t) {
+                            defaultSource = getResources().getString(R.string.Default);
                         }
-                    });
-                } catch (Exception e) {
+                        menuItem.setTitle(defaultSource);
+                    }
+
+                    if (menuTitle.equals("Direct Message - Download")) {
+                        if (Helper.getSettings("Disappearing")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Error_log))) {
+                        try {
+                            errorLog = Helper.getResourceString(getApplicationContext(), R.string.Error_log);
+                        } catch (Throwable t) {
+                            errorLog = getResources().getString(R.string.Error_log);
+                        }
+                        menuItem.setTitle(errorLog);
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.File))) {
+                        try {
+                            file = Helper.getResourceString(getApplicationContext(), R.string.File);
+                        } catch (Throwable t) {
+                            file = getResources().getString(R.string.File);
+                        }
+                        menuItem.setTitle(file);
+                        if (!Helper.getSetting("File").equals("Instagram")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.FileFormat))) {
+                        try {
+                            fileFormat = Helper.getResourceString(getApplicationContext(), R.string.FileFormat);
+                        } catch (Throwable t) {
+                            fileFormat = getResources().getString(R.string.FileFormat);
+                        }
+                        menuItem.setTitle(fileFormat);
+                        if (!Helper.getSetting("FileFormat").equals("Instagram")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.FileUsername))) {
+                        try {
+                            fileUsername = Helper.getResourceString(getApplicationContext(), R.string.FileUsername);
+                        } catch (Throwable t) {
+                            fileUsername = getResources().getString(R.string.FileUsername);
+                        }
+                        menuItem.setTitle(fileUsername);
+                        if (Helper.getSettings("Username")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.FileURL))) {
+                        try {
+                            fileURL = Helper.getResourceString(getApplicationContext(), R.string.FileURL);
+                        } catch (Throwable t) {
+                            fileURL = getResources().getString(R.string.FileURL);
+                        }
+                        menuItem.setTitle(fileURL);
+                        if (Helper.getSettings("URLFileName")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Folder))) {
+                        try {
+                            folder = Helper.getResourceString(getApplicationContext(), R.string.Folder);
+                        } catch (Throwable t) {
+                            folder = getResources().getString(R.string.Folder);
+                        }
+                        menuItem.setTitle(folder);
+                        if (Helper.getSettings("Folder")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Follow))) {
+                        try {
+                            follow = Helper.getResourceString(getApplicationContext(), R.string.Follow);
+                        } catch (Throwable t) {
+                            follow = getResources().getString(R.string.Follow);
+                        }
+                        menuItem.setTitle(follow);
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Like))) {
+                        try {
+                            like = Helper.getResourceString(getApplicationContext(), R.string.Like);
+                        } catch (Throwable t) {
+                            like = getResources().getString(R.string.Like);
+                        }
+                        menuItem.setTitle(like);
+                        if (Helper.getSettings("Like")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Liked))) {
+                        try {
+                            liked = Helper.getResourceString(getApplicationContext(), R.string.Liked);
+                        } catch (Throwable t) {
+                            liked = getResources().getString(R.string.Liked);
+                        }
+                        menuItem.setTitle(liked);
+                        if (Helper.getSettings("LikePrivacy")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Logging))) {
+                        try {
+                            logging = Helper.getResourceString(getApplicationContext(), R.string.Logging);
+                        } catch (Throwable t) {
+                            logging = getResources().getString(R.string.Logging);
+                        }
+                        menuItem.setTitle(logging);
+                        if (Helper.getSettings("Log")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Hide))) {
+                        try {
+                            hide = Helper.getResourceString(getApplicationContext(), R.string.Hide);
+                        } catch (Throwable t) {
+                            hide = getResources().getString(R.string.Hide);
+                        }
+                        menuItem.setTitle(hide);
+
+                        if (Helper.getSettings("HideApp")) {
+                            item.setChecked(true);
+                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
+                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
+                        } else {
+                            item.setChecked(false);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Misc))) {
+                        try {
+                            misc = Helper.getResourceString(getApplicationContext(), R.string.Misc);
+                        } catch (Throwable t) {
+                            misc = getResources().getString(R.string.Misc);
+                        }
+                        menuItem.setTitle(misc);
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.NotificationHide))) {
+                        try {
+                            notifHide = Helper.getResourceString(getApplicationContext(), R.string.NotificationHide);
+                        } catch (Throwable t) {
+                            notifHide = getResources().getString(R.string.NotificationHide);
+                        }
+                        menuItem.setTitle(notifHide);
+                        if (Helper.getSettings("Notification")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.the_not_so_big_but_big_button2))) {
+                        try {
+                            lockFeed = Helper.getResourceString(getApplicationContext(), R.string.the_not_so_big_but_big_button2);
+                        } catch (Throwable t) {
+                            lockFeed = getResources().getString(R.string.the_not_so_big_but_big_button2);
+                        }
+                        menuItem.setTitle(lockFeed);
+                        if (Helper.getSettings("Lock")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals("One Tap Video Download")) {
+                        if (Helper.getSettings("OneTap")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Pass))) {
+                        try {
+                            pass = Helper.getResourceString(getApplicationContext(), R.string.Pass);
+                        } catch (Throwable t) {
+                            pass = getResources().getString(R.string.Pass);
+                        }
+                        menuItem.setTitle(pass);
+                        if (Helper.getSettings("Pass")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Pin))) {
+                        try {
+                            pin = Helper.getResourceString(getApplicationContext(), R.string.Pin);
+                        } catch (Throwable t) {
+                            pin = getResources().getString(R.string.Pin);
+                        }
+                        menuItem.setTitle(pin);
+                        if (!Helper.getSetting("Alternate").equals("Instagram")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Push))) {
+                        try {
+                            push = Helper.getResourceString(getApplicationContext(), R.string.Push);
+                        } catch (Throwable t) {
+                            push = getResources().getString(R.string.Push);
+                        }
+                        menuItem.setTitle(push);
+                        if (Helper.getSettings("Push")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Search))) {
+                        try {
+                            searchHistory = Helper.getResourceString(getApplicationContext(), R.string.Search);
+                        } catch (Throwable t) {
+                            searchHistory = getResources().getString(R.string.Search);
+                        }
+                        menuItem.setTitle(searchHistory);
+                        if (Helper.getSettings("History")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Slide))) {
+                        try {
+                            slide = Helper.getResourceString(getApplicationContext(), R.string.Slide);
+                        } catch (Throwable t) {
+                            slide = getResources().getString(R.string.Sound);
+                        }
+                        menuItem.setTitle(slide);
+                        if (Helper.getSettings("Slide")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Story))) {
+                        try {
+                            story = Helper.getResourceString(getApplicationContext(), R.string.Story);
+                        } catch (Throwable t) {
+                            story = getResources().getString(R.string.Story);
+                        }
+                        menuItem.setTitle(story);
+                        if (Helper.getSettings("Story")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.StoryHide))) {
+                        try {
+                            storyHide = Helper.getResourceString(getApplicationContext(), R.string.StoryHide);
+                        } catch (Throwable t) {
+                            storyHide = getResources().getString(R.string.StoryHide);
+                        }
+                        menuItem.setTitle(storyHide);
+                        if (Helper.getSettings("StoryHide")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.StoryPrivacy))) {
+                        try {
+                            storyPrivacy = Helper.getResourceString(getApplicationContext(), R.string.StoryPrivacy);
+                        } catch (Throwable t) {
+                            storyPrivacy = getResources().getString(R.string.StoryPrivacy);
+                        }
+                        menuItem.setTitle(storyPrivacy);
+                        if (Helper.getSettings("StoryPrivacy")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Suggestion))) {
+                        try {
+                            suggestion = Helper.getResourceString(getApplicationContext(), R.string.Suggestion);
+                        } catch (Throwable t) {
+                            suggestion = getResources().getString(R.string.Suggestion);
+                        }
+                        menuItem.setTitle(suggestion);
+                        if (Helper.getSettings("Suggestion")) {
+                            item.setChecked(true);
+                        }
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.Translations))) {
+                        try {
+                            translate = Helper.getResourceString(getApplicationContext(), R.string.Translations);
+                        } catch (Throwable t) {
+                            translate = getResources().getString(R.string.Translations);
+                        }
+                        menuItem.setTitle(translate);
+                    }
+
+                    if (menuTitle.equals(getResources().getString(R.string.VideoLikes))) {
+                        try {
+                            videoLikes = Helper.getResourceString(getApplicationContext(), R.string.VideoLikes);
+                        } catch (Throwable t) {
+                            videoLikes = getResources().getString(R.string.VideoLikes);
+                        }
+                        menuItem.setTitle(videoLikes);
+
+                        if (Helper.getSettings("VideoLikes")) {
+                            item.setChecked(true);
+                        } else {
+                        }
+                    }
+
+                    try {
+                        item.setOnClickListener(null);
+                        item.setOnCheckedChangeListener(null);
+                        item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                String clicked = menuTitle;
+
+                                if (clicked.equals(automaticUpdate)) {
+                                    Helper.setSetting("Update", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(changeApp)) {
+                                    if (item.isChecked()) {
+                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
+                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", true);
+                                    } else {
+                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", true);
+                                        Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
+                                    }
+                                    Helper.setSetting("AppIcon", Boolean.toString(item.isChecked()));
+                                    setupNav();
+                                }
+
+                                if (clicked.equals(changeOrder)) {
+                                    Helper.setSetting("Order", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(comment)) {
+                                    Helper.setSetting("Comment", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals("Custom Language")) {
+                                    if (item.isChecked()) {
+                                        openCustomLanguages();
+                                    } else {
+                                        Helper.setSetting("Language", "Instagram");
+                                        setupNav();
+                                        updateListView();
+                                    }
+                                }
+
+                                if (clicked.equals(date)) {
+                                    if (item.isChecked() && Helper.getSetting("Date").equals("Instagram")) {
+                                        if (Helper.getSettings("Hour")) {
+                                            Helper.setSetting("Date", "MM;/dd;/yyyy; ;HH:;mm:;ss:;a;");
+                                        } else {
+                                            Helper.setSetting("Date", "MM;/dd;/yyyy; ;hh:;mm:;ss:;a;");
+                                        }
+                                    } else if (!item.isChecked()) {
+                                        Helper.setSetting("Date", "Instagram");
+                                    }
+                                }
+
+                                if (clicked.equals("Direct Message - Download")) {
+                                    Helper.setSetting("Disappearing", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(like)) {
+                                    Helper.setSetting("Like", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(liked)) {
+                                    Helper.setSetting("LikePrivacy", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(lockFeed)) {
+                                    Helper.setSetting("Lock", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(logging)) {
+                                    Helper.setSetting("Log", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(file)) {
+                                    if (!isChecked) {
+                                        Helper.setSetting("File", "Instagram");
+
+                                        if (!Helper.getSetting("FileFormat").equals("Instagram")) {
+                                            String fileFormat = Helper.getSetting("FileFormat");
+                                            fileFormat = fileFormat.replace("Date", "UserID");
+                                            Helper.setSetting("FileFormat", fileFormat);
+                                        }
+                                    } else {
+                                        fileDate();
+                                    }
+                                }
+
+                                if (clicked.equals(fileFormat)) {
+                                    if (!isChecked) {
+                                        Helper.setSetting("FileFormat", "Instagram");
+                                    } else {
+                                        Intent myIntent = new Intent(getApplicationContext(), FileFormat.class);
+                                        startActivity(myIntent);
+                                    }
+                                }
+
+                                if (clicked.equals(fileUsername)) {
+                                    Helper.setSetting("Username", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(fileURL)) {
+                                    Helper.setSetting("URLFileName", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(folder)) {
+                                    Helper.setSetting("Folder", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(hide)) {
+                                    if (item.isChecked()) {
+                                        if (Helper.getSettings("AppIcon")) {
+                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
+                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", true);
+                                        } else {
+                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", true);
+                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
+                                        }
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+
+                                        String okay;
+                                        String warning;
+
+                                        try {
+                                            okay = Helper.getResourceString(getApplicationContext(), R.string.Okay);
+                                            warning = Helper.getResourceString(getApplicationContext(), R.string.Warning);
+                                        } catch (Throwable t) {
+                                            okay = getResources().getString(R.string.Okay);
+                                            warning = getResources().getString(R.string.Warning);
+                                        }
+
+                                        builder.setMessage(warning);
+                                        builder.setPositiveButton(okay, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
+                                                Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
+                                                Helper.setSetting("HideApp", "true");
+                                            }
+                                        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                            @Override
+                                            public void onCancel(DialogInterface dialogInterface) {
+                                                item.setChecked(false);
+                                            }
+                                        });
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                    } else {
+                                        if (Helper.getSettings("AppIcon")) {
+                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", false);
+                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", true);
+                                        } else {
+                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias", true);
+                                            Helper.setIcon(getApplicationContext(), "IntroActivity-Alias2", false);
+                                        }
+                                        Helper.setSetting("HideApp", "false");
+                                    }
+                                }
+
+                                if (clicked.equals("One Tap Video Download")) {
+                                    if (item.isChecked()) {
+                                        Helper.setSetting("OneTap", Boolean.toString(item.isChecked()));
+                                    } else {
+                                        Helper.setSetting("OneTap", Boolean.toString(item.isChecked()));
+                                    }
+                                }
+
+                                if (clicked.equals(notifHide)) {
+                                    Helper.setSetting("Notification", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(pass)) {
+                                    Helper.setSetting("Pass", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(pin)) {
+                                    Helper.setSetting("Alternate", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(push)) {
+                                    Helper.setSetting("Push", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(searchHistory)) {
+                                    Helper.setSetting("History", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(slide)) {
+                                    Helper.setSetting("Slide", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(story)) {
+                                    Helper.setSetting("Story", Boolean.toString(item.isChecked()));
+                                }
+                                if (clicked.equals(storyHide)) {
+                                    Helper.setSetting("StoryHide", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(storyPrivacy)) {
+                                    Helper.setSetting("StoryPrivacy", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(suggestion)) {
+                                    Helper.setSetting("Suggestion", Boolean.toString(item.isChecked()));
+                                }
+
+                                if (clicked.equals(videoLikes)) {
+                                    Helper.setSetting("VideoLikes", Boolean.toString(item.isChecked()));
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                    }
                 }
             }
+        } catch (Throwable t) {
+            Helper.setError("Menu Issue - " +t);
         }
     }
 
