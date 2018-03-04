@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">XInsta</string>
 
     <!-- Alert Dialog -->
     <string name="Okay">Tamam</string>
-    <string name="Warning">Uygulamayı gizledikten sonra Xposed Installer üzerinden erişebilirsiniz.</string>
+    <string name="Warning">Uygulamaya gizlendikten sonra Xposed Installer aracılığıyla erişebilirsiniz.</string>
 
     <!-- Date -->
-    <string name="AM">AM/PM</string>
+    <string name="AM">ÖÖ/ÖS</string>
     <string name="Day">Gün</string>
     <string name="Hour">Saat</string>
     <string name="Minute">Dakika</string>
@@ -18,87 +17,125 @@
     <string name="Year">Yıl</string>
 
     <!-- File Browser -->
-    <string name="nnf_create_folder_error">Klasör oluşturulamadı</string>
-    <string name="nnf_name">İsim</string>
     <string name="nnf_new_folder">Yeni klasör</string>
-    <string name="nnf_permission_external_write_denied">Sistem dosyasına erişim sağlanamadı</string>
-    <string name="nnf_select_something_first">Lütfen bir şey seçiniz</string>
+    <string name="nnf_create_folder_error">Klasör oluşturulamıyor</string>
+    <string name="nnf_name">İsim</string>
+    <string name="nnf_select_something_first">Lütfen önce bir şey seçin</string>
+    <string name="nnf_permission_external_write_denied">Dosya sistemine erişim izniniz reddedildi</string>
 
     <!-- ListView -->
     <string name="Image">Resim Konumu</string>
     <string name="Profile">Profil Resmi Konumu</string>
-    <string name="Recommended">Önerilen</string>
-    <string name="Save">KAYDETME KONUMU</string>
-    <string name="Update">BAĞLANTILARI GÜNCELLE</string>
+    <string name="Recommended">Öneriler</string>
+    <string name="Save">KAYDETME KONUMLARI</string>
+    <string name="Update">GÜNCELLEME KAYNAKLARI</string>
     <string name="Video">Video Konumu</string>
 
     <!-- Menu Items !-->
-    <string name="Automatically">Automatic Update Checker</string>
-    <string name="Change">Change Separator</string>
-    <string name="ChangeApp">Change XInsta App Icon</string>
-    <string name="ChangeOrder">Change Options Order</string>
-    <string name="Check">Check For Update</string>
-    <string name="Comment">Copy Comment On Tap</string>
-    <string name="Contact">Contact Developer</string>
-    <string name="Custom">Custom Language</string>
-    <string name="Customization">Customization</string>
-    <string name="Date">Tarih Formatı</string>
-    <string name="Default">Default Hook Source</string>
-    <string name="Error_log">Hata Kaydını Gönder</string>
-    <string name="File">File - Change Date Format</string>
-    <string name="FileFormat">File - Change File Format</string>
-    <string name="FileURL">File - URL Format As Filename</string>
-    <string name="FileUsername">File - Full Username</string>
-    <string name="Folder">Klasör - Kullacı adı ekle</string>
-    <string name="Follow">Follow Indicator - Color</string>
-    <string name="Hide">Uyglmyı gizle</string>
-    <string name="Like">Bğnme btnnu dvredışı bırak</string>
-    <string name="Liked">Disable Liked Post</string>
-    <string name="Logging">Disable Xposed Logging</string>
-    <string name="Manual">Manually Change Hooks</string>
-    <string name="Misc">Misc.</string>
-    <string name="NotificationHide">Kaydetme bldrimini gizle</string>
+    <string name="Automatically">Otomatik Güncelleme Denetleyicisi</string>
+    <string name="Change">Ayırıcıyı Değiştir</string>
+    <string name="ChangeApp">XInsta Uygulama Simgesini Değiştir</string>
+    <string name="ChangeOrder">Seçeneklerin Düzenini Değiştir</string>
+    <string name="Check">Güncellemeleri Denetle</string>
+    <string name="Comment">Tek Tıkla Yorumu Kopyala</string>
+    <string name="Contact">Geliştiriciye Ulaş</string>
+    <string name="Custom">Özel Dil</string>
+    <string name="Customization">Özelleştirme</string>
+    <string name="Date">Tarih Biçimlendirme</string>
+    <string name="Default">Varsayılan Kaynak Dosyalar</string>
+    <string name="Error_log">Hata Günlüğü Gönder</string>
+    <string name="File">Dosya Tarihi Biçimini Değiştir</string>
+    <string name="FileFormat">Dosya Biçimini Değiştir</string>
+    <string name="FileURL">Dosya Adı Olarak URL Biçimi</string>
+    <string name="FileUsername">Tam Kullanıcı Adı</string>
+    <string name="Folder">Kullanıcı Adıyla Klasöre Ekle</string>
+    <string name="Follow">Takipçi Gösterge Rengi</string>
+    <string name="Hide">Uygulamayı Gizle</string>
+    <string name="HidePost">Ücretli Ortaklık Gönderisini Gizle</string>
+    <string name="Like">Beğenme Düğmesini Etkisizleştir</string>
+    <string name="Liked">Beğenildi Mesajını Etkisizleştir</string>
+    <string name="Logging">Xposed Günlüğünü Kapat</string>
+    <string name="Manual">Kaynakları Elle Değiştir</string>
+    <string name="Misc">Çeşitli</string>
+    <string name="NotificationHide">İndirme Bildirimini Gizle</string>
     <string name="Pass">Pass Downloads To XInsta</string>
-    <string name="Pin">Pin/Save - Download</string>
-    <string name="Push">Bildirim al</string>
-    <string name="Search">Disable Search History</string>
-    <string name="Show">Uyglmyı göster</string>
-    <string name="Slide">Disable Slide Navigation</string>
-    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
-    <string name="Special">Special Thanks</string>
-    <string name="Story">Disable Stories Timer</string>
-    <string name="StoryHide">Hide Stories</string>
-    <string name="StoryPrivacy">Stories Privacy</string>
-    <string name="Suggestion">Önerileri gizle</string>
-    <string name="Translations">XInstayı Çevir</string>
-    <string name="VideoLikes">Video Likes Count</string>
+    <string name="Pin">Kaydet Düğmesine Basarak İndir</string>
+    <string name="Push">Anında Bildirim - İndir</string>
+    <string name="Search">Arama Geçmişini Kapat</string>
+    <string name="SaveHooks">Kancaları Dosyaya Kaydet</string>
+    <string name="Show">Uygulamayı Göster</string>
+    <string name="Slide">Slayt Gezintisini Kapat</string>
+    <string name="Sound">Videolarda Otomatik Ses Çalmayı Aç</string>
+    <string name="Special">Özel Teşekkürler</string>
+    <string name="Story">Hikaye Zamanlayıcıyı Kapat</string>
+    <string name="StoryHide">Hikayeleri Gizle</string>
+    <string name="StoryPrivacy">Hikayeler Gizliliği</string>
+    <string name="Suggestion">Önerileri Gizle</string>
+    <string name="Translations">Translate XInsta</string>
+    <string name="VideoLikes">Video Beğenme Sayısı</string>
+
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">Instagram açıldığında XInsta güncellemelerini kontrol eder.</string>
+    <string name="Change_Summary">Dosya Ayırıcıyı Değiştir</string>
+    <string name="ChangeApp_Summary">XInsta Uygulama Simgesini Daha Yeni Simgeyle Değiştir</string>
+    <string name="ChangeOrder_Summary">Üç Nokta Simgesi Tıklatıldığında Instagram'ın Seçenek Sırasını Değiştir</string>
+    <string name="Check_Summary">XInsta Güncellemesini Elle Kontrol Et</string>
+    <string name="Comment_Summary">Kopyalamak İçin Yorumlara Dokun</string>
+    <string name="Custom_Summary">Android Tarafından Desteklenmeyen Bir Dili Kullan</string>
+    <string name="Date_Summary">Yazının Kesin Yazılma Zamanı Zaman Biçimini Ayarla (X Dakika önce yerine)</string>
+    <string name="Default_Summary">XInsta Tarafından Kullanılan Varsayılan Kanca Kaynağını Seç</string>
+    <string name="File_Summary">Dosyalar için Tarih Formatı Seç (Ay/Gün/Yıl)</string>
+    <string name="FileFormat_Summary">Dosya Parametreleri Biçimini Değiştir (Username_Date_MediaID)</string>
+    <string name="FileURL_Summary">Dosya adı olarak Instagram Gönderi Adresinin Adını Kullan</string>
+    <string name="FileUsername_Summary">Kullanıcıların Tam Instagram Adını Kullan (National Geographic vs Natgeo)</string>
+    <string name="Folder_Summary">Resmin Kullanıcı Adıyla Klasöre Kaydet</string>
+    <string name="Follow_Summary">Takipçi Göstergesi Rengini Değiştir</string>
+    <string name="Hide_Summary">XInsta'yı Çekmecenizden Gizleyin</string>
+    <string name="HidePost_Summary">Sponsorluk Ödeyen Gönderiyi Gizle</string>
+    <string name="Like_Summary">Çift Tıkla Gönderi Beğenmeyi Devre Dışı Bırak</string>
+    <string name="Liked_Summary">Instagram'da Beğenilen Gönderi Kısmını Gizler</string>
+    <string name="Logging_Summary">Xposed günlüğünü devre dışı bırak</string>
+    <string name="Manual_Summary">Kancaları Elle Değiştir</string>
+    <string name="NotificationHide_Summary">Tamamlanan İndirme İçin İndirme Bildirimini Gizle</string>
+    <string name="Pin_Summary">Gönderiyi İndirmek İçin Sabitleme/Kaydetme Düğmesini Kullan</string>
+    <string name="Push_Summary">Push Bildirimleri Otomatik İndir</string>
+    <string name="Search_Summary">Keşfet Sekmesi Arama Geçmişini Devre Dışı Bırak</string>
+    <string name="SaveHooks_Summary">XInsta, Kanca Almadan Kancaları Otomatik Olarak Yükleyecek.</string>
+    <string name="Show_Summary">XInsta'yı Çekmecenizde Gösterin</string>
+    <string name="Slide_Summary">Instagram'da Görünümleri Değiştirmek İçin Soldan Sağa veya Sağdan Sola Kaydırmayı Devre Dışı Bırak</string>
+    <string name="Story_Summary">Hikayelerin Otomatik Olarak Kapatılmasını Engelle</string>
+    <string name="StoryHide_Summary">Ana ve Keşfet Sekmesinde Hikaye Tepsisini Gizle</string>
+    <string name="StoryPrivacy_Summary">Kullanıcıların Hikayelerini İncelediğinizi Görmesini Engelleyin</string>
+    <string name="VideoLikes_Summary">Gönderiye Video Beğenmelerini Ekler</string>
+
+    <string name="the_not_so_big_but_big_button2_summary">Bir Gönderiyi Özel Bir Pencerede Açmanıza İzin Verir</string>
 
     <!-- Module -->
-    <string name="DownloadDots">Kaydediliyor…</string>
-    <string name="Download_Completed">Kaydetme Başarılı</string>
-    <string name="Download_Failed">Kaydetme Başarısız</string>
-    <string name="Please">Lüften modül üzerinden bağlantıyı gnclleyin.</string>
+    <string name="Download_Completed">İndirme Tamamlandı</string>
+    <string name="Download_Failed">İndirme başarısız</string>
+    <string name="DownloadDots">İndiriliyor&#8230;</string>
+    <string name="Please">Lütfen modül üzerinden kaynakları güncelleyin.</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
     <string name="photo">Resim</string>
     <string name="video">Video</string>
 
     <!-- The Download button -->
-    <string name="the_not_so_big_but_big_button">Kaydet</string>
-    <string name="the_not_so_big_but_big_button2">Privacy Lock</string>
+    <string name="the_not_so_big_but_big_button">İndir</string>
+    <string name="the_not_so_big_but_big_button2">Gizlilik Kilidi</string>
     <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
 
     <!-- Title in notification -->
-    <string name="username_thing">"%1$s's %2$s"</string>
+    <string name="username_thing">%1$s\'s %2$s</string>
 
     <!-- Toast Messages -->
-    <string name="Copied">Yorum kopyalandı</string>
-    <string name="Downloading">%1$s kaydediliyor</string>
-    <string name="Hooks_Latest">Son sürüm bağlantıya zaten sahipsiniz.</string>
-    <string name="Hooks_Updated">"Bağlantı güncellendi.\nLüften Instagram uygulamasını kapatın."</string>
-    <string name="I_LocationChanged">Resimlerin kaydedilme konumu varsayılana ayarlandı.</string>
-    <string name="Incorrect_Location">"Buraya kaydedilemiyor.\nLütfen farklı bir konum seçin."</string>
-    <string name="P_LocationChanged">Profil resimlerinin kaydedilme konumu varsayılana ayarlandı.</string>
-    <string name="Picture_Not">Lüften resme tıklayıp tekrar deneyiniz</string>
-    <string name="V_LocationChanged">Videoların kaydedilme konumu varsayılana ayarlandı.</string>
+    <string name="Copied">Yorum Kopyalandı</string>
+    <string name="Downloading">%1$s İndiriliyor</string>
+    <string name="Hooks_Latest">Zaten son kaynaklara sahipsiniz.</string>
+    <string name="Hooks_Updated">Kaynaklar güncellendi.\nLütfen Instagram uygulamasını sonlandırın.</string>
+    <string name="I_LocationChanged">Resim kaydetme konumu varsayılana sıfırlandı.</string>
+    <string name="Incorrect_Location">Buraya kaydedilemiyor.\nLütfen başka bir yer seçin.</string>
+    <string name="P_LocationChanged">Profil resmi konumu varsayılana sıfırlandı.</string>
+    <string name="Picture_Not">Lütfen resme tekrar tıklayın ve tekrar deneyin</string>
+    <string name="V_LocationChanged">Video kaydetme konumu varsayılana sıfırlandı.</string>
 </resources>
