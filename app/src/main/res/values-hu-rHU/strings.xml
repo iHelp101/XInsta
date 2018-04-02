@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Oké</string>
+    <string name="Warning">Az Xposed Installer-en keresztül lehet elérni az alkalmazást, miután el lett rejtve.</string>
+
+    <!-- Date -->
+    <string name="AM">DE/DU</string>
+    <string name="Day">Nap</string>
+    <string name="Hour">Óra</string>
+    <string name="Minute">Perc</string>
+    <string name="Month">Hónap</string>
+    <string name="Reset">Visszaállítás</string>
+    <string name="Second">Másodperc</string>
+    <string name="Space">---SZÓKÖZ---</string>
+    <string name="Year">Év</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Új mappa</string>
+    <string name="nnf_create_folder_error">Mappa létrehozása sikertelen</string>
+    <string name="nnf_name">Név</string>
+    <string name="nnf_select_something_first">Először választani kell valamit</string>
+    <string name="nnf_permission_external_write_denied">Hozzáférés a fájlrendszerhez sikertelen</string>
+
+    <!-- ListView -->
+    <string name="Image">Képek mentési mappája</string>
+    <string name="Profile">Profilképek mentési mappája</string>
+    <string name="Recommended">Ajánlások</string>
+    <string name="Save">Mentési mappák</string>
+    <string name="Update">HOOK-OK FRISSÍTÉSE</string>
+    <string name="Video">Videók mentési mappája</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Frissítések ellenőrzése automatikusan</string>
+    <string name="Change">Elválasztó módosítása</string>
+    <string name="ChangeApp">XInsta alkalmazásikon módosítása</string>
+    <string name="ChangeOrder">Beállítások sorrendjének módosítása</string>
+    <string name="Check">Frissítés ellenőrzése</string>
+    <string name="Comment">Hozzászólás másolása érintésre</string>
+    <string name="Contact">Kapcsolat a fejlesztővel</string>
+    <string name="Custom">Nyelv módosítása</string>
+    <string name="Customization">Testreszabás</string>
+    <string name="Date">Dátum formátum</string>
+    <string name="Default">Alapértelmezett hook forrás</string>
+    <string name="Error_log">Hibanaplók küldése</string>
+    <string name="File">Fájl - Dátum formátum módosítása</string>
+    <string name="FileFormat">Fájl - Fájl formátum módosítása</string>
+    <string name="FileURL">Fájl - URL formázása fájlnévként</string>
+    <string name="FileUsername">Fájl - Teljes felhasználónév</string>
+    <string name="Folder">Mappa - Felhasználónév hozzáadása</string>
+    <string name="Follow">Követés számláló - Szín</string>
+    <string name="Hide">Alkalmazás elrejtése</string>
+    <string name="HidePost">Fizetett (szponzorált) tartalmak elrejtése</string>
+    <string name="Like">Like gomb elrejtése</string>
+    <string name="Liked">Like-olt bejegyzések elrejtése</string>
+    <string name="Logging">Xposed naplózás tiltása</string>
+    <string name="Manual">Hook-ok módosítása manuálisan</string>
+    <string name="Misc">Egyéb</string>
+    <string name="NotificationHide">Letöltési figyelmeztetés elrejtése</string>
+    <string name="Pass">Letöltés XInstán keresztül</string>
+    <string name="Pin">"Új gyűjtemény" - Letöltés</string>
+    <string name="Push">Felugró értesítés - Letöltés</string>
+    <string name="Search">Keresési előzmények tiltása</string>
+    <string name="SaveHooks">Hook-ok mentése fájlba</string>
+    <string name="Show">Alkalmazás megjelenítése</string>
+    <string name="Slide">Jobbra, balra pöccintés tiltása</string>
+    <string name="Sound">Hang engedélyezése automatikusan induló videóknál</string>
+    <string name="Special">Külön köszönet</string>
+    <string name="Story">Történet időzítő tiltása</string>
+    <string name="StoryHide">Történetek elrejtése</string>
+    <string name="StoryPrivacy">Történet névtelenül</string>
+    <string name="Suggestion">Ajánlások elrejtése</string>
+    <string name="Translations">XInsta fordítása</string>
+    <string name="VideoLikes">Videó like számláló</string>
+
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">Xinsta frissítések keresése, amikor az Instagram meg van nyitva.</string>
+    <string name="Change_Summary">Fájl elválasztó módosítása</string>
+    <string name="ChangeApp_Summary">XInsta alkalmazásikon cseréje újabbra</string>
+    <string name="ChangeOrder_Summary">Instagram beállítások sorrendjének módosítása a három pont ikonra kattintáskor</string>
+    <string name="Check_Summary">XInsta frissítés ellenőrzése manuálisan</string>
+    <string name="Comment_Summary">Kommentek másolása érintésre</string>
+    <string name="Custom_Summary">Olyan nyelv használata, melyet nem támogat az Android</string>
+    <string name="Date_Summary">Tartalom közzététel pontos dátumának megjelenítése (az "X perccel ezelőtt" helyett)</string>
+    <string name="Default_Summary">XInsta által használt alapértelmezett Hook forrás módosítása</string>
+    <string name="File_Summary">Dátumformátum választás fájloknak (Hnap/Nap/Év)</string>
+    <string name="FileFormat_Summary">Fájl paraméterformátumának módosítása (Felhasznalonev_Datum_MediaAzonosito)</string>
+    <string name="FileURL_Summary">Instagram tartalom url-jének használata fájlnévként</string>
+    <string name="FileUsername_Summary">Felhasználók teljes Instagram nevének használata (National Geographic vs Natgeo)</string>
+    <string name="Folder_Summary">Tartalom mentése mappába, ami a tartalom feltöltőjének nevét tartalmazza</string>
+    <string name="Follow_Summary">Követés számláló színének módosítása (felhasználó adatlapján)</string>
+    <string name="Hide_Summary">XInsta elrejtése az alkalmazásindítóból</string>
+    <string name="HidePost_Summary">Azon tartalmak elrejtése, melyek fizetett termékelhelyezés keretében jöttek létre</string>
+    <string name="Like_Summary">Like-olás tiltása tartalom duplán megérintése esetén</string>
+    <string name="Liked_Summary">Akik Like-olták rész elrejtése Instagram-ban</string>
+    <string name="Logging_Summary">Xposed naplózás tiltása</string>
+    <string name="Manual_Summary">Hook-ok módosítása manuálisan</string>
+    <string name="NotificationHide_Summary">Letöltési értesítés elrejtése befejezett letöltésnél</string>
+    <string name="Pin_Summary">"Új gyűjtemény" gomb használata tartalom letöltéséhez</string>
+    <string name="Push_Summary">Felugró értesítések letöltése automatikusan</string>
+    <string name="Search_Summary">Keresési előzmények tiltása a "Fedezd fel" lapon</string>
+    <string name="SaveHooks_Summary">XInsta automatikusan letölti a hook-okat anélkül, hogy "kielemezné" azokat.</string>
+    <string name="Show_Summary">XInsta megjelenítése az alkalmazásindítóban</string>
+    <string name="Slide_Summary">Balról jobbra, ill. jobbról balra pöccintés tiltása, ami megváltoztatja a nézeteket (oldalakat) Instagram-ban</string>
+    <string name="Story_Summary">Történetek automatikus bezáródásának megelőzése</string>
+    <string name="StoryHide_Summary">Történetek sáv elrejtése a főoldalról, valamint a "Fedezd fel" oldalról</string>
+    <string name="StoryPrivacy_Summary">Annak megakadályozása, hogy a történetet feltöltő felhasználó láthassa, hogy megnézted a történetét</string>
+    <string name="VideoLikes_Summary">Videó like hozzáadás tartalomhoz</string>
+    <string name="the_not_so_big_but_big_button2_summary">Tartalom megnyitásának engedélyezése privát ablakban</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Letöltés sikeres</string>
+    <string name="Download_Failed">Letöltés sikertelen</string>
+    <string name="DownloadDots">Letöltés folyamatban&#8230;</string>
+    <string name="Please">Frissítsd a hook-okat a modulon keresztül.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Kép</string>
+    <string name="video">Videó</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Letöltés</string>
+    <string name="the_not_so_big_but_big_button2">Adatvédelmi zár</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Hozzászólás másolva</string>
+    <string name="Downloading">Letöltés %1$s</string>
+    <string name="Hooks_Latest">Már rendelkezel a legfrissebb hook-okkal.</string>
+    <string name="Hooks_Updated">Hook-ok frissítve.\nÁllítsd le az Instagrammot.</string>
+    <string name="I_LocationChanged">Kép mentési mappája visszaállítva az alapértelmezett értékre.</string>
+    <string name="Incorrect_Location">Ide nem lehet menteni.\nVálassz másik mappát.</string>
+    <string name="P_LocationChanged">Profilkép mentési mappája visszaállítva az alapértelmezett értékre.</string>
+    <string name="Picture_Not">Kattints a képre és próbáld újra</string>
+    <string name="V_LocationChanged">Videó mentési mappája visszaállítva az alapértelmezett értékre.</string>
+</resources>

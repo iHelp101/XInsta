@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">ٹھیک ہے</string>
+    <string name="Warning">ایک دفعہ ایپ چھپا دی گئی تو آپ اسے ایکسپوزڈ انسٹالر سےپھر بھی چلا سکتے ہیں. </string>
+
+    <!-- Date -->
+    <string name="AM">صبح/شام</string>
+    <string name="Day">دن</string>
+    <string name="Hour">گھنٹہ</string>
+    <string name="Minute">منٹ</string>
+    <string name="Month">ماہ</string>
+    <string name="Reset">ری سیٹ</string>
+    <string name="Second">سیکنڈ</string>
+    <string name="Space">---SPACE---</string>
+    <string name="Year">سال</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">New folder</string>
+    <string name="nnf_create_folder_error">فولڈر بنانے میں ناکام</string>
+    <string name="nnf_name">نام</string>
+    <string name="nnf_select_something_first">پہلے کسی چیز کا انتخاب کریں</string>
+    <string name="nnf_permission_external_write_denied">فائل سسٹم تک رسائی کی اجازت نہیں دی گئی</string>
+
+    <!-- ListView -->
+    <string name="Image">تصاور کا مقام</string>
+    <string name="Profile">پروفائل کی تصویر کا مقام</string>
+    <string name="Recommended">تجویز کردہ ہے</string>
+    <string name="Save">محفوظ کرنے کے مقامات</string>
+    <string name="Update">اپڈیٹ ہوک</string>
+    <string name="Video">ویڈیوز کا مقام</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Change">Change Separator</string>
+    <string name="ChangeApp">Change XInsta App Icon</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">اپڈیٹ کے لیے چیک کریں</string>
+    <string name="Comment">تبصرہ کاپی کر لیں ٹیپ کرنے پہ </string>
+    <string name="Contact">ڈیولپر سے رابطہ کریں</string>
+    <string name="Custom">مخصوص زبان</string>
+    <string name="Customization">مرضی کے مطابق تبدیلیاں</string>
+    <string name="Date">تاریخ کی ساخت</string>
+    <string name="Default">طے شدہ ہوک سورس</string>
+    <string name="Error_log">مسائل کے لاگ بھیجیں</string>
+    <string name="File">فائل - تاریخ کی ساخت بدلیں</string>
+    <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
+    <string name="Folder">فولڈر - اسم صارف شامل کریں</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Hide">ایپ چھپا دیں</string>
+    <string name="Like">پسند کا بٹن غیر فعال کریں</string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">ایکسپوزڈ لاگنگ غیر فعال کریں</string>
+    <string name="Manual">Manually Change Hooks</string>
+    <string name="Misc">متفرقات</string>
+    <string name="NotificationHide">ڈاؤنلوڈ کی اطلاع چھپائیں</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Pin">Pin/Save - Download</string>
+    <string name="Push">Push Notification - Download</string>
+    <string name="Search">Disable Search History</string>
+    <string name="Show">ایپ ظاہر کریں</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">ویڈیو آٹو پلے میں آواز چلائیں</string>
+    <string name="Special">خاص شکریہ</string>
+    <string name="Story">Disable Stories Timer</string>
+    <string name="StoryHide">Hide Stories</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
+    <string name="Suggestion">تجویزیں چھپائیں</string>
+    <string name="Translations">ایکس انسٹا کا ترجمہ کریں</string>
+    <string name="VideoLikes">Video Likes Count</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">ڈاؤنلوڈ مکمل</string>
+    <string name="Download_Failed">ڈاؤنلوڈ ناکام</string>
+    <string name="DownloadDots">&#8230;ڈاؤنلوڈ ہو رہا ہے </string>
+    <string name="Please">Please update your hooks via the module.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">تصویر</string>
+    <string name="video">ویڈیو</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">ڈاؤنلوڈ کریں </string>
+    <string name="the_not_so_big_but_big_button2">فیڈ لاک کریں</string>
+    <string name="the_not_so_big_but_big_button3">فیڈ ان لاک کریں</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">تبصرہ کاپی کر لیا گیا</string>
+    <string name="Downloading">کو %1$s ڈاؤنلوڈ کر رہا ہے </string>
+    <string name="Hooks_Latest">You already have the latest hooks.</string>
+    <string name="Hooks_Updated">Hooks have been updated.\nPlease kill the Instagram app.</string>
+    <string name="I_LocationChanged">تصویر محفوظ کرنے کی جگہ طے شدہ پر بحال۔</string>
+    <string name="Incorrect_Location">Unable to save here.\nPlease select another location.</string>
+    <string name="P_LocationChanged">پروفائل کی تصویر محفوظ کرنے کی جگہ طے شدہ پر بحال۔ </string>
+    <string name="Picture_Not">برائے مہربانی تصویر پر دوبارہ کلک کریں اور پھر کوشش کریں</string>
+    <string name="V_LocationChanged">ویڈیو محفوظ کرنے کی جگہ طے شدہ پر بحال۔</string>
+</resources>

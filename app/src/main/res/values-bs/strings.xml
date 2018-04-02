@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">U redu.</string>
+    <string name="Warning">Možete pristupiti aplikaciji preko XPosed Installer-a kada je sakriven.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Dia</string>
+    <string name="Hour">Hora</string>
+    <string name="Minute">Minuto</string>
+    <string name="Month">Mês</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Segundo</string>
+    <string name="Space">---ESPAÇO---</string>
+    <string name="Year">Ano</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Nova pasta</string>
+    <string name="nnf_create_folder_error">Falha ao criar pasta</string>
+    <string name="nnf_name">Nome</string>
+    <string name="nnf_select_something_first">Por favor, selecione algo primeiro</string>
+    <string name="nnf_permission_external_write_denied">Permissão para acessar arquivos do sistema negada</string>
+
+    <!-- ListView -->
+    <string name="Image">Local de Imagem</string>
+    <string name="Profile">Local de Foto do Perfil</string>
+    <string name="Recommended">Recomendados</string>
+    <string name="Save">LOCAL DE SALVAMENTO</string>
+    <string name="Update">ATUALIZAR GANCHOS</string>
+    <string name="Video">Local de Video</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Change">Change Separator</string>
+    <string name="ChangeApp">Change XInsta App Icon</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
+    <string name="Comment">Copy Comment On Tap</string>
+    <string name="Contact">Contact Developer</string>
+    <string name="Custom">Custom Language</string>
+    <string name="Customization">Customization</string>
+    <string name="Date">Formatação de Data</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">Enviar Relatório de Erros</string>
+    <string name="File">File - Change Date Format</string>
+    <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
+    <string name="Folder">Pasta - Adicionar Usuário</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Hide">Sakrij aplikaciju</string>
+    <string name="Like">Desabilitar Botão Curtir - Toque Duplo</string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">Disable Xposed Logging</string>
+    <string name="Manual">Manually Change Hooks</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">Esconder Notificação de Download</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Pin">Pin/Save - Download</string>
+    <string name="Push">Push Notification</string>
+    <string name="Search">Disable Search History</string>
+    <string name="Show">Exibir App</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
+    <string name="StoryHide">Hide Stories</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
+    <string name="Suggestion">Esconder Sugestões</string>
+    <string name="Translations">Traduza XInsta</string>
+    <string name="VideoLikes">Video Likes Count</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Skidanje završeno</string>
+    <string name="Download_Failed">Skidanje neuspješno</string>
+    <string name="DownloadDots">Skidanje u toku&#8230;</string>
+    <string name="Please">Molimo ažurirajte fajlove preko modula</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Foto</string>
+    <string name="video">Vídeo</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Skidanje</string>
+    <string name="the_not_so_big_but_big_button2">Privacy Lock</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\ov %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Komentar kopiran</string>
+    <string name="Downloading">Skidam %1$s</string>
+    <string name="Hooks_Latest">Već imate posljednje ažurirane fileove</string>
+    <string name="Hooks_Updated">Fajlovi su ažurirani.\nUgasite Instagram aplikaciju molim.</string>
+    <string name="I_LocationChanged">Lokacija za spremanje slika vraćena na prvobitnu</string>
+    <string name="Incorrect_Location">Nemoguće sačuvati ovdje.\nMolimo odaberite drugu lokaciju.</string>
+    <string name="P_LocationChanged">Lokacija za spremanje profilnih slika vraćena na prvobitno</string>
+    <string name="Picture_Not">Molimo kliknite na sliku i pokušajte ponovo.</string>
+    <string name="V_LocationChanged">Lokacija ta spremanje videa vraćena na prvobitno</string>
+</resources>

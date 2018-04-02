@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Εντάξει</string>
+    <string name="Warning">Μπορείτε να ανοίξετε το XInsta από το Xposed Installer αφού την κρύψετε.</string>
+
+    <!-- Date -->
+    <string name="AM">ΠΜ/ΜΜ</string>
+    <string name="Day">Ημέρα</string>
+    <string name="Hour">Ώρα</string>
+    <string name="Minute">Λεπτό</string>
+    <string name="Month">Μήνας</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Δευτερόλεπτο</string>
+    <string name="Space">---ΚΕΝΟ---</string>
+    <string name="Year">Χρόνος</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Νέος Φάκελος</string>
+    <string name="nnf_create_folder_error">Αποτυχία δημιουργίας φακέλου</string>
+    <string name="nnf_name">Όνομα</string>
+    <string name="nnf_select_something_first">Παρακαλώ επιλέξτε κάτι</string>
+    <string name="nnf_permission_external_write_denied">Η αίτηση άδειας για πρόσβαση στο σύστημα αρχείων δεν έγινε δεκτή</string>
+
+    <!-- ListView -->
+    <string name="Image">Τοποθεσία Εικόνας</string>
+    <string name="Profile">Τοποθεσία Εικονιδίου Προφίλ</string>
+    <string name="Recommended">Προτεινόμενα</string>
+    <string name="Save">ΤΟΠΟΘΕΣΙΕΣ ΑΠΟΘΗΚΕΥΣΗΣ</string>
+    <string name="Update">ΣΥΝΔΕΣΜΟΙ ΕΝΗΜΕΡΩΣΕΩΝ</string>
+    <string name="Video">Τοποθεσία Βίντεο</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Change">Change Separator</string>
+    <string name="ChangeApp">Change XInsta App Icon</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
+    <string name="Comment">Copy Comment On Tap</string>
+    <string name="Contact">Contact Developer</string>
+    <string name="Custom">Custom Language</string>
+    <string name="Customization">Customization</string>
+    <string name="Date">Μορφή Ημερομηνίας</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">Αποστολή Καταγραφών Σφαλμάτων</string>
+    <string name="File">File - Change Date Format</string>
+    <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
+    <string name="Folder">Φακελος - Εισάγετε Όνομα Χρήστη</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Hide">Απόκρυψη Εφαρμογής</string>
+    <string name="Like">Απενεργοποιηση Κουμπιου "Μου Αρέσει" - Διπλό Πάτημα</string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">Disable Xposed Logging</string>
+    <string name="Manual">Manually Change Hooks</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">Απόκρυψη Ειδοποιήσεων Λήψης</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Pin">Pin/Save - Download</string>
+    <string name="Push">Push Notification</string>
+    <string name="Search">Disable Search History</string>
+    <string name="Show">Εμφάνιση Εφαρμογής</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
+    <string name="StoryHide">Hide Stories</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
+    <string name="Suggestion">Απόκρυψη Προτεινόμενων</string>
+    <string name="Translations">Μεταφράστε το XInsta</string>
+    <string name="VideoLikes">Video Likes Count</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Η Λήψη Ολοκληρώθηκε</string>
+    <string name="Download_Failed">Η Λήψη Απέτυχε</string>
+    <string name="DownloadDots">Γίνεται Λήψη&#8230;</string>
+    <string name="Please">Παρακαλώ ενημερώστε τα hooks μέσω της εφαρμογής.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Εικόνας</string>
+    <string name="video">Βίντεο</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Λήψη</string>
+    <string name="the_not_so_big_but_big_button2">Privacy Lock</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Έγινε αντιγραφή σχολίου</string>
+    <string name="Downloading">Γίνεται Λήψη %1$s</string>
+    <string name="Hooks_Latest">Έχετε ήδη τα τελευταία hooks.</string>
+    <string name="Hooks_Updated">Τα hooks ενημερώθηκαν.\nΠαρακαλώ τερματίστε την εφαρμογή του Instagram.</string>
+    <string name="I_LocationChanged">Έγινε επαναφορά της τοποθεσίας αποθήκευσης εικόνων.</string>
+    <string name="Incorrect_Location">Δεν γίνεται αποθήκευση εδώ.\nΠαρακαλώ επιλέξτε άλλη τοποθεσία.</string>
+    <string name="P_LocationChanged">Έγινε επαναφορά της τοποθεσίας αποθήκευσης εικονιδίων προφίλ.</string>
+    <string name="Picture_Not">Παρακαλώ ακουμπήστε την εικόνα και προσπαθήστε ξανά.</string>
+    <string name="V_LocationChanged">Έγινε επαναφορά της τοποθεσίας αποθήκευσης βίντεο.</string>
+</resources>

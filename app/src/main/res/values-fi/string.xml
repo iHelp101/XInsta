@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Ok</string>
+    <string name="Warning">Piilotettuasi sovelluksen, voit käyttää sitä Xposed Installerin kautta.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Day</string>
+    <string name="Hour">Hour</string>
+    <string name="Minute">Minute</string>
+    <string name="Month">Month</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Second</string>
+    <string name="Space">---SPACE---</string>
+    <string name="Year">Year</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Uusi kansio</string>
+    <string name="nnf_create_folder_error">Kansion luominen epäonnistui</string>
+    <string name="nnf_name">Nimi</string>
+    <string name="nnf_select_something_first">Valitse jotain ensin</string>
+    <string name="nnf_permission_external_write_denied">Pääsy tiedostojärjestelmään evätty</string>
+
+    <!-- ListView -->
+    <string name="Image">Image Location</string>
+    <string name="Profile">Profiilikuvan sijainti</string>
+    <string name="Recommended">Suositeltua</string>
+    <string name="Save">TALLENNUSSIJAINNIT</string>
+    <string name="Update">PÄIVITÄ KOUKUT</string>
+    <string name="Video">Videon sijainti</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Change">Change Separator</string>
+    <string name="ChangeApp">Change XInsta App Icon</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
+    <string name="Comment">Copy Comment On Tap</string>
+    <string name="Contact">Contact Developer</string>
+    <string name="Custom">Custom Language</string>
+    <string name="Customization">Customization</string>
+    <string name="Date">Date Formatting</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">Lähetä virheraportti</string>
+    <string name="File">File - Change Date Format</string>
+    <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
+    <string name="Folder">Lisää käyttäjänimi kansion nimeen</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Hide">Piilota sovellus</string>
+    <string name="Like">Poista kaksoisnapautuksella tykkääminen käytöstä</string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">Disable Xposed Logging</string>
+    <string name="Manual">Manually Change Hooks</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">Piilota ilmoitus latauksesta</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Pin">Pin/Save - Download</string>
+    <string name="Push">Push Notification</string>
+    <string name="Search">Disable Search History</string>
+    <string name="Show">Näytä sovellus</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
+    <string name="StoryHide">Hide Stories</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
+    <string name="Suggestion">Hide Suggestions</string>
+    <string name="Translations">Käännä XInsta</string>
+    <string name="VideoLikes">Video Likes Count</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Lataus suoritettu</string>
+    <string name="Download_Failed">Lataus epäonnistui</string>
+    <string name="DownloadDots">Ladataan&#8230;</string>
+    <string name="Please">Päivitä koukkusi moduulin kautta.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Kuva</string>
+    <string name="video">Video</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Lataa</string>
+    <string name="the_not_so_big_but_big_button2">Privacy Lock</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\ %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Kommentti kopioitu</string>
+    <string name="Downloading">Ladataan %1$s</string>
+    <string name="Hooks_Latest">Sinulla on jo uusimmat koukut.</string>
+    <string name="Hooks_Updated">Koukut päivitetty.\Lopeta Instagram-sovellus.</string>
+    <string name="I_LocationChanged">Kuvan tallennussijainti asetettu takaisin oletusasetukseen.</string>
+    <string name="Incorrect_Location">Et voi tallentaa tänne.\Valitse toinen sijainti.</string>
+    <string name="P_LocationChanged">Profiilikuvan tallennussijainti asetettu takaisin oletusasetukseen.</string>
+    <string name="Picture_Not">Paina kuvaa ja yritä uudelleen.</string>
+    <string name="V_LocationChanged">Videon tallennussijainti asetettu takaisin oletusasetukseen.</string>
+</resources>

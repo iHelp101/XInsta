@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:background="#FFF">
+    <android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawer"
+        android:fitsSystemWindows="true">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.Toolbar
+                android:background="#222222"
+                android:id="@+id/toolbar"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:minHeight="48dp"
+                android:theme="@style/ToolbarColoredBackArrow" />
+            <com.ihelp101.instagram.DragNDropListView
+                android:id="@+id/listdrag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <android.support.design.widget.NavigationView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:id="@+id/date"
+            app:menu="@menu/date"/>
+    </android.support.v4.widget.DrawerLayout>
+</RelativeLayout>

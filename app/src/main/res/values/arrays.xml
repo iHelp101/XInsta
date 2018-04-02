@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="resicon">
+        <item>@android:drawable/ic_dialog_alert</item>
+        <item>@android:drawable/ic_dialog_dialer</item>
+        <item>@android:drawable/ic_dialog_email</item>
+        <item>@android:drawable/ic_dialog_info</item>
+        <item>@android:drawable/ic_dialog_map</item>
+        <item>@android:drawable/ic_menu_camera</item>
+        <item>@android:drawable/ic_menu_compass</item>
+        <item>@android:drawable/ic_menu_gallery</item>
+        <item>@android:drawable/ic_menu_my_calendar</item>
+        <item>@android:drawable/ic_menu_myplaces</item>
+        <item>@android:drawable/ic_menu_slideshow</item>
+        <item>@android:drawable/ic_menu_today</item>
+    </array>
+    <array name="restext">
+        <item>"alert"</item>
+        <item>"dialer"</item>
+        <item>"email"</item>
+        <item>"info"</item>
+        <item>"map"</item>
+        <item>"camera"</item>
+        <item>"compass"</item>
+        <item>"gallery"</item>
+        <item>"calendar"</item>
+        <item>"myplaces"</item>
+        <item>"slideshow"</item>
+        <item>"today"</item>
+    </array>
+    <string-array name="custom_languages_entries">
+        <item>None</item>
+        <item>Kurdish</item>
+    </string-array>
+    <string-array name="custom_languages_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="date_entries">
+        <item>None</item>
+        <item>Kurdish</item>
+    </string-array>
+    <string-array name="date_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="default_entries">
+        <item>GitHub</item>
+        <item>Pastebin</item>
+        <item>Alternate Source</item>
+    </string-array>
+    <string-array name="default_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="download_option_entries">
+        <item>Default</item>
+        <item>One Tap Video Download</item>
+        <item>XInsta</item>
+    </string-array>
+    <string-array name="download_option_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="file_date_entries">
+        <item>Day/Month/Year</item>
+        <item>Month/Day/Year</item>
+        <item>Year/Month/Day</item>
+        <item>Year/Day/Month</item>
+    </string-array>
+    <string-array name="file_date_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="manual_entries">
+        <item>Paste Hooks</item>
+        <item>Edit Hooks</item>
+    </string-array>
+    <string-array name="manual_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="pin_entries">
+        <item>None</item>
+        <item>One Tap</item>
+        <item>Double Tap</item>
+        <item>Long Press/Hold</item>
+    </string-array>
+    <string-array name="pin_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>

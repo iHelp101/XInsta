@@ -1,0 +1,103 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Okay</string>
+    <string name="Warning">Poti accesa aplicatia din Xposed Installer daca aceasta este ascunsa.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Ziua</string>
+    <string name="Hour">Ora</string>
+    <string name="Minute">Minute</string>
+    <string name="Month">Luna</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Secunda</string>
+    <string name="Space">---SPACE---</string>
+    <string name="Year">An</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Folder Nou</string>
+    <string name="nnf_create_folder_error">Esuare in folder nou</string>
+    <string name="nnf_name">Nume</string>
+    <string name="nnf_select_something_first">Te rugam sa selectezi ceva mai intai</string>
+    <string name="nnf_permission_external_write_denied">Nu a fost permisa accesarea fisierelor de sistem</string>
+
+    <!-- ListView -->
+    <string name="Image">Locatia Imagini</string>
+    <string name="Profile">Locatia Icon-ului de profil</string>
+    <string name="Recommended">Recomandat</string>
+    <string name="Save">SALVEAZA LOCATIILE</string>
+    <string name="Update">UPDATEAZA HOOKS</string>
+    <string name="Video">Locatia Videoclipului</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Change">Change Separator</string>
+    <string name="ChangeApp">Change XInsta App Icon</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
+    <string name="Comment">Copy Comment On Tap</string>
+    <string name="Contact">Contact Developer</string>
+    <string name="Custom">Custom Language</string>
+    <string name="Customization">Customization</string>
+    <string name="Date">Formatul Datei</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">Eroare in trimiterea Logs</string>
+    <string name="File">File - Change Date Format</string>
+    <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
+    <string name="Folder">Folder - Adauga Username-ul</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Hide">Hide App</string>
+    <string name="Like">Dezactiveaza butonul Like - Dubla Apasare</string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">Disable Xposed Logging</string>
+    <string name="Manual">Manually Change Hooks</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">Ascunde notificarile de descarcare</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Pin">Pin/Save - Download</string>
+    <string name="Push">Push Notification - Download</string>
+    <string name="Search">Disable Search History</string>
+    <string name="Show">Afiseaza Aplicatia</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
+    <string name="StoryHide">Hide Stories</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
+    <string name="Suggestion">Ascunde Sugestiile</string>
+    <string name="Translations">Tranduce XInsta</string>
+    <string name="VideoLikes">Video Likes Count</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Descarcare Completa</string>
+    <string name="Download_Failed">Descarcare Esuata</string>
+    <string name="DownloadDots">Downloading&#8230;</string>
+    <string name="Please">Va rugam actualizati hooks de la modul.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Fotografie</string>
+    <string name="video">Video</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Descarca</string>
+    <string name="the_not_so_big_but_big_button2">Privacy Lock</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Copiaza Commentariul</string>
+    <string name="Downloading">Descarcare %1$s</string>
+    <string name="Hooks_Latest">Deja ai ultimul hooks.</string>
+    <string name="Hooks_Updated">Hooks a fost actualizat.\nPlease kill the Instagram app.</string>
+    <string name="I_LocationChanged">Locatia fotografiilor descarcate resetata initial.</string>
+    <string name="Incorrect_Location">Imposibil de salvat aici.\nVa rugam alegeti alta locatie.</string>
+    <string name="P_LocationChanged">Locatia icon-ului de profil a fost resetata initial.</string>
+    <string name="Picture_Not">Va rugam selectati imaginea si incercati din nou</string>
+    <string name="V_LocationChanged">Locatia videoclipurilor salvate resetata initial.</string>
+</resources>

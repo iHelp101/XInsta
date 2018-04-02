@@ -1,0 +1,141 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Oke</string>
+    <string name="Warning">Anda dapat mengakses aplikasi melalui Xposed Installer setelah aplikasi disembunyikan.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Tanggal</string>
+    <string name="Hour">Jam</string>
+    <string name="Minute">Menit</string>
+    <string name="Month">Bulan</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Detik</string>
+    <string name="Space">---SPASI---</string>
+    <string name="Year">Tahun</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Folder baru</string>
+    <string name="nnf_create_folder_error">Gagal membuat folder</string>
+    <string name="nnf_name">Nama folder</string>
+    <string name="nnf_select_something_first">Harap pilih sesuatu terlebih dahulu</string>
+    <string name="nnf_permission_external_write_denied">Perizinan untuk mengakses file sistem ditolak</string>
+
+    <!-- ListView -->
+    <string name="Image">Lokasi Gambar</string>
+    <string name="Profile">Lokasi Ikon Profil</string>
+    <string name="Recommended">DISARANKAN</string>
+    <string name="Save">LOKASI PENYIMPANAN</string>
+    <string name="Update">PERBARUI KAIT</string>
+    <string name="Video">Lokasi Video</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Pemeriksa Pembaruan Otomatis</string>
+    <string name="Change">Ubah Separator</string>
+    <string name="ChangeApp">Ubah Ikon Aplikasi XInsta</string>
+    <string name="ChangeOrder">Ubah Urutan Opsi</string>
+    <string name="Check">Periksa Pembaruan</string>
+    <string name="Comment">Salin Komentar Saat Disentuh</string>
+    <string name="Contact">Hubungi Pengembang</string>
+    <string name="Custom">Bahasa Tambahan</string>
+    <string name="Customization">Kustomisasi</string>
+    <string name="Date">Format Tanggal</string>
+    <string name="Default">Sumber Kait</string>
+    <string name="Error_log">Kirim Catatan Kesalahan</string>
+    <string name="File">File - Ubah Format Tanggal</string>
+    <string name="FileFormat">File - Ubah Format File</string>
+    <string name="FileURL">File - Gunakan Format URL Sebagai Nama File</string>
+    <string name="FileUsername">File - Gunakan Username Penuh</string>
+    <string name="Folder">Folder - Tambahkan Nama Pengguna</string>
+    <string name="Follow">Indikator Mengikuti - Warna</string>
+    <string name="Hide">Sembunyikan Aplikasi</string>
+    <string name="HidePost">Sembunyikan Kiriman Sponsor Berbayar</string>
+    <string name="Like">Nonaktifkan Tombol Suka</string>
+    <string name="Liked">Nonaktifkan Kiriman yang Disukai</string>
+    <string name="Logging">Nonaktifkan Pencatatan Xposed</string>
+    <string name="Manual">Ubah Kait Secara Manual</string>
+    <string name="Misc">Dll.</string>
+    <string name="NotificationHide">Sembunyikan Pemberitahuan Pengunduhan</string>
+    <string name="Pass">Pindahkan Unduhan ke XInsta</string>
+    <string name="Pin">Pin/Simpan - Unduh</string>
+    <string name="Push">Pemberitahuan Kiriman - Unduh</string>
+    <string name="Search">Nonaktifkan Riwayat Pencarian</string>
+    <string name="SaveHooks">Simpan Kait ke dalam File</string>
+    <string name="Show">Tampilkan Aplikasi</string>
+    <string name="Slide">Nonaktifkan Navigasi Geser</string>
+    <string name="Sound">Aktifkan Pemutaran Suara Otomatis (Video)</string>
+    <string name="Special">Ucapan Terima Kasih</string>
+    <string name="Story">Nonaktifkan Timer Cerita</string>
+    <string name="StoryHide">Sembunyikan Cerita</string>
+    <string name="StoryPrivacy">Privasi Melihat Cerita</string>
+    <string name="Suggestion">Sembunyikan Saran</string>
+    <string name="Translations">Terjemahkan XInsta</string>
+    <string name="VideoLikes">Jumlah Penyuka Kiriman Video</string>
+
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">Periksa pembaruan XInsta setiap membuka Instagram.</string>
+    <string name="Change_Summary">Ubah Separator File</string>
+    <string name="ChangeApp_Summary">Ubah Ikon Aplikasi XInsta ke Ikon yang lebih baru.</string>
+    <string name="ChangeOrder_Summary">Ubah urutan dalam opsi Instagram.</string>
+    <string name="Check_Summary">Periksa pembaruan XInsta secara manual.</string>
+    <string name="Comment_Summary">Sentuh komentar untuk menyalin komentar tersebut.</string>
+    <string name="Custom_Summary">Gunakan bahasa yang tidak didukung oleh Android.</string>
+    <string name="Date_Summary">Atur format tanggal menjadi format waktu pengiriman (Alih-alih "X menit yang lalu").</string>
+    <string name="Default_Summary">Ubah sumber kait yang digunakan oleh XInsta.</string>
+    <string name="File_Summary">Ubah format tanggal untuk file (Bulan/Tanggal/Tahun).</string>
+    <string name="FileFormat_Summary">Ubah format parameter file (Nama-Pengguna_Tanggal_MediaID).</string>
+    <string name="FileURL_Summary">Gunakan URL kiriman Instagram sebagai nama file.</string>
+    <string name="FileUsername_Summary">Gunakan nama penuh Instagram (Joko Widodo) alih-alih nama pengguna (jokowi).</string>
+    <string name="Folder_Summary">Buat folder untuk setiap nama pengguna saat menyimpan file.</string>
+    <string name="Follow_Summary">Ubah warna indikator mengikuti.</string>
+    <string name="Hide_Summary">Sembunyikan ikon XInsta pada peluncur.</string>
+    <string name="HidePost_Summary">Sembunyikan kiriman yang merupakan sponsor berbayar.</string>
+    <string name="Like_Summary">Nonaktifkan Double tap to like pada kiriman.</string>
+    <string name="Liked_Summary">Sembunyikan "Kiriman yang Anda Sukai" pada Instagram.</string>
+    <string name="Logging_Summary">Nonaktifkan pencatatan Xposed.</string>
+    <string name="Manual_Summary">Ubah kait secara manua.l</string>
+    <string name="NotificationHide_Summary">Sembunyikan notifikasi untuk unduhan yang selesai.</string>
+    <string name="Pin_Summary">Gunakan tombol Pin/Simpan untuk mengunduh kiriman.</string>
+    <string name="Push_Summary">Unduh kiriman yang ada pada pemberitahuan secara otomatis.</string>
+    <string name="Search_Summary">Nonaktifkan riwayat pada pencarian.</string>
+    <string name="SaveHooks_Summary">XInsta akan memuat kait secara otomatis tanpa menariknya.</string>
+    <string name="Show_Summary">Tampilkan Ikon XInsta pada peluncur.</string>
+    <string name="Slide_Summary">Nonaktifkan penggeseran kiri ke kanan atau sebaliknya pada Instagram.</string>
+    <string name="Story_Summary">Cegah agar cerita tidak berganti secara otomatis</string>
+    <string name="StoryHide_Summary">Sembunyikan cerita</string>
+    <string name="StoryPrivacy_Summary">Cegah pengguna lain mengetahui kalau Anda melihat cerita mereka</string>
+    <string name="VideoLikes_Summary">Tambahkan jumlah penyuka video pada kiriman</string>
+
+    <string name="the_not_so_big_but_big_button2_summary">Mengizinkan anda untuk membuka kiriman pada jendela pribadi</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Pengunduhan Berhasil</string>
+    <string name="Download_Failed">Bengunduhan Gagal</string>
+    <string name="DownloadDots">Mengunduh &#8230;</string>
+    <string name="Please">Harap perbarui kait melalui modul.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Foto</string>
+    <string name="video">Video</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Unduh</string>
+    <string name="the_not_so_big_but_big_button2">Kunci Privasi</string>
+    <string name="the_not_so_big_but_big_button3">Buka Kunci</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%2$s milik %1$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Komentar disalin</string>
+    <string name="Downloading">Mengunduh %1$s</string>
+    <string name="Hooks_Latest">Anda telah memiliki kait terbaru.</string>
+    <string name="Hooks_Updated">Kait telah diperbarui.\nHarap hentikan aplikasi Instagram.</string>
+    <string name="I_LocationChanged">Lokasi penyimpanan gambar telah direset ke lokasi awal.</string>
+    <string name="Incorrect_Location">Tidak bisa menyimpan di sini.\nHarap pilih lokasi lain.</string>
+    <string name="P_LocationChanged">Lokasi penyimpanan ikon profil telah direset ke lokasi awal.</string>
+    <string name="Picture_Not">Harap sentuh gambar dan coba lagi</string>
+    <string name="V_LocationChanged"> Lokasi penyimpanan video telah direset ke lokasi awal. </string>
+</resources>

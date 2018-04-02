@@ -1,0 +1,141 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Okay</string>
+    <string name="Warning">Vous pouvez acceder à l\'appli via Xposed Installer une fois qu\'il aura été masqué.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Jour</string>
+    <string name="Hour">Heure</string>
+    <string name="Minute">Minute</string>
+    <string name="Month">Mois</string>
+    <string name="Reset">Réinitilisation</string>
+    <string name="Second">Second</string>
+    <string name="Space">---ESPACE---</string>
+    <string name="Year">Année</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Nouveau dossier</string>
+    <string name="nnf_create_folder_error">Échec de création du dossier</string>
+    <string name="nnf_name">Nom</string>
+    <string name="nnf_select_something_first">Merci de sélectionner d\'abord quelque chose</string>
+    <string name="nnf_permission_external_write_denied">Permission d\'accès au système de fichiers refusé</string>
+
+    <!-- ListView -->
+    <string name="Image">Emplacement d\'image</string>
+    <string name="Profile">Emplacement d\'icône de profile</string>
+    <string name="Recommended">Recommendé</string>
+    <string name="Save">EMPLACEMENT DE SAUVEGARDE</string>
+    <string name="Update">MISE A JOUR HOOKS</string>
+    <string name="Video">Emplacement vidéo</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Vérification des mises à jours automatique</string>
+    <string name="Change">Changer Separateur</string>
+    <string name="ChangeApp">Changer l\'icône de l\'aplication XInsta</string>
+    <string name="ChangeOrder">Changer l\'ordre des options</string>
+    <string name="Check">Vérifier mises à jours</string>
+    <string name="Comment">Copier commentaires à l\'appui</string>
+    <string name="Contact">Contacter Développeur</string>
+    <string name="Custom">Language Personalisé</string>
+    <string name="Customization">Customisation</string>
+    <string name="Date">Formattage de la date</string>
+    <string name="Default">Source Hook Par Défaut</string>
+    <string name="Error_log">Envoyer Journaux d\'Erreurs</string>
+    <string name="File">Fichier - Changer Format Date</string>
+    <string name="FileFormat">Fichier - Changer Format fichier</string>
+    <string name="FileURL">Fichier - Format d\'URL Comme Nom Fichier</string>
+    <string name="FileUsername">Fichier - Nom d\'Utilisateur entier</string>
+    <string name="Folder">Dossier - Ajouter Nom d\'Utilisateur</string>
+    <string name="Follow">Suivre Indicateur - Couleur</string>
+    <string name="Hide">Masquer l\'Appli</string>
+    <string name="HidePost">Masquer Message Partenaire payant</string>
+    <string name="Like">Désactiver Boutton J\aime</string>
+    <string name="Liked">Désactiver Poste Aimé</string>
+    <string name="Logging">Désactiver Enregistrement Xposed</string>
+    <string name="Manual">Changer Chrochet Manuellement</string>
+    <string name="Misc">Divers.</string>
+    <string name="NotificationHide">Masquer Notification Téléchargement</string>
+    <string name="Pass">Passer Téléchargements à XInsta</string>
+    <string name="Pin">Épingler/Enregistrer - Téléchargement</string>
+    <string name="Push">Notification Forçée - Téléchargement</string>
+    <string name="Search">Désactiver Historique Recherche</string>
+    <string name="SaveHooks">Sauvegarder Chrochets dans Fichier</string>
+    <string name="Show">Afficher App</string>
+    <string name="Slide">Désactiver Naviguation Diapositives</string>
+    <string name="Sound">Activer Auto-lecture Son (Videos)</string>
+    <string name="Special">Thanks Particuliers</string>
+    <string name="Story">Désactiver Minuteur Stories</string>
+    <string name="StoryHide">Masquer Stories</string>
+    <string name="StoryPrivacy">Vie Privée Stories</string>
+    <string name="Suggestion">Masquer Suggestions</string>
+    <string name="Translations">Traduire XInsta</string>
+    <string name="VideoLikes">Compteur J\'aimes Vidéos</string>
+
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">Vérifier les MAJ XInsta lorsce que Instagram est ouvert.</string>
+    <string name="Change_Summary">Changer Séparateur Fichier</string>
+    <string name="ChangeApp_Summary">Changer l\'icône de l\'appli XInsta par la nouvelle icône</string>
+    <string name="ChangeOrder_Summary">Changer l\'ordre des options Instagram lorsce que vous cliquez sur l\'icône des trois points</string>
+    <string name="Check_Summary">Vérifier manuellement les mises à jours XInsta</string>
+    <string name="Comment_Summary">Appuie sur commentaire pour copier</string>
+    <string name="Custom_Summary">Utilise une langue non supportée par Android</string>
+    <string name="Date_Summary">Définir le format de date pour l\'heure exacte de l\'affichage (au lieu de X minutes il y a quelques minutes)</string>
+    <string name="Default_Summary">Choisir la source de crochet par défaut utilisée par XInsta</string>
+    <string name="File_Summary">Choisir le format de date pour les fichiers (mois/jour/année)</string>
+    <string name="FileFormat_Summary">Modifier le format des paramètres de fichier (Nom_Utilisateur_Date_MediaID)</string>
+    <string name="FileURL_Summary">Utiliser le nom de fichier à partir de l\'URL Instagram Post comme nom de fichier.</string>
+    <string name="FileUsername_Summary">Utiliser le nom complet de l\'Instagram des utilisateurs (National Geographic vs Natgeo)</string>
+    <string name="Folder_Summary">Sauvegarder dans un dossier avec le nom d\'utilisateur de l\'affiche.</string>
+    <string name="Follow_Summary">Changer la couleur de l\'indicateur Suivant</string>
+    <string name="Hide_Summary">Cacher XInsta de votre tiroir</string>
+    <string name="HidePost_Summary">Cacher les posts qui ont des parrainages rémunérés</string>
+    <string name="Like_Summary">Désactiver le double appui sur le post pour l\'aimer</string>
+    <string name="Liked_Summary">Cache la section des posts aimés dans Instagram.</string>
+    <string name="Logging_Summary">Désactiver la journalisation Xposed</string>
+    <string name="Manual_Summary">Changer les crochets manuellement</string>
+    <string name="NotificationHide_Summary">Masquer les notifications de téléchargement pour les téléchargements complêtés</string>
+    <string name="Pin_Summary">Utiliser le boutton Épingler/Enregistrer pour télécharger les posts</string>
+    <string name="Push_Summary">Notifications Persistantes de Téléchargements Automatiques</string>
+    <string name="Search_Summary">Désactiver exploration d\'onglet Historique de recherche</string>
+    <string name="SaveHooks_Summary">XInsta chargera automatiquement les crochets sans aller les chercher.</string>
+    <string name="Show_Summary">Afficher XInsta dans votre tirroir</string>
+    <string name="Slide_Summary">Désactiver le balayage de gauche à droite ou de droite à gauche pour modifier les vues dans Instagram.</string>
+    <string name="Story_Summary">Empêcher les Stories de se fermer automatiquement</string>
+    <string name="StoryHide_Summary">Plateau d\'histoires cachées sur l\'onglet principal et explorateur</string>
+    <string name="StoryPrivacy_Summary">Empêcher les utilisateurs de vous voir visionner leurs storys.</string>
+    <string name="VideoLikes_Summary">Ajoute les j\'aimes pour la vidéo à poster</string>
+
+    <string name="the_not_so_big_but_big_button2_summary">Vous permet d\'ouvrir un message dans une fenêtre privée.</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Téléchargement terminé</string>
+    <string name="Download_Failed">Téléchargement échoué</string>
+    <string name="DownloadDots">Téléchargement&#8230;</string>
+    <string name="Please">Merci de mettre à jours vos crochets via le module.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Photo</string>
+    <string name="video">Vidéo</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Téléchargement</string>
+    <string name="the_not_so_big_but_big_button2">Verrouillage Vie Privée</string>
+    <string name="the_not_so_big_but_big_button3">Débloquer Le Flux</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Commentaire Copié</string>
+    <string name="Downloading">Téléchargement %1$s</string>
+    <string name="Hooks_Latest">Vous avez déjà les derniers crochets.</string>
+    <string name="Hooks_Updated">Les crochets ont été mis à jours.\nMerci de tuer l\'appli Instagram.</string>
+    <string name="I_LocationChanged">Réinitialisation de l\'emplacement de sauvegarde des images par défaut.</string>
+    <string name="Incorrect_Location">Impossible d\'enregistrer ici.\nMerci de sélectionner un autre emplacement.</string>
+    <string name="P_LocationChanged">Réinitialisation de l\'emplacement de sauvegarde des icônes par défaut.</string>
+    <string name="Picture_Not">Merci de cliquer sur l\'image et d\'essayer à nouveau</string>
+    <string name="V_LocationChanged">Réinitialisation de l\'emplacement de sauvegarde des vidéos par défaut.</string>
+</resources>

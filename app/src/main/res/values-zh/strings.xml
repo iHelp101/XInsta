@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">好的</string>
+    <string name="Warning">您可以通过访问Xposed Installer设置本程序</string>
+
+    <!-- Date -->
+    <string name="AM">上午/下午</string>
+    <string name="Day">天</string>
+    <string name="Hour">时</string>
+    <string name="Minute">分</string>
+    <string name="Month">月</string>
+    <string name="Reset">重置</string>
+    <string name="Second">秒</string>
+    <string name="Space">---分隔符--</string>
+    <string name="Year">年</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">创建新文件夹</string>
+    <string name="nnf_create_folder_error">创建文件夹失败</string>
+    <string name="nnf_name">名称</string>
+    <string name="nnf_select_something_first">请至少选择一个</string>
+    <string name="nnf_permission_external_write_denied">访问文件系统被拒绝</string>
+
+    <!-- ListView -->
+    <string name="Image">下载图片保存位置</string>
+    <string name="Profile">下载头像图片保存位置</string>
+    <string name="Recommended">推荐</string>
+    <string name="Save">保存位置</string>
+    <string name="Update">更新钩子</string>
+    <string name="Video">下载视频保存位置</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">自动检查更新</string>
+    <string name="Change">更改分隔符</string>
+    <string name="ChangeApp">XInsta 应用程序图标更改</string>
+    <string name="ChangeOrder">更改选项顺序</string>
+    <string name="Check">检查更新</string>
+    <string name="Comment">点击复制评论</string>
+    <string name="Contact">联系开发者</string>
+    <string name="Custom">自定义语言</string>
+    <string name="Customization">自定义设置</string>
+    <string name="Date">日期格式</string>
+    <string name="Default">默认钩源</string>
+    <string name="Error_log">发送错误日志</string>
+    <string name="File">文件-更改日期格式</string>
+    <string name="FileFormat">文件-更改文件格式</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
+    <string name="Folder">文件夹-添加用户名</string>
+    <string name="Follow">跟随(关注)者-颜色</string>
+    <string name="Hide">隐藏应用程序图标</string>
+    <string name="Like">禁用喜欢按钮</string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">禁用Xposed日志记录</string>
+    <string name="Manual">手动更改钩子</string>
+    <string name="Misc">其他选项</string>
+    <string name="NotificationHide">隐藏下载通知</string>
+    <string name="Pass">使用 XInsta 下载</string>
+    <string name="Pin">动作设置-下载</string>
+    <string name="Push">推送通知-下载</string>
+    <string name="Search">禁用搜索历史记录</string>
+    <string name="Show">显示应用程序</string>
+    <string name="Slide">禁用幻灯片导航</string>
+    <string name="Sound">视频自动播放声音</string>
+    <string name="Special">特别感谢</string>
+    <string name="Story">禁用故事计时器</string>
+    <string name="StoryHide">Hide Stories</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
+    <string name="Suggestion">隐藏建议</string>
+    <string name="Translations">协助翻译 XInsta</string>
+    <string name="VideoLikes">显示获赞数量</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">下载已完成</string>
+    <string name="Download_Failed">下载失败</string>
+    <string name="DownloadDots">正在下载..._</string>
+    <string name="Please">请您通过模块更新钩子</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">照片</string>
+    <string name="video">视频</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">下载</string>
+    <string name="the_not_so_big_but_big_button2">进入可缩放模式(仅当前)</string>
+    <string name="the_not_so_big_but_big_button3">打开素材/解锁Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">评论已复制</string>
+    <string name="Downloading">下载 %1$ s</string>
+    <string name="Hooks_Latest">当前钩子已经是最新版了</string>
+    <string name="Hooks_Updated">已更新钩子\n请重启Instagram应用程序</string>
+    <string name="I_LocationChanged">图像保存位置重置</string>
+    <string name="Incorrect_Location">无法保存这里\n请选择另一个位置</string>
+    <string name="P_LocationChanged">头像图片保存位置重置</string>
+    <string name="Picture_Not">请单击该图像，然后再试</string>
+    <string name="V_LocationChanged">视频保存位置重置</string>
+</resources>

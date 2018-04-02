@@ -1,0 +1,104 @@
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">Gerai</string>
+    <string name="Warning">Paslėpę šią programą, ją pasiekti galėsite per Xposed Installer.</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Diena</string>
+    <string name="Hour">Valanda</string>
+    <string name="Minute">Minutė</string>
+    <string name="Month">Mėnuo</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Sekundė</string>
+    <string name="Space">---TARPAS---</string>
+    <string name="Year">Metai</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Naujas aplankas</string>
+    <string name="nnf_create_folder_error">Nepavyko sukurti naujo aplanko</string>
+    <string name="nnf_name">Pavadinimas</string>
+    <string name="nnf_select_something_first">Pirmiausia prašome ką nors pasirinkti</string>
+    <string name="nnf_permission_external_write_denied">Nepavyko gauti leidimo prie failų sistemos</string>
+
+    <!-- ListView -->
+    <string name="Image">Nuotraukos vieta</string>
+    <string name="Profile">Profilio icon\'ų vieta</string>
+    <string name="Recommended">Rekomenduojama</string>
+    <string name="Save">Saugojimo vieta</string>
+    <string name="Update">Atnaujinimo galimybės</string>
+    <string name="Video">Vaizdo įrašų vieta</string>
+
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Change">Change Separator</string>
+    <string name="ChangeApp">Change XInsta App Icon</string>
+    <string name="ChangeOrder">Change Options Order</string>
+    <string name="Check">Check For Update</string>
+    <string name="Comment">Copy Comment On Tap</string>
+    <string name="Contact">Contact Developer</string>
+    <string name="Custom">Custom Language</string>
+    <string name="Customization">Customization</string>
+    <string name="Date">Datos formatavimas</string>
+    <string name="Default">Default Hook Source</string>
+    <string name="Error_log">Išsiųsti klaidos įrašus</string>
+    <string name="File">File - Change Date Format</string>
+    <string name="FileFormat">File - Change File Format</string>
+    <string name="FileURL">File - URL Format As Filename</string>
+    <string name="FileUsername">File - Full Username</string>
+    <string name="Folder">Aplankas - Pridėti vartotojo vardą</string>
+    <string name="Follow">Follow Indicator - Color</string>
+    <string name="Hide">Paslėpti programą</string>
+    <string name="Like">Išjungti patinka mygtuką - Dvigubą paspaudimą</string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">Disable Xposed Logging</string>
+    <string name="Manual">Manually Change Hooks</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">Paslėpti atsisiuntimo notifikaciją</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Pin">Pin/Save - Download</string>
+    <string name="Push">Push Notification - Download</string>
+    <string name="Search">Disable Search History</string>
+    <string name="Show">Rodyti programą</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
+    <string name="Special">Special Thanks</string>
+    <string name="Story">Disable Stories Timer</string>
+    <string name="StoryHide">Hide Stories</string>
+    <string name="StoryPrivacy">Stories Privacy</string>
+    <string name="Suggestion">Slėpti pasiūlymus</string>
+    <string name="Translations">Išversti XInsta</string>
+    <string name="VideoLikes">Video Likes Count</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Atsisiuntimas baigtas</string>
+    <string name="Download_Failed">Atsisiuntimas nepavyko</string>
+    <string name="DownloadDots">Downloading&#8230;</string>
+    <string name="Please">Prašome atsinaujinti programą per Xposed modulius.</string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Nuotrauka</string>
+    <string name="video">Vaizdo įrašas</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Atsisiųsti</string>
+    <string name="the_not_so_big_but_big_button2">Privacy Lock</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Komentaras nukopijuotas</string>
+    <string name="Downloading">Atsiunčiama %1$s</string>
+    <string name="Hooks_Latest">Jūs jau turite atsinaujinę savo programą.</string>
+    <string name="Hooks_Updated">Programa atnaujinta.\nPrašome sustabdyti Instagram\'ą.</string>
+    <string name="I_LocationChanged">Nuotraukų saugojimo vieta atstatyta į originalią.</string>
+    <string name="Incorrect_Location">Nepavyko išsaugoti\n Prašome pasirinkti kitą vietą išsaugojimui.</string>
+    <string name="P_LocationChanged">Profilio iconų saugojimo vieta atstatyta į originalią.</string>
+    <string name="Picture_Not">Prašau spustelėti ant nuotraukos ir pabandyti dar kartą</string>
+    <string name="V_LocationChanged">Vaizdo įrašų saugojimo vieta atstatyta į originalią.</string>
+</resources>
