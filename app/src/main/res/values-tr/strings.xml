@@ -1,3 +1,5 @@
+
+
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">XInsta</string>
@@ -36,7 +38,7 @@
     <string name="Automatically">Otomatik Güncelleme Denetleyicisi</string>
     <string name="Change">Ayırıcıyı Değiştir</string>
     <string name="ChangeApp">XInsta Uygulama Simgesini Değiştir</string>
-    <string name="ChangeOrder">Seçeneklerin Düzenini Değiştir</string>
+    <string name="ChangeOrder">Seçeneklerin Sırasını Değiştir</string>
     <string name="Check">Güncellemeleri Denetle</string>
     <string name="Comment">Tek Tıkla Yorumu Kopyala</string>
     <string name="Contact">Geliştiriciye Ulaş</string>
@@ -44,25 +46,28 @@
     <string name="Customization">Özelleştirme</string>
     <string name="Date">Tarih Biçimlendirme</string>
     <string name="Default">Varsayılan Kaynak Dosyalar</string>
+    <string name="Discovery">Keşfi Devre Dışı Bırak</string>
     <string name="Error_log">Hata Günlüğü Gönder</string>
+    <string name="Experimental">Deneysel Kaynak Bulucu</string>
     <string name="File">Dosya Tarihi Biçimini Değiştir</string>
     <string name="FileFormat">Dosya Biçimini Değiştir</string>
     <string name="FileURL">Dosya Adı Olarak URL Biçimi</string>
     <string name="FileUsername">Tam Kullanıcı Adı</string>
     <string name="Folder">Kullanıcı Adıyla Klasöre Ekle</string>
-    <string name="Follow">Takipçi Gösterge Rengi</string>
+    <string name="Follow">Takipçi Göstergesi Rengi</string>
     <string name="Hide">Uygulamayı Gizle</string>
     <string name="HidePost">Ücretli Ortaklık Gönderisini Gizle</string>
     <string name="Like">Beğenme Düğmesini Etkisizleştir</string>
     <string name="Liked">Beğenildi Mesajını Etkisizleştir</string>
-    <string name="Logging">Xposed Günlüğünü Kapat</string>
+    <string name="Logging">Xposed Günlüğünü Devre Dışı Bırak</string>
     <string name="Manual">Kaynakları Elle Değiştir</string>
     <string name="Misc">Çeşitli</string>
     <string name="NotificationHide">İndirme Bildirimini Gizle</string>
     <string name="Pass">Pass Downloads To XInsta</string>
-    <string name="Pin">Kaydet Düğmesine Basarak İndir</string>
-    <string name="Push">Anında Bildirim - İndir</string>
-    <string name="Search">Arama Geçmişini Kapat</string>
+    <string name="Pin">Rozet/Kaydet Düğmesine Basarak İndir</string>
+    <string name="Push">Push Bildirim - İndir</string>
+    <string name="Resolution">Yüksek Çözünürlüğü Zorla</string>
+    <string name="Search">Arama Geçmişini Devre Dışı Bırak</string>
     <string name="SaveHooks">Kancaları Dosyaya Kaydet</string>
     <string name="Show">Uygulamayı Göster</string>
     <string name="Slide">Slayt Gezintisini Kapat</string>
@@ -70,36 +75,39 @@
     <string name="Special">Özel Teşekkürler</string>
     <string name="Story">Hikaye Zamanlayıcıyı Kapat</string>
     <string name="StoryHide">Hikayeleri Gizle</string>
-    <string name="StoryPrivacy">Hikayeler Gizliliği</string>
+    <string name="StoryPrivacy">Hikaye Gizliliği</string>
     <string name="Suggestion">Önerileri Gizle</string>
-    <string name="Translations">Translate XInsta</string>
+    <string name="Translations">XInsta\'yı Çevir</string>
     <string name="VideoLikes">Video Beğenme Sayısı</string>
 
     <!-- Menu Items Description -->
     <string name="Automatically_Summary">Instagram açıldığında XInsta güncellemelerini kontrol eder.</string>
     <string name="Change_Summary">Dosya Ayırıcıyı Değiştir</string>
     <string name="ChangeApp_Summary">XInsta Uygulama Simgesini Daha Yeni Simgeyle Değiştir</string>
-    <string name="ChangeOrder_Summary">Üç Nokta Simgesi Tıklatıldığında Instagram\'ın Seçenek Sırasını Değiştir</string>
+    <string name="ChangeOrder_Summary">Instagram\'ın Üç Nokta Simgesi Tıklatıldığında ki Seçenek Sırasını Değiştir</string>
     <string name="Check_Summary">XInsta Güncellemesini Elle Kontrol Et</string>
     <string name="Comment_Summary">Kopyalamak İçin Yorumlara Dokun</string>
     <string name="Custom_Summary">Android Tarafından Desteklenmeyen Bir Dili Kullan</string>
     <string name="Date_Summary">Yazının Kesin Yazılma Zamanı Zaman Biçimini Ayarla (X Dakika önce yerine)</string>
     <string name="Default_Summary">XInsta Tarafından Kullanılan Varsayılan Kanca Kaynağını Seç</string>
-    <string name="File_Summary">Dosyalar için Tarih Formatı Seç (Ay/Gün/Yıl)</string>
+    <string name="Discovery_Summary">Arama Bölümünü (Arama Simgesi) Gösterme</string>
+   <string name="Experimental_Summary">Kancaları bulmak için deneysel bir çözüm.</string>
+    <string name="File_Summary">Dosyalar İçin Tarih Formatı Seç (Ay/Gün/Yıl)</string>
     <string name="FileFormat_Summary">Dosya Parametreleri Biçimini Değiştir (Username_Date_MediaID)</string>
-    <string name="FileURL_Summary">Dosya adı olarak Instagram Gönderi Adresinin Adını Kullan</string>
-    <string name="FileUsername_Summary">Kullanıcıların Tam Instagram Adını Kullan (National Geographic vs Natgeo)</string>
+    <string name="FileURL_Summary">Dosya Adı olarak Instagram Gönderi Adresinin Adını Kullan</string>
+    <string name="FileUsername_Summary">Kullanıcıların Tam Instagram Adını Kullan (Örn: Natgeo yerine National Geographic)</string>
     <string name="Folder_Summary">Resmin Kullanıcı Adıyla Klasöre Kaydet</string>
     <string name="Follow_Summary">Takipçi Göstergesi Rengini Değiştir</string>
     <string name="Hide_Summary">XInsta\'yı Çekmecenizden Gizleyin</string>
     <string name="HidePost_Summary">Sponsorluk Ödeyen Gönderiyi Gizle</string>
     <string name="Like_Summary">Çift Tıkla Gönderi Beğenmeyi Devre Dışı Bırak</string>
     <string name="Liked_Summary">Instagram\'da Beğenilen Gönderi Kısmını Gizler</string>
-    <string name="Logging_Summary">Xposed günlüğünü devre dışı bırak</string>
+    <string name="Logging_Summary">Xposed Günlüğünü Devre Dışı Bırak</string>
     <string name="Manual_Summary">Kancaları Elle Değiştir</string>
     <string name="NotificationHide_Summary">Tamamlanan İndirme İçin İndirme Bildirimini Gizle</string>
-    <string name="Pin_Summary">Gönderiyi İndirmek İçin Sabitleme/Kaydetme Düğmesini Kullan</string>
+    <string name="Pin_Summary">Gönderiyi İndirmek İçin Rozet/Kaydet Düğmesini Kullan</string>
     <string name="Push_Summary">Push Bildirimleri Otomatik İndir</string>
+    <string name="Resolution_Summary">Düşük Çözünürlüklü Ekranlara Sahip Aygıtlar İçin Yüksek Çözünürlüklü Görüntü/Video Zorlama. Bu, Bazı Cihazlarda Sorunlara Neden Olabilir</string>
     <string name="Search_Summary">Keşfet Sekmesi Arama Geçmişini Devre Dışı Bırak</string>
     <string name="SaveHooks_Summary">XInsta, Kanca Almadan Kancaları Otomatik Olarak Yükleyecek.</string>
     <string name="Show_Summary">XInsta\'yı Çekmecenizde Gösterin</string>
