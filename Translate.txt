@@ -5,86 +5,87 @@ Original - <string name="Hide">Hide App</string>
 Spanish - <string name="Hide">Ocultar App</string>
 
 Language - Which Language Are You Translating?
+<language lang="Vietnamese"> values-vi </language>
 
     <string name="app_name">XInsta</string>
 
     <!-- Alert Dialog -->
-    <string name="Okay">Okay</string>
-    <string name="Warning">You can access the app via the Xposed Installer once it has been hidden.</string>
+    <string name="Okay">OK</string>
+    <string name="Warning">Bạn vẫn có thể truy cập XInsta từ Xposed Installer nếu cần</string>
 
     <!-- Date -->
     <string name="AM">AM/PM</string>
-    <string name="Day">Day</string>
-    <string name="Hour">Hour</string>
-    <string name="Minute">Minute</string>
-    <string name="Month">Month</string>
+    <string name="Day">Ngày</string>
+    <string name="Hour">Giờ</string>
+    <string name="Minute">Phút</string>
+    <string name="Month">Tháng</string>
     <string name="Reset">Reset</string>
-    <string name="Second">Second</string>
-    <string name="Space">---SPACE---</string>
-    <string name="Year">Year</string>
+    <string name="Second">Giây</string>
+    <string name="Space">---khoảng trắng---</string>
+    <string name="Year">Năm</string>
 
     <!-- File Browser -->
-    <string name="nnf_new_folder">New folder</string>
-    <string name="nnf_create_folder_error">Failed to create folder</string>
-    <string name="nnf_name">Name</string>
-    <string name="nnf_select_something_first">Please select something first</string>
-    <string name="nnf_permission_external_write_denied">Permission to access filesystem denied</string>
+    <string name="nnf_new_folder">Thư mục mới</string>
+    <string name="nnf_create_folder_error">Không thể tạo thư mục mới!</string>
+    <string name="nnf_name">Tên</string>
+    <string name="nnf_select_something_first">Hãy chọn một mục</string>
+    <string name="nnf_permission_external_write_denied">Bạn không có quyền truy cập thư mục này</string>
 
     <!-- ListView -->
-    <string name="Image">Image Location</string>
-    <string name="Profile">Profile Icon Location</string>
-    <string name="Recommended">Recommended</string>
-    <string name="Save">SAVE LOCATIONS</string>
-    <string name="Update">UPDATE HOOKS</string>
-    <string name="Video">Video Location</string>
+    <string name="Image">Nơi lưu ảnh</string>
+    <string name="Profile">Nơi lưu Avatar</string>
+    <string name="Recommended">Gợi ý</string>
+    <string name="Save">Nơi lưu file</string>
+    <string name="Update">Cập nhật Hooks</string>
+    <string name="Video">Nơi lưu Video</string>
 
     <!-- Menu Items !-->
     <string name="Change">Change Separator</string>
-    <string name="Comment">Copy Comment On Tap</string>
-    <string name="Contact">Contact Developer</string>
-    <string name="Customization">Customization</string>
-    <string name="Date">Date Formatting</string>
-    <string name="Default">Default Hook Source</string>
-    <string name="Error_log">Send Error Logs</string>
-    <string name="File">File - Change Date Format</string>
-    <string name="Folder">Folder - Add Username</string>
-    <string name="Follow">Follow Indicator - Color</string>
-    <string name="Hide">Hide App</string>
-    <string name="Like">Disable Like Button</string>
-    <string name="Logging">Disable Xposed Logging</string>
-    <string name="Manual">Manually Change Hooks</string>
+    <string name="Comment">Chạm để comment</string>
+    <string name="Contact">Liên hệ với nhà phát triển</string>
+    <string name="Customization">Tuỳ biến</string>
+    <string name="Date">Định dạng ngày/tháng/năm</string>
+    <string name="Default">Nguồn lấy Hooks mặc định</string>
+    <string name="Error_log">Gửi bản báo cáo lỗi cho nhà phát triển</string>
+    <string name="File">File - Thay đổi định dạng ngày</string>
+    <string name="Folder">Thư mục - Tạo thư mục cùng tên với @username</string>
+    <string name="Follow">Màu của "số người follow tôi"</string>
+    <string name="Hide">Ẩn XInsta</string>
+    <string name="Like">Ẩn nút Like</string>
+    <string name="Logging">Tắt ghi nhật kí Xposed khi chạy ứng dụng</string>
+    <string name="Manual">Tự thay đổi Hooks</string>
     <string name="Misc">Misc.</string>
-    <string name="NotificationHide">Hide Download Notification</string>
-    <string name="Push">Push Notification - Download</string>
-    <string name="Show">Show App</string>
-    <string name="Sound">Enable Sound Auto-Play (Videos)</string>
-    <string name="Story">Disable Stories Timer</string>
-    <string name="Suggestion">Hide Suggestions</string>
-    <string name="Translations">Translate XInsta</string>
+    <string name="NotificationHide">Ẩn thông báo "Đang tải xuống"</string>
+    <string name="Push">Thông báo đẩy - Tải xuống</string>
+    <string name="Show">Hiện XInsta</string>
+    <string name="Sound">Tự phát Video</string>
+    <string name="Story">Không tự chuyển Story</string>
+    <string name="Suggestion">Ẩn các gợi ý</string>
+    <string name="Translations">Đóng góp bản dịch</string>
 
     <!-- Module -->
-    <string name="Download_Completed">Download Completed</string>
-    <string name="Download_Failed">Download Failed</string>
-    <string name="DownloadDots">Downloading&#8230;</string>
-    <string name="Please">Please update your hooks via the module.</string>
+    <string name="Download_Completed">Đã tải xuống</string>
+    <string name="Download_Failed">Tải xuống không thành công</string>
+    <string name="DownloadDots">Đang tải&#8230;</string>
+    <string name="Please">Hãy cập nhật Hooks qua Module</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
-    <string name="photo">Photo</string>
+    <string name="photo">Ảnh</string>
     <string name="video">Video</string>
 
     <!-- The Download button -->
-    <string name="the_not_so_big_but_big_button">Download</string>
+    <string name="the_not_so_big_but_big_button">Tải về</string>
 
     <!-- Title in notification -->
     <string name="username_thing">%1$s\'s %2$s</string>
 
     <!-- Toast Messages -->
-    <string name="Copied">Comment Copied</string>
-    <string name="Downloading">Downloading %1$s</string>
-    <string name="Hooks_Latest">You already have the latest hooks.</string>
-    <string name="Hooks_Updated">Hooks have been updated.\nPlease kill the Instagram app.</string>
-    <string name="I_LocationChanged">Image save location reset to default.</string>
-    <string name="Incorrect_Location">Unable to save here.\nPlease select another location.</string>
-    <string name="P_LocationChanged">Profile icon save location reset to default.</string>
-    <string name="Picture_Not">Please click the image and try again</string>
-    <string name="V_LocationChanged">Video save location reset to default.</string>
+    <string name="Copied">Đã sao chép comment</string>
+    <string name="Downloading">Đang tải %1$s</string>
+    <string name="Hooks_Latest">Bạn đang dùng Hooks mới nhất.</string>
+    <string name="Hooks_Updated">Cập nhật Hooks thành công.\nTiếp theo, hãy "buộc dừng" Instagram.</string>
+    <string name="I_LocationChanged">Nơi lưu ảnh được đặt về mặc định.</string>
+    <string name="Incorrect_Location">Không thể lưu ở đây.\nHãy chọn thư mục khác.</string>
+    <string name="P_LocationChanged">Nơi lưu Avatar được đặt về mặc định.</string>
+    <string name="Picture_Not">Hãy chọn ảnh và thử lại!</string>
+    <string name="V_LocationChanged">Nơi lưu Video được đặt về mặc định.</string>
