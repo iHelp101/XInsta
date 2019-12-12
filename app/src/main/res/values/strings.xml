@@ -90,7 +90,7 @@
     <string name="Discovery_Summary">Disable Discovery Section (Search Icon)</string>
     <string name="Experimental_Summary">An experimental solution that finds hooks.</string>
     <string name="File_Summary">Choose Date Format For Files (Month/Day/Year)</string>
-    <string name="FileFormat_Summary">Change File Parameters Format (Username_Date_MediaID)</string>
+    <string name="FileFormat_Summary">Change File Parameters Format (Username_MediaID_UserID)</string>
     <string name="FileURL_Summary">Use Filename From Instagram Post URL as Filename</string>
     <string name="FileUsername_Summary">Use Users Full Instagram Name (National Geographic vs Natgeo)</string>
     <string name="Folder_Summary">Save Into Folder With Username Of Poster</string>
@@ -112,6 +112,7 @@
     <string name="Story_Summary">Prevent Stories From Closing Automatically</string>
     <string name="StoryHide_Summary">Hide Stories Tray On Main and Explore Tab</string>
     <string name="StoryPrivacy_Summary">Prevent Users From Seeing You Viewing Their Story</string>
+    <string name="Suggestion_Summary">Hide Suggestions By Instagram. This Feature May Cause Issues and Crashing On Certain Devices.</string>
     <string name="VideoLikes_Summary">Adds Video Likes To Post</string>
 
     <string name="the_not_so_big_but_big_button2_summary">Allows You To Open A Post In A Private Window</string>

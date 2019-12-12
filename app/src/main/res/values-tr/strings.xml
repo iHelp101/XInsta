@@ -1,5 +1,3 @@
-
-
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">XInsta</string>
@@ -91,7 +89,7 @@
     <string name="Date_Summary">Yazının Kesin Yazılma Zamanı Zaman Biçimini Ayarla (X Dakika önce yerine)</string>
     <string name="Default_Summary">XInsta Tarafından Kullanılan Varsayılan Kanca Kaynağını Seç</string>
     <string name="Discovery_Summary">Arama Bölümünü (Arama Simgesi) Gösterme</string>
-   <string name="Experimental_Summary">Kancaları bulmak için deneysel bir çözüm.</string>
+    <string name="Experimental_Summary">Kancaları bulmak için deneysel bir çözüm.</string>
     <string name="File_Summary">Dosyalar İçin Tarih Formatı Seç (Ay/Gün/Yıl)</string>
     <string name="FileFormat_Summary">Dosya Parametreleri Biçimini Değiştir (Username_Date_MediaID)</string>
     <string name="FileURL_Summary">Dosya Adı olarak Instagram Gönderi Adresinin Adını Kullan</string>

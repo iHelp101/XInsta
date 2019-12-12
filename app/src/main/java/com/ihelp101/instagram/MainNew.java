@@ -48,6 +48,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -254,6 +256,14 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
                     if (p.packageName.equals("com.instagram.android")) {
                         version = Integer.toString(p.versionCode);
                         version = version.substring(0, version.length() - 2);
+                    }
+                }
+
+                int versionLength = result.split(version).length;
+
+                if (Build.CPU_ABI.contains("arm64-v8a")) {
+                    if (versionLength > 2) {
+                        version = version + "9";
                     }
                 }
 
@@ -740,7 +750,7 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
 
         Intent intent = new Intent();
         intent.setAction("com.ihelp101.instagram.TESTING");
-        intent.putExtra("Notification", "{\"a\":\"https:\\/\\/scontent.cdninstagram.com\\/vp\\/a2d393e60f22741e58fd123992bd41d2\\/5B4724B2\\/t51.2885-19\\/s150x150\\/20635195_128866607729452_2510115871469338624_n.jpg\",\"bc\":\"{\\\"dt\\\":0}\",\"c\":\"post\",\"sound\":\"default\",\"i\":\"https:\\/\\/scontent.cdninstagram.com\\/vp\\/43513e0243d4dec4f8f78c29680baac1\\/5AAFF53A\\/t51.2885-15\\/e15\\/29087830_2164687610426173_8718612868750114816_n.jpg\",\"SuppressBadge\":\"1\",\"m\":\"liztess just posted a video.\",\"collapse_key\":\"post\",\"s\":\"424110996\",\"u\":35518138,\"PushNotifID\":\"567a4b12cb988H21df6baH567a4fac2bc5aH49\",\"pi\":\"567a4b12cb988H21df6baH567a4fac2bc5aH49\",\"ig\":\"media?id=1737388370425602165_424110996\"}");
+        intent.putExtra("Notification", "{\"a\":\"https:\\/\\/scontent.cdninstagram.com\\/vp\\/7e8713f4ee7e30304789c53fe3a84cdf\\/5B602146\\/t51.2885-19\\/s150x150\\/25037633_2038387122844589_5808458396097052672_n.jpg\",\"bc\":\"{\\\"dt\\\":0}\",\"c\":\"post\",\"sound\":\"default\",\"i\":\"https:\\/\\/scontent.cdninstagram.com\\/vp\\/4e01724d57c5acbaf68419516e70f59b\\/5B6118A7\\/t51.2885-15\\/e35\\/30603543_602579183426446_6857414457753075712_n.jpg\",\"SuppressBadge\":\"1\",\"m\":\"not_zannah just posted a photo.\",\"collapse_key\":\"post\",\"s\":\"3768802609\",\"u\":35518138,\"PushNotifID\":\"56a8a8a8f6bf5H21df6baH56a8ad4256ec7H49\",\"pi\":\"56a8a8a8f6bf5H21df6baH56a8ad4256ec7H49\",\"ig\":\"media?id=1764118739753381872_3768802609\"}");
         //sendBroadcast(intent);
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);

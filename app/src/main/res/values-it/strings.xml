@@ -2,32 +2,32 @@
     <string name="app_name">XInsta</string>
 
     <!-- Alert Dialog -->
-    <string name="Okay">Okay</string>
-    <string name="Warning">Potrai accedere a questa app attraverso Xposed Installer una volta nascosta.</string>
+    <string name="Okay">OK</string>
+    <string name="Warning">Una volta nascosta potrai accedere all\'app tramite Xposed Installer.</string>
 
     <!-- Date -->
     <string name="AM">AM/PM</string>
     <string name="Day">Giorno</string>
-    <string name="Hour">Ora</string>
+    <string name="Hour">Ore</string>
     <string name="Minute">Minuti</string>
     <string name="Month">Mese</string>
-    <string name="Reset">Resetta</string>
+    <string name="Reset">Azzera</string>
     <string name="Second">Secondi</string>
-    <string name="Space">---SPAZIO---</string>
+    <string name="Space">--- SPAZIO ---</string>
     <string name="Year">Anno</string>
 
     <!-- File Browser -->
     <string name="nnf_new_folder">Nuova cartella</string>
-    <string name="nnf_create_folder_error">Impossibile creare cartella</string>
+    <string name="nnf_create_folder_error">Impossibile creare la cartella</string>
     <string name="nnf_name">Nome</string>
-    <string name="nnf_select_something_first">Per favore seleziona prima qualcosa</string>
-    <string name="nnf_permission_external_write_denied">Permesso di accedere al filesystem negato</string>
+    <string name="nnf_select_something_first">Si prega di selezionare prima qualcosa</string>
+    <string name="nnf_permission_external_write_denied">Accesso al filesystem negato</string>
 
     <!-- ListView -->
     <string name="Image">Posizione immagini</string>
     <string name="Profile">Posizione immagini del profilo</string>
     <string name="Recommended">Raccomandati</string>
-    <string name="Save">POSIZIONE DI SALVATAGGIO</string>
+    <string name="Save">POSIZIONI SALVATAGGIO</string>
     <string name="Update">AGGIORNA HOOKS</string>
     <string name="Video">Posizione video</string>
 
@@ -35,48 +35,92 @@
     <string name="Automatically">Controllo automatico aggiornamenti</string>
     <string name="Change">Cambia separatore</string>
     <string name="ChangeApp">Cambia icona di XInsta</string>
-    <string name="ChangeOrder">Cambia ordine delle opzioni</string>
+    <string name="ChangeOrder">Cambia ordine posizioni</string>
     <string name="Check">Controlla aggiornamenti</string>
-    <string name="Comment">Copia commento con un tocco</string>
-    <string name="Contact">Contatta lo sviluppatore</string>
+    <string name="Comment">Copia commento al tocco</string>
+    <string name="Contact">Contatta sviluppatore</string>
     <string name="Custom">Lingua personalizzata</string>
-    <string name="Customization">Personalizzazioni</string>
+    <string name="Customization">Personalizzazione</string>
     <string name="Date">Formato data</string>
     <string name="Default">Sorgente Hook predefinita</string>
-    <string name="Error_log">Invia log di errore</string>
+    <string name="Discovery">Disattiva Discovery</string>
+    <string name="Error_log">Invia log degli errori</string>
+    <string name="Experimental">Cerca Hooks sperimentali</string>
     <string name="File">File - Cambia formato data</string>
     <string name="FileFormat">File - Cambia formato file</string>
-    <string name="FileURL">File - URL Format As Filename</string>
-    <string name="FileUsername">File - Full Username</string>
-    <string name="Folder">Cartella - Aggiungi nome utente</string>
-    <string name="Follow">Indicatore following - Colore</string>
-    <string name="Hide">Nascondi app</string>
-    <string name="Like">Disabilita pulsante like</string>
-    <string name="Liked">Disable Liked Post</string>
-    <string name="Logging">Disabilita logging di Xposed</string>
-    <string name="Manual">Modifica Hooks manualmente</string>
+    <string name="FileURL">File - Formato URL come nome del file</string>
+    <string name="FileUsername">File - Nome Utente completo</string>
+    <string name="Folder">Cartella - Aggiungi Nome Utente</string>
+    <string name="Follow">Indicatore Segui - Colore</string>
+    <string name="Hide">Nascondi App</string>
+    <string name="HidePost">Nascondi post di Partnership a pagamento</string>
+    <string name="Like">Disattiva pulsante Mi piace</string>
+    <string name="Liked">Disattiva Post piaciuti</string>
+    <string name="Logging">Disattiva Xposed Logging</string>
+    <string name="Manual">Cambia Hooks manualmente</string>
     <string name="Misc">Varie</string>
     <string name="NotificationHide">Nascondi notifica download</string>
-    <string name="Pass">Passa download a XInsta</string>
+    <string name="Pass">Passa i download su XInsta</string>
     <string name="Pin">Pin/Salva - Download</string>
-    <string name="Push">Notifica push - Download</string>
-    <string name="Search">Disabilita cronologia ricerche</string>
-    <string name="Show">Mostra app</string>
-    <string name="Slide">Disabilita navigazione scorrevole</string>
-    <string name="Sound">Abilita suono automaticamente (Video)</string>
+    <string name="Push">Notifica Push - Download</string>
+    <string name="Resolution">Forza Alta risoluzione</string>
+    <string name="Search">Disattiva Cronologia delle ricerche</string>
+    <string name="SaveHooks">Salva Hooks su file</string>
+    <string name="Show">Mostra App</string>
+    <string name="Slide">Disattiva navigazione scorrevole</string>
+    <string name="Sound">Attiva Riproduzione audio Automatica (Video)</string>
     <string name="Special">Ringraziamenti speciali</string>
-    <string name="Story">Disabilita timer delle storie</string>
-    <string name="StoryHide">Hide Stories</string>
-    <string name="StoryPrivacy">Stories Privacy</string>
-    <string name="Suggestion">Nascondi suggerimenti</string>
+    <string name="Story">Disattiva timer delle Storie</string>
+    <string name="StoryHide">Nascondi Storie</string>
+    <string name="StoryPrivacy">Privacy Storie</string>
+    <string name="Suggestion">Nascondi Suggerimenti</string>
     <string name="Translations">Traduci XInsta</string>
-    <string name="VideoLikes">Contatore like sui video</string>
+    <string name="VideoLikes">Contatore Mi piace sui video</string>
+
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">Controlla gli aggiornamenti di XInsta quando Instagram è aperto</string>
+    <string name="Change_Summary">Cambia separatore file</string>
+    <string name="ChangeApp_Summary">Cambia l\'icona di XInsta con quella più recente</string>
+    <string name="ChangeOrder_Summary">Cambia l\'ordine delle opzioni di Instagram cliccando sull\'icona con tre punti</string>
+    <string name="Check_Summary">Controlla manualmente se ci sono aggiornamenti per XInsta</string>
+    <string name="Comment_Summary">Tocca il commento per copiarlo</string>
+    <string name="Custom_Summary">Utilizza una lingua non supportata da Android</string>
+    <string name="Date_Summary">Imposta il formato della data per l\'ora esatta della pubblicazione del post (invece di X minuti fa)</string>
+    <string name="Default_Summary">Scegli fonte Hook predefinita utilizzata da XInsta</string>
+    <string name="Discovery_Summary">Disattiva la sezione Discovery (icona di ricerca)</string>
+    <string name="Experimental_Summary">Una soluzione sperimentale che trova gli Hooks</string>
+    <string name="File_Summary">Scegli il formato della data per i file (Giorno/Mese/Anno)</string>
+    <string name="FileFormat_Summary">Cambia il formato dei parametri del file (Username_Data_MediaID)</string>
+    <string name="FileURL_Summary">Utilizza l\'URL del post di Instagram come nome del file</string>
+    <string name="FileUsername_Summary">Utilizza l\'Username completo di Instagram (National Geographic vs Natgeo)</string>
+    <string name="Folder_Summary">Salva in una cartella con l\'Username di chi l\'ha postato</string>
+    <string name="Follow_Summary">Cambia il colore dell\'indicatore Segui</string>
+    <string name="Hide_Summary">Nascondi XInsta dal tuo Drawer</string>
+    <string name="HidePost_Summary">Nascondi i post che hanno sponsorizzazioni a pagamento</string>
+    <string name="Like_Summary">Disattiva il Doppio tocco per mettere Mi piace ai post</string>
+    <string name="Liked_Summary">Nascondi la sezione Post piaciuti in Instagram</string>
+    <string name="Logging_Summary">Disattiva il logging di Xposed</string>
+    <string name="Manual_Summary">Cambia manualmente gli Hooks</string>
+    <string name="NotificationHide_Summary">Nascondi la notifica di download per i download completati</string>
+    <string name="Pin_Summary">Utilizza il pulsante Pin/Salva per scaricare il post</string>
+    <string name="Push_Summary">Scarica automaticamente le notifiche push</string>
+    <string name="Resolution_Summary">Forza immagini/video ad alta risoluzione per dispositivi con schermi a bassa risoluzione. Questo potrebbe causare problemi su alcuni dispositivi</string>
+    <string name="Search_Summary">Disattiva la cronologia di ricerca della scheda Esplora</string>
+    <string name="SaveHooks_Summary">XInsta caricherà automaticamente gli Hooks senza recuperarli</string>
+    <string name="Show_Summary">Mostra XInsta nel tuo Drawer</string>
+    <string name="Slide_Summary">Disabilita lo scorrimento da sinistra a destra o da destra a sinistra per cambiare schermata in Instagram</string>
+    <string name="Story_Summary">Impedisci la chiusura automatica delle Storie</string>
+    <string name="StoryHide_Summary">Nascondi le Storie nella Schermata principale ed in Esplora</string>
+    <string name="StoryPrivacy_Summary">Impedisci agli utenti di vedere che stai vedendo la loro storia</string>
+    <string name="VideoLikes_Summary">Aggiungi i Mi piace del video al Post</string>
+
+    <string name="the_not_so_big_but_big_button2_summary">Ti permette di aprire un Post in una Finestra privata</string>
 
     <!-- Module -->
     <string name="Download_Completed">Download completato</string>
     <string name="Download_Failed">Download fallito</string>
-    <string name="DownloadDots">Download in corso&#8230;</string>
-    <string name="Please">Per favore aggiorna gli hook tramite il modulo.</string>
+    <string name="DownloadDots">Download&#8230;</string>
+    <string name="Please">Si prega di aggiornare gli Hooks tramite il modulo</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
     <string name="photo">Foto</string>
@@ -84,20 +128,20 @@
 
     <!-- The Download button -->
     <string name="the_not_so_big_but_big_button">Download</string>
-    <string name="the_not_so_big_but_big_button2">Blocco privacy</string>
-    <string name="the_not_so_big_but_big_button3">Sblocca feed</string>
+    <string name="the_not_so_big_but_big_button2">Blocco Privacy</string>
+    <string name="the_not_so_big_but_big_button3">Sblocca Feed</string>
 
     <!-- Title in notification -->
-    <string name="username_thing">%2$s di %1$s</string>
+    <string name="username_thing">%1$s\'s %2$s</string>
 
     <!-- Toast Messages -->
     <string name="Copied">Commento copiato</string>
-    <string name="Downloading">Scaricando %1$s</string>
-    <string name="Hooks_Latest">Hai già gli hook più recenti.</string>
-    <string name="Hooks_Updated">Gli hook sono stati aggiornati.\nPer favore arresta l\'app Instagram.</string>
-    <string name="I_LocationChanged">Posizione salvataggio immagini resettata.</string>
-    <string name="Incorrect_Location">Impossibile salvare qui.\nSeleziona un\'altra posizione.</string>
-    <string name="P_LocationChanged">Posizione salvataggio immagini del profilo resettata.</string>
-    <string name="Picture_Not">Per favore clicca sull\'immagine e riprova</string>
-    <string name="V_LocationChanged">Posizione salvataggio video resettata.</string>
+    <string name="Downloading">Download %1$s</string>
+    <string name="Hooks_Latest">Hai già gli hooks più recenti</string>
+    <string name="Hooks_Updated">Hooks aggiornati.\nSi prega di riavviare Instagram.</string>
+    <string name="I_LocationChanged">Posizione delle immagini ripristinata</string>
+    <string name="Incorrect_Location">Impossibile salvare qui.\nSi prega di scegliere un\'altra posizione.</string>
+    <string name="P_LocationChanged">Posizione delle immagini di profilo ripristinata</string>
+    <string name="Picture_Not">Si prega di cliccare sull\'immagine e riprovare</string>
+    <string name="V_LocationChanged">Posizione dei video ripristinata</string>
 </resources>

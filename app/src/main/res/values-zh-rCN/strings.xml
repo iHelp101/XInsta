@@ -2,99 +2,146 @@
     <string name="app_name">XInsta</string>
 
     <!-- Alert Dialog -->
-    <string name="Okay">好的</string>
-    <string name="Warning">一旦這個應用程式被隱藏，你可以從 Xposed Installer 存取。</string>
+    <string name="Okay">确定</string>
+    <string name="Warning">隐藏后可以通过Xposed Install模块列表来打开XInsta。</string>
 
     <!-- Date -->
     <string name="AM">上午/下午</string>
     <string name="Day">日</string>
-    <string name="Hour">時</string>
+    <string name="Hour">时</string>
     <string name="Minute">分</string>
     <string name="Month">月</string>
-    <string name="Reset">重設</string>
+    <string name="Reset">重置</string>
     <string name="Second">秒</string>
     <string name="Space">---空格---</string>
     <string name="Year">年</string>
 
     <!-- File Browser -->
-    <string name="nnf_new_folder">新資料夾</string>
-    <string name="nnf_create_folder_error">無法新增新資料夾</string>
-    <string name="nnf_name">名稱</string>
-    <string name="nnf_select_something_first">請先選擇某個東西</string>
-    <string name="nnf_permission_external_write_denied">無法存取檔案系統</string>
+    <string name="nnf_new_folder">新文件夹</string>
+    <string name="nnf_create_folder_error">文件夹创建失败</string>
+    <string name="nnf_name">名字</string>
+    <string name="nnf_select_something_first">请先选择一些选项</string>
+    <string name="nnf_permission_external_write_denied">没有权限访问文件系统</string>
 
     <!-- ListView -->
-    <string name="Image">圖片位址</string>
-    <string name="Profile">大頭照位址</string>
-    <string name="Recommended">建議</string>
-    <string name="Save">儲存位址</string>
-    <string name="Update">更新鉤子</string>
-    <string name="Video">影片位址</string>
+    <string name="Image">图片位置</string>
+    <string name="Profile">头像位置</string>
+    <string name="Recommended">推荐</string>
+    <string name="Save">保存位置</string>
+    <string name="Update">更新钩子</string>
+    <string name="Video">视频位置</string>
 
     <!-- Menu Items !-->
-    <string name="Automatically">自動檢查更新</string>
-    <string name="Change">更改分隔符號</string>
-    <string name="ChangeApp">更改 XInsta 應用程式圖標</string>
-    <string name="ChangeOrder">更改選項順序</string>
-    <string name="Check">檢查更新</string>
-    <string name="Comment">輕觸複製留言</string>
-    <string name="Contact">聯絡開發者</string>
-    <string name="Custom">自訂語言</string>
-    <string name="Customization">自訂選項</string>
+    <string name="Automatically">自动检查更新</string>
+    <string name="Change">更改分隔符</string>
+    <string name="ChangeApp">更改XInsta图标</string>
+    <string name="ChangeOrder">更改选项顺序</string>
+    <string name="Check">检查更新</string>
+    <string name="Comment">点击复制评论</string>
+    <string name="Contact">联系开发者</string>
+    <string name="Custom">自定义语言</string>
+    <string name="Customization">自定义</string>
     <string name="Date">日期格式</string>
-    <string name="Default">預設鉤子來源</string>
-    <string name="Error_log">傳送錯誤紀錄</string>
-    <string name="File">檔案 - 更改日期格式</string>
-    <string name="FileFormat">檔案 - 更改檔案格式</string>
-    <string name="Folder">資料夾 - 加上使用者名稱</string>
-    <string name="Follow">追蹤名單 - 顏色</string>
-    <string name="Hide">隱藏應用程式</string>
-    <string name="Like">停用讚好按鈕</string>
-    <string name="Liked">Disable Liked Post</string>
-    <string name="Logging">停用 Xposed 記錄</string>
-    <string name="Manual">手動更改鉤子</string>
-    <string name="Misc">雜項</string>
-    <string name="NotificationHide">隱藏下載通知</string>
-    <string name="Pass">將下載傳給 XInsta</string>
-    <string name="Pin">釘選/儲存 - 下載</string>
-    <string name="Push">推送通知 - 下載</string>
-    <string name="Search">停用搜尋記錄</string>
-    <string name="Show">顯示應用程式</string>
-    <string name="Slide">停用滑動導覽</string>
-    <string name="Sound">自動開啟影片聲音</string>
-    <string name="Special">特別感謝</string>
-    <string name="Story">停用限時動態計時器</string>
-    <string name="StoryHide">Hide Stories</string>
-    <string name="Suggestion">隱藏搜尋建議</string>
-    <string name="Translations">翻譯 XInsta</string>
-    <string name="VideoLikes">影片讚好計數</string>
+    <string name="Default">默认钩子源</string>
+    <string name="Discovery">禁用发现</string>
+    <string name="Error_log">发送错误日志</string>
+    <string name="Experimental">实验性钩子搜索</string>
+    <string name="File">文件 - 更改日期格式</string>
+    <string name="FileFormat">文件 - 更改文件格式</string>
+    <string name="FileURL">文件 -  URL作为文件名</string>
+    <string name="FileUsername">文件 - 完整用户名</string>
+    <string name="Folder">文件夹 - 添加用户名</string>
+    <string name="Follow">关注列表颜色</string>
+    <string name="Hide">隐藏应用</string>
+    <string name="HidePost">隐藏推广信息</string>
+    <string name="Like">隐藏喜欢按钮</string>
+    <string name="Liked">隐藏喜欢帖子</string>
+    <string name="Logging">停用Xposed日志</string>
+    <string name="Manual">手动更改钩子</string>
+    <string name="Misc">其它</string>
+    <string name="NotificationHide">隐藏下载通知</string>
+    <string name="Pass">将下载传递给XInsta</string>
+    <string name="Pin">钉选/保存 - 下载</string>
+    <string name="Push">推送通知 - 下载</string>
+    <string name="Resolution">强制高分辨率</string>
+    <string name="Search">禁用搜索历史</string>
+    <string name="SaveHooks">保存钩子为文件</string>
+    <string name="Show">显示应用图标</string>
+    <string name="Slide">禁用滑动导航</string>
+    <string name="Sound">启用视频声音自动播放</string>
+    <string name="Special">特别感谢</string>
+    <string name="Story">禁用动态计时器</string>
+    <string name="StoryHide">隐藏动态</string>
+    <string name="StoryPrivacy">动态隐私</string>
+    <string name="Suggestion">隐藏建议</string>
+    <string name="Translations">协助翻译XInsta</string>
+    <string name="VideoLikes">喜欢视频总数</string>
+
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">打开Instagram后检测XInata升级</string>
+    <string name="Change_Summary">更改文件分隔符</string>
+    <string name="ChangeApp_Summary">替换XInsta默认图标</string>
+    <string name="ChangeOrder_Summary">单击三点图标时更改Instagram的选项顺序</string>
+    <string name="Check_Summary">手动升级</string>
+    <string name="Comment_Summary">点击复制评论</string>
+    <string name="Custom_Summary">使用Android不支持的语言</string>
+    <string name="Date_Summary">设置发表日期为确切日期格式（而不是x分钟前）</string>
+    <string name="Default_Summary">选择XInsta默认使用的钩子源</string>
+    <string name="Discovery_Summary">禁用发现部分（搜索图标）</string>
+    <string name="Experimental_Summary">钩子的实验性解决方案。</string>
+    <string name="File_Summary">选择文件日期格式 (月/日/年)</string>
+    <string name="FileFormat_Summary">更改文件参数格式(用户名_日期_媒体ID)</string>
+    <string name="FileURL_Summary">使用Instagram帖子URL中的文件名作为文件名</string>
+    <string name="FileUsername_Summary">使用用户完整Instagram昵称</string>
+    <string name="Folder_Summary">附带用户的用户名保存到文件夹</string>
+    <string name="Follow_Summary">更改关注指示颜色</string>
+    <string name="Hide_Summary">在设备里隐藏XInsta的图标</string>
+    <string name="HidePost_Summary">隐藏赞助商的帖子</string>
+    <string name="Like_Summary">禁用双击喜欢帖子</string>
+    <string name="Liked_Summary">在Instagram中隐藏喜欢的帖子</string>
+    <string name="Logging_Summary">禁用在Xposed里的日志记录</string>
+    <string name="Manual_Summary">手动替换钩子</string>
+    <string name="NotificationHide_Summary">隐藏下载完成通知</string>
+    <string name="Pin_Summary">使用钉选/保存按钮下载帖子</string>
+    <string name="Push_Summary">自动下载推送通知</string>
+    <string name="Resolution_Summary">为低分辨率屏幕的设备强制高分辨率图像/视频。这可能会导致某些设备出现问题。</string>
+    <string name="Search_Summary">禁用探索选项里的搜索历史</string>
+    <string name="SaveHooks_Summary">XInsta将不拉取它们来获取钩子</string>
+    <string name="Show_Summary">在设备上显示XInsta图标</string>
+    <string name="Slide_Summary">禁用左右滑动切换导航</string>
+    <string name="Story_Summary">防止自动关闭</string>
+    <string name="StoryHide_Summary">隐藏主菜单里的动态托盘</string>
+    <string name="StoryPrivacy_Summary">防止用户看到你访问了他们的动态</string>
+    <string name="VideoLikes_Summary">添加视频喜欢</string>
+
+    <string name="the_not_so_big_but_big_button2_summary">允许在私有窗口打开帖子</string>
 
     <!-- Module -->
-    <string name="Download_Completed">下載完成</string>
-    <string name="Download_Failed">下載失敗</string>
-    <string name="DownloadDots">下載中&#8230;</string>
-    <string name="Please">請從模組更新鉤子。</string>
+    <string name="Download_Completed">下载完成</string>
+    <string name="Download_Failed">下载失败</string>
+    <string name="DownloadDots">下载中 %1$s</string>
+    <string name="Please">请通过模块更新钩子</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
-    <string name="photo">照片</string>
-    <string name="video">影片</string>
+    <string name="photo">图片</string>
+    <string name="video">视频</string>
 
     <!-- The Download button -->
-    <string name="the_not_so_big_but_big_button">下載</string>
-    <string name="the_not_so_big_but_big_button2">隱私鎖</string>
-    <string name="the_not_so_big_but_big_button3">解鎖動態</string>
+    <string name="the_not_so_big_but_big_button">下载</string>
+    <string name="the_not_so_big_but_big_button2">隐私锁</string>
+    <string name="the_not_so_big_but_big_button3">解锁馈入</string>
 
     <!-- Title in notification -->
-    <string name="username_thing">%1$s 的 %2$s</string>
+    <string name="username_thing">%1$s\'s %2$s</string>
 
     <!-- Toast Messages -->
-    <string name="Copied">已複製留言</string>
-    <string name="Downloading">正在下載 %1$s</string>
-    <string name="Hooks_Latest">你已經有最新的鉤子。</string>
-    <string name="Hooks_Updated">鉤子已被更新。請重啟 Instagram 應用程式。</string>
-    <string name="I_LocationChanged">圖片儲存位址已重設為預設值。</string>
-    <string name="Incorrect_Location">無法存在這裡，請選擇其他儲存位址。</string>
-    <string name="P_LocationChanged">大頭貼儲存位址已重設為預設值。</string>
-    <string name="Picture_Not">請點擊圖片並重試。</string>
-    <string name="V_LocationChanged">影片儲存位址已重設為預設值。</string>
+    <string name="Copied">评论复制</string>
+    <string name="Downloading">下载中 %1$s</string>
+    <string name="Hooks_Latest">钩子已经是最新版</string>
+    <string name="Hooks_Updated">钩子已更新/n请清理Instagram后台</string>
+    <string name="I_LocationChanged">图片保存位置重置为默认值</string>
+    <string name="Incorrect_Location">无法保存到此处/n请选择其它位置</string>
+    <string name="P_LocationChanged">配置图标保存位置重置为默认</string>
+    <string name="Picture_Not">请单击图片并重试</string>
+    <string name="V_LocationChanged">视频保存位置重置为默认</string>
 </resources>

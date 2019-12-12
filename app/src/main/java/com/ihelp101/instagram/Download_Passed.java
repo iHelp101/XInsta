@@ -37,7 +37,6 @@ public class Download_Passed extends IntentService {
         SAVE = Helper.getSaveLocation(fileType);
         epoch = intent.getLongExtra("Epoch", 123);
 
-
         checkPermission();
     }
 

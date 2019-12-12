@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XInsta</string>
+
+    <!-- Alert Dialog -->
+    <string name="Okay">OK</string>
+    <string name="Warning">Truy cập ứng dụng bằng Xposed Installer sau khi ẩn XInsta</string>
+
+    <!-- Date -->
+    <string name="AM">AM/PM</string>
+    <string name="Day">Ngày</string>
+    <string name="Hour">Giờ</string>
+    <string name="Minute">Phút</string>
+    <string name="Month">Tháng</string>
+    <string name="Reset">Reset</string>
+    <string name="Second">Giây</string>
+    <string name="Space">---SPACE---</string>
+    <string name="Year">Năm</string>
+
+    <!-- File Browser -->
+    <string name="nnf_new_folder">Thư mục mới</string>
+    <string name="nnf_create_folder_error">Không thể tạo thư mục mới</string>
+    <string name="nnf_name">Tên</string>
+    <string name="nnf_select_something_first">Hãy chọn ít nhất 1 mục</string>
+    <string name="nnf_permission_external_write_denied">Không có quyền truy cập hệ thẻ nhớ</string>
+
+    <!-- ListView -->
+    <string name="Image">Vị trí ảnh</string>
+    <string name="Profile">Vị trí avatar</string>
+    <string name="Recommended">Khuyên dùng </string>
+    <string name="Save">Nơi lưu</string>
+    <string name="Update">Cập nhật Hooks</string>
+    <string name="Video">Vị trí clip</string>
+
+    <!-- Menu Items !-->
+    <string name="Automatically">Tự động kiểm tra cập nhật</string>
+    <string name="Change">Change Separator</string>
+    <string name="ChangeApp">Thay đổi icon XInsta</string>
+    <string name="ChangeOrder">Tuỳ chỉnh giao diện menu</string>
+    <string name="Check">Kiểm tra cập nhật</string>
+    <string name="Comment">Bấm để copy comment</string>
+    <string name="Contact">Hỗ trợ</string>
+    <string name="Custom">Ngôn ngữ</string>
+    <string name="Customization">Tuỳ chỉnh</string>
+    <string name="Date">Cách ghi ngày</string>
+    <string name="Default">Nguồn Hook mặc định</string>
+    <string name="Discovery">Huỷ Discovery</string>
+    <string name="Error_log">Gửi thông báo lỗi</string>
+    <string name="Experimental">Experimental Hooks finder</string>
+    <string name="File">Thay đổi cách ghi ngày trong tên file</string>
+    <string name="FileFormat">Thay đổi cách ghi tên file</string>
+    <string name="FileURL">Ghi tên file bằng URL ảnh</string>
+    <string name="FileUsername">Ghi tên file bằng tên tài khoản Instagram</string>
+    <string name="Folder">Tạo 1 thư mục với tên tài khoản Instagram khi tải ảnh, clip</string>
+    <string name="Follow">Thay đổi màu số người follow</string>
+    <string name="Hide">Ẩn XInsta</string>
+    <string name="HidePost">Ẩn quảng cáo trong Instagram</string>
+    <string name="Like">Ẩn nút Like</string>
+    <string name="Liked">Disable Liked Post</string>
+    <string name="Logging">Không ghi thông tin vào log của Xposed</string>
+    <string name="Manual">Thay đổi nguồn Hook</string>
+    <string name="Misc">Thanh thông báo</string>
+    <string name="NotificationHide">Ẩn thông báo đang download</string>
+    <string name="Pass">Pass Downloads To XInsta</string>
+    <string name="Pin">Pin/Save - Download</string>
+    <string name="Push">Ẩn thông báo download trên thanh thông báo</string>
+    <string name="Resolution">Tải ảnh và clip với chất lượng cao</string>
+    <string name="Search">Không lưu lịch sử tìm kiếm Instgram</string>
+    <string name="SaveHooks">Save Hooks To File</string>
+    <string name="Show">Hiện XInsta</string>
+    <string name="Slide">Disable Slide Navigation</string>
+    <string name="Sound">Kích hoạt tự phát video trong clip</string>
+    <string name="Special">Cảm ơn</string>
+    <string name="Story">Không tự chuyển stories</string>
+    <string name="StoryHide">Ẩn stories </string>
+    <string name="StoryPrivacy">Quyền riêng tư stories</string>
+    <string name="Suggestion">Ẩn gợi ý</string>
+    <string name="Translations">Dịch XInsta</string>
+    <string name="VideoLikes">Hiện số lượt xem clip</string>
+
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">Tự kiểm tra cập nhật XInsta khi mở Instagram</string>
+    <string name="Change_Summary">Change File Separator</string>
+    <string name="ChangeApp_Summary">Icon XInsta mới</string>
+    <string name="ChangeOrder_Summary">Change Instagram\'s Options Order When Clicking Three Dot Icon</string>
+    <string name="Check_Summary">Kiểm tra cập nhật XInsta</string>
+    <string name="Comment_Summary">Chạm vào comment để copy</string>
+    <string name="Custom_Summary">Chọn 1 ngôn ngữ không hỗ trợ trên Android của bạn</string>
+    <string name="Date_Summary">Hiện chi tiết ngày, giờ post thay vì hiện (xxx phút trước) </string>
+    <string name="Default_Summary">Chọn hook mặc định cho XInsta</string>
+    <string name="Discovery_Summary">Ẩn discovery (nút có hình kính lúp)</string>
+    <string name="Experimental_Summary">An experimental solution that finds hooks.</string>
+    <string name="File_Summary">Chọn cách ghi ngày trong tên file (Tháng/Ngày/Năm)</string>
+    <string name="FileFormat_Summary">Change File Parameters Format (Username_Date_MediaID)</string>
+    <string name="FileURL_Summary">Đặt tên file bằng URL của chính ảnh đó trên Instgram</string>
+    <string name="FileUsername_Summary">Sử dụng tên hiển thị thay cho tên tài khoản Instagram (National Geographic hay @Natgeo)</string>
+    <string name="Folder_Summary">Lưu ảnh, clip vô thư mục có tên @nguoipost</string>
+    <string name="Follow_Summary">Đổi màu số người follow</string>
+    <string name="Hide_Summary">Ẩn XInsta</string>
+    <string name="HidePost_Summary">Ẩn quảng cáo</string>
+    <string name="Like_Summary">Tắt chạm 2 lần để like</string>
+    <string name="Liked_Summary">Ẩn những post đã like</string>
+    <string name="Logging_Summary">Không ghi thông tin vào Xposed log</string>
+    <string name="Manual_Summary">Thay đổi Hook</string>
+    <string name="NotificationHide_Summary">Ẩn thông báo download hoàn tất trên thanh trạng thái</string>
+    <string name="Pin_Summary">Use The Pin/Save Button To Download Post</string>
+    <string name="Push_Summary">Hiện thông báo trên thanh trạng thái khi tự download</string>
+    <string name="Resolution_Summary">Hiển thị ảnh, clip độ nét cao. Có thể xảy ra lỗi!!! </string>
+    <string name="Search_Summary">Tắt lịch sử tìm kiếm trong mục discovery</string>
+    <string name="SaveHooks_Summary">XInsta Will Automatically Load Hooks Without Fetching Them.</string>
+    <string name="Show_Summary">Hiện XInsta</string>
+    <string name="Slide_Summary">Tắt tính năng vuốt trái->phải và ngược lại để chuyển tab</string>
+    <string name="Story_Summary">Không tự động đóng stories</string>
+    <string name="StoryHide_Summary">Ẩn stories</string>
+    <string name="StoryPrivacy_Summary">Chặn không cho người khác biết bạn đã xem stories của họ</string>
+    <string name="VideoLikes_Summary">Adds Video Likes To Post</string>
+
+    <string name="the_not_so_big_but_big_button2_summary">Cho phép bạn mở một cửa sổ nhỏ để xem ảnh, clip</string>
+
+    <!-- Module -->
+    <string name="Download_Completed">Tải xong</string>
+    <string name="Download_Failed">Tải không thành công</string>
+    <string name="DownloadDots">Đang tải</string>
+    <string name="Please">Hãy cập nhật hook! </string>
+
+    <!-- Parameters for above (Downloading photo/video) -->
+    <string name="photo">Ảnh</string>
+    <string name="video">Clip</string>
+
+    <!-- The Download button -->
+    <string name="the_not_so_big_but_big_button">Download</string>
+    <string name="the_not_so_big_but_big_button2">Privacy lock</string>
+    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+
+    <!-- Title in notification -->
+    <string name="username_thing">%1$s\'s %2$s</string>
+
+    <!-- Toast Messages -->
+    <string name="Copied">Đã copy comment</string>
+    <string name="Downloading">Đang tải %1$s</string>
+    <string name="Hooks_Latest">Bạn đang dùng hook mới nhất</string>
+    <string name="Hooks_Updated">Hook đã được cập nhật. Hãy chọn "Buộc dừng" Instgram hoặc restart máy</string>
+    <string name="I_LocationChanged">Đã khôi phục vị trí lưu ảnh mặc định</string>
+    <string name="Incorrect_Location">Không thể lưu ở đây. Hãy chọn 1 vị trí lưu khác</string>
+    <string name="P_LocationChanged">Đã khôi phục vị trí lưu avatar mặc định</string>
+    <string name="Picture_Not">Hãy thử lại</string>
+    <string name="V_LocationChanged">Đã khôi phục vị trí lưu clip mặc định</string>
+</resources>

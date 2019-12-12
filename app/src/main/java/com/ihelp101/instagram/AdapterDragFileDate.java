@@ -78,6 +78,41 @@ public class AdapterDragFileDate extends BaseAdapter implements DragNDropAdapter
 
         final TextView delete = (TextView) convertView.findViewById(R.id.delete);
 
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String saveString = "";
+
+                List originalList = new ArrayList();
+                for (int i = 0; i < mData.size(); ++i) {
+                    originalList.add(mData.get(i));
+                }
+
+                originalList.remove(position);
+
+                if (originalList.isEmpty()) {
+                    originalList.add("Username");
+                    originalList.add("MediaID");
+                    originalList.add("Date");
+                }
+
+                mData.clear();
+
+                for (int i = 0; i < originalList.size(); ++i) {
+                    addItem(originalList.get(i).toString());
+                    String dateOption = originalList.get(i).toString();
+                    if (saveString.isEmpty()) {
+                        saveString = saveString + dateOption;
+                    } else {
+
+                        saveString = saveString + "_" + dateOption;
+                    }
+                }
+
+                Helper.setSetting("FileFormat", saveString);
+            }
+        });
+
         return convertView;
     }
 

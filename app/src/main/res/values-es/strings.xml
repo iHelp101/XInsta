@@ -2,102 +2,146 @@
     <string name="app_name">XInsta</string>
 
     <!-- Alert Dialog -->
-    <string name="Okay">Bueno</string>
-    <string name="Warning">Una vez oculto, usted puede entrar en la aplicacion por el Instalador de Xposed</string>
+    <string name="Okay">Aceptar</string>
+    <string name="Warning">Puedes acceder a la aplicación a través del instalador Xposed, una vez que el icono se ha ocultado.</string>
 
     <!-- Date -->
     <string name="AM">AM/PM</string>
-    <string name="Day">Dia</string>
-    <string name="Hour">Hora</string>
-    <string name="Minute">Minuto</string>
+    <string name="Day">Día</string>
+    <string name="Hour">Horas</string>
+    <string name="Minute">Minutos</string>
     <string name="Month">Mes</string>
-    <string name="Reset">Reinicio</string>
-    <string name="Second">Segundo</string>
-    <string name="Space">---ESPACIO---</string>
+    <string name="Reset">Reiniciar</string>
+    <string name="Second">Segundos</string>
+    <string name="Space">---SPACE---</string>
     <string name="Year">Año</string>
 
     <!-- File Browser -->
-    <string name="nnf_new_folder">Nueva Carpeta</string>
-    <string name="nnf_create_folder_error">Error al crear carpeta</string>
+    <string name="nnf_new_folder">Nueva carpeta</string>
+    <string name="nnf_create_folder_error">Error al crear la carpeta</string>
     <string name="nnf_name">Nombre</string>
-    <string name="nnf_select_something_first">Seleccione algo primero</string>
-    <string name="nnf_permission_external_write_denied">Permisos denegados al acceder al sistema.</string>
+    <string name="nnf_select_something_first">Por favor selecciona algo primero</string>
+    <string name="nnf_permission_external_write_denied">Permiso para acceder al sistema de archivos denegado</string>
 
     <!-- ListView -->
-    <string name="Image">Ubicacion de Imagen</string>
-    <string name="Profile">Ubicacion Icono de Perfil</string>
-    <string name="Recommended">Recomendado</string>
-    <string name="Save">GUARDAR UBICACION</string>
-    <string name="Update">ACTUALIZAR</string>
-    <string name="Video">Ubicacion Video</string>
+    <string name="Image">Ubicación de la imagen</string>
+    <string name="Profile">Ubicación del icono del perfil</string>
+    <string name="Recommended">RECOMENDACIONES</string>
+    <string name="Save">GUARDAR UBICACIÓN</string>
+    <string name="Update">ACTUALIZAR GANCHOS</string>
+    <string name="Video">Ubicación del video</string>
 
     <!-- Menu Items !-->
-    <string name="Automatically">Automatic Update Checker</string>
+    <string name="Automatically">Comprobador automático de actualizaciones</string>
     <string name="Change">Cambiar separador</string>
-    <string name="ChangeApp">Change XInsta App Icon</string>
-    <string name="ChangeOrder">Change Options Order</string>
-    <string name="Check">Check For Update</string>
-    <string name="Comment">Copiar comentario arriba</string>
-    <string name="Contact">Contactar con el Desarrollador</string>
-    <string name="Custom"> Idioma Personalizado</string>
-    <string name="Customization">Personalizacion</string>
+    <string name="ChangeApp">Cambiar el ícono de la App XInsta</string>
+    <string name="ChangeOrder">Cambiar orden de opciones</string>
+    <string name="Check">Buscar actualizaciones</string>
+    <string name="Comment">Copiar comentario en el Tap</string>
+    <string name="Contact">Contactar con el desarrollador</string>
+    <string name="Custom">Idioma personalizado</string>
+    <string name="Customization">Personalización</string>
     <string name="Date">Formato de fecha</string>
-    <string name="Default">Fuente Gancho por defecto</string>
-    <string name="Error_log">Enviar logs de errores</string>
+    <string name="Default">Ganchos predeterminados</string>
+    <string name="Discovery">Desactivar Discovery</string>
+    <string name="Error_log">Enviar registros de errores</string>
+    <string name="Experimental">Buscador de Ganchos experimental</string>
     <string name="File">Archivo - Cambiar formato de fecha</string>
-    <string name="FileFormat">File - Change File Format</string>
-    <string name="FileURL">File - URL Format As Filename</string>
-    <string name="FileUsername">File - Full Username</string>
-    <string name="Folder">Carpeta - Agregar usuario</string>
-    <string name="Follow">Color - Indicador de Seguidor</string>
-    <string name="Hide">Ocultar app</string>
-    <string name="Like">Deshabilitar boton Like</string>
-    <string name="Liked">Disable Liked Post</string>
-    <string name="Logging">Desabilitar registro Xposed</string>
-    <string name="Manual">Cambiar los hooks manualmente.</string>
-    <string name="Misc">Otra información.</string>
-    <string name="NotificationHide">Ocultar notificacion de descarga</string>
-    <string name="Pass">Pass Downloads To XInsta</string>
-    <string name="Pin">Pin/Save - Download</string>
-    <string name="Push">Descarga - Notificacion</string>
-    <string name="Search">Disable Search History</string>
-    <string name="Show">Mostrar app</string>
-    <string name="Sound">Habilitar sonido Auto-Play (Videos)</string>
-    <string name="Slide">Disable Slide Navigation</string>
-    <string name="Story">Deshabilitar temporizador en Historias</string>
-    <string name="StoryHide">Hide Stories</string>
-    <string name="StoryPrivacy">Stories Privacy</string>
-    <string name="Special">Gracias Especiales</string>
+    <string name="FileFormat">Archivo - Cambiar formato de archivo</string>
+    <string name="FileURL">Archivo - Formato de URL como nombre de archivo</string>
+    <string name="FileUsername">Archivo - Nombre de usuario completo</string>
+    <string name="Folder">Carpeta - Agregar nombre de usuario</string>
+    <string name="Follow">Color de indicador de seguimiento</string>
+    <string name="Hide">Ocultar icono de App</string>
+    <string name="HidePost">Ocultar publicación de asociación de pago</string>
+    <string name="Like">Desactivar botón Me gusta</string>
+    <string name="Liked">Desactivar Me gusta en publicación</string>
+    <string name="Logging">Deshabilitar el registro Xposed</string>
+    <string name="Manual">Cambiar manualmente los Ganchos</string>
+    <string name="Misc">Misc.</string>
+    <string name="NotificationHide">Ocultar notificación de descarga</string>
+    <string name="Pass">Pasar las descargas a XInsta</string>
+    <string name="Pin">Pin/Guardar - Descargas</string>
+    <string name="Push">Descargar notificación Push</string>
+    <string name="Resolution">Forzar alta resolución</string>
+    <string name="Search">Deshabilitar historial de búsqueda</string>
+    <string name="SaveHooks">Guardar Ganchos para archivar</string>
+    <string name="Show">Mostrar App</string>
+    <string name="Slide">Deshabilitar navegación de diapositivas</string>
+    <string name="Sound">Habilitar reproducción automática de sonido (videos)</string>
+    <string name="Special">Gracias especiales</string>
+    <string name="Story">Deshabilitar temporizador de historias</string>
+    <string name="StoryHide">Ocultar historias</string>
+    <string name="StoryPrivacy">Privacidad de historias</string>
     <string name="Suggestion">Ocultar sugerencias</string>
     <string name="Translations">Traducir XInsta</string>
-    <string name="VideoLikes">Video Likes Count</string>
+    <string name="VideoLikes">Contador de Me gusta en vídeo</string>
+
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">Comprueba las actualizaciones de XInsta cuando se abre Instagram.</string>
+    <string name="Change_Summary">Cambiar separador de archivos.</string>
+    <string name="ChangeApp_Summary">Cambiar el icono de la aplicación XInsta al icono más nuevo.</string>
+    <string name="ChangeOrder_Summary">Cambiar el orden de las opciones de Instagram al hacer clic en el icono de tres puntos.</string>
+    <string name="Check_Summary">Comprobar manualmente la actualización de XInsta.</string>
+    <string name="Comment_Summary">Presiona comentarios para copiar.</string>
+    <string name="Custom_Summary">Usar un idioma no admitido por Android.</string>
+    <string name="Date_Summary">Establecer el tiempo exacto de la publicación en formato de fecha (en lugar de X minutos).</string>
+    <string name="Default_Summary">Elegir los Ganchos predeterminados utilizados por XInsta.</string>
+    <string name="Discovery_Summary">Deshabilitar sección de descubrimiento (icono de búsqueda).</string>
+    <string name="Experimental_Summary">Una solución experimental que encuentra los Ganchos.</string>
+    <string name="File_Summary">Elije el formato de fecha para archivos (mes/día/año).</string>
+    <string name="FileFormat_Summary">Cambiar el formato de los parámetros del archivo (Username_Date_MediaID).</string>
+    <string name="FileURL_Summary">Usar el nombre de archivo de la URL del mensaje de Instagram, como nombre de archivo.</string>
+    <string name="FileUsername_Summary">Usar nombre completo de los usuarios de Instagram (National Geographic vs Natgeo).</string>
+    <string name="Folder_Summary">Guardar en la carpeta con el nombre de usuario de la publicación.</string>
+    <string name="Follow_Summary">Cambiar el color del indicador de seguimiento.</string>
+    <string name="Hide_Summary">Ocultar XInsta en su cajón de aplicaciones.</string>
+    <string name="HidePost_Summary">Ocultar publicaciones que tienen patrocinadores de pago.</string>
+    <string name="Like_Summary">Desactivar el doble toque para dar Me gusta en las publicaciones.</string>
+    <string name="Liked_Summary">Ocultar la sección de publicaciones preferidas en Instagram.</string>
+    <string name="Logging_Summary">Deshabilitar el registro Xposed.</string>
+    <string name="Manual_Summary">Cambiar manualmente los Ganchos</string>
+    <string name="NotificationHide_Summary">Ocultar notificación de descarga para la descarga completada.</string>
+    <string name="Pin_Summary">Utilizar el botón Pin/Guardar para descargar la publicación.</string>
+    <string name="Push_Summary">Descargar automáticamente las notificaciones Push.</string>
+    <string name="Resolution_Summary">Forzar la alta resolución de Imágenes/Vídeos para dispositivos que tienen pantallas de baja resolución. Esto puede causar problemas en ciertos dispositivos.</string>
+    <string name="Search_Summary">Inhabilitar el historial de búsqueda de las pestañas.</string>
+    <string name="SaveHooks_Summary">XInsta cargará automáticamente los Ganchos sin recuperarlos.</string>
+    <string name="Show_Summary">Mostrar XInsta en su cajón de aplicaciones.</string>
+    <string name="Slide_Summary">Deshabilitar deslizar, de izquierda a derecha, o de derecha a izquierda, para cambiar las vistas en Instagram.</string>
+    <string name="Story_Summary">Evitar que las historias se cierren automáticamente.</string>
+    <string name="StoryHide_Summary">Ocultar de las bandejas de las historias de la pestaña principal y explorar.</string>
+    <string name="StoryPrivacy_Summary">Evitar que los usuarios te vean viendo su historia.</string>
+    <string name="VideoLikes_Summary">Añadir Me gusta a la publicaciones de videos.</string>
+
+    <string name="the_not_so_big_but_big_button2_summary">Le permite abrir una publicación en una ventana privada.</string>
 
     <!-- Module -->
-    <string name="Download_Completed">Descarga Completada</string>
-    <string name="Download_Failed">Descarga fallada</string>
+    <string name="Download_Completed">Descarga completa</string>
+    <string name="Download_Failed">La descarga falló</string>
     <string name="DownloadDots">Descargando&#8230;</string>
-    <string name="Please">Actualiza la app en modulos de Xposed</string>
+    <string name="Please">Por favor actualice sus Ganchos a través del módulo.</string>
 
     <!-- Parameters for above (Downloading photo/video) -->
     <string name="photo">Foto</string>
-    <string name="video">Video</string>
+    <string name="video">Vídeo</string>
 
     <!-- The Download button -->
     <string name="the_not_so_big_but_big_button">Descargar</string>
-    <string name="the_not_so_big_but_big_button2">Privacy Lock</string>
-    <string name="the_not_so_big_but_big_button3">Unlock Feed</string>
+    <string name="the_not_so_big_but_big_button2">Bloqueo de privacidad</string>
+    <string name="the_not_so_big_but_big_button3">Desbloquear Feed</string>
 
     <!-- Title in notification -->
     <string name="username_thing">%1$s\'s %2$s</string>
 
     <!-- Toast Messages -->
-    <string name="Copied">Copiar Comentario</string>
-    <string name="Downloading">Descarga %1$s</string>
-    <string name="Hooks_Latest">Ya tienes los hooks actualizados.</string>
-    <string name="Hooks_Updated">Los Hooks fueron actualizados.\nCierra la aplicacion Instagram.</string>
-    <string name="I_LocationChanged">Ubicacion de guardado de imagen restablecido por defecto.</string>
-    <string name="Incorrect_Location">No se puede guardar aqui.\nPor favor, seleccione otra ubicación.</string>
-    <string name="P_LocationChanged">Ubicacion de guardado de icono del perfil restablecido por defecto.</string>
-    <string name="Picture_Not">Por favor, haga clic en la imagen y vuelve a intentarlo</string>
-    <string name="V_LocationChanged">Ubicacion de guardado de video restablecido por defecto.</string>
+    <string name="Copied">Comentario copiado</string>
+    <string name="Downloading">Descargando %1$s</string>
+    <string name="Hooks_Latest">Ya tienes los últimos Hooks.</string>
+    <string name="Hooks_Updated">Los ganchos se han actualizado.\nPor favor, cierra la aplicación Instagram.</string>
+    <string name="I_LocationChanged">La ubicación de guardado de las imagenes, se ha restablecido a la predeterminada.</string>
+    <string name="Incorrect_Location">No se puede guardar aquí.\nSeleccione otra ubicación.</string>
+    <string name="P_LocationChanged">La ubicación de guardado del icono de perfil, se ha restablecido  a la predeterminada.</string>
+    <string name="Picture_Not">Haga clic en la imagen e intentelo de nuevo.</string>
+    <string name="V_LocationChanged">La ubicación de guardado de los vídeos, se ha restablecido a la predeterminada.</string>
 </resources>

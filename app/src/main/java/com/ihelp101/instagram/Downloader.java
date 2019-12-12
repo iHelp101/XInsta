@@ -29,6 +29,7 @@ public class Downloader extends Service {
             downloadIntent.putExtra("Filename", intent.getStringExtra("Filename"));
             downloadIntent.putExtra("Filetype", intent.getStringExtra("Filetype"));
             downloadIntent.putExtra("User", intent.getStringExtra("User"));
+            downloadIntent.putExtra("Epoch", intent.getLongExtra("Epoch", 123));
             mContext.startService(downloadIntent);
             stopSelf();
 

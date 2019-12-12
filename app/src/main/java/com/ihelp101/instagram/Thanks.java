@@ -68,7 +68,7 @@ public class Thanks extends AppCompatActivity {
         mAdapter.addItem("Hindi - Preshak");
         mAdapter.addItem("Hungarian - Nagy");
         mAdapter.addItem("Indonesian - Ammar");
-        mAdapter.addItem("Italian - AlphaUMi/RealGalaxyLink");
+        mAdapter.addItem("Italian - AlphaUMi/RealGalaxyLink/xDonatello");
         mAdapter.addItem("Korean - 김민우");
         mAdapter.addItem("Kurdish - AhmAd202");
         mAdapter.addItem("Lithuanian - Laurynas");

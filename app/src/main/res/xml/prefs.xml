@@ -38,6 +38,10 @@
             android:title="@string/NotificationHide"/>
         <com.ihelp101.instagram.Pref
             android:defaultValue="false"
+            android:summary="@string/Suggestion_Summary"
+            android:title="@string/Suggestion"/>
+        <com.ihelp101.instagram.Pref
+            android:defaultValue="false"
             android:summary="@string/Push_Summary"
             android:title="@string/Push"/>
     </PreferenceCategory>

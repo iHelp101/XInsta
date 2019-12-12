@@ -16,6 +16,15 @@
         android:installLocation="internalOnly"
         android:screenOrientation="portrait"
         android:largeHeap="true">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.ihelp101.instagram.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -85,6 +94,11 @@
         <receiver android:name=".Receiver">
             <intent-filter>
                 <action android:name="com.ihelp101.instagram.TESTING"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".Click">
+            <intent-filter>
+                <action android:name="com.ihelp101.instagram.CLICK"/>
             </intent-filter>
         </receiver>
         <receiver android:name=".Update">

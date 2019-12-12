@@ -20,7 +20,6 @@ public class Receiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
             mContext = context;
-            System.out.println("Hi!");
             String notificationInfo = intent.getStringExtra("Notification");
             getNotification(notificationInfo);
     }

@@ -155,10 +155,12 @@ public class Live extends IntentService {
         try {
             video = new MovieCreator().build(videoFile);
         } catch (RuntimeException e) {
-            Helper.setError("Live Story Muxing Failed - " +e);
+            Helper.setError("Live Story Muxing Failed2 - " +e);
+            Helper.setError("Live Story Audio - " +audioFile);
+            Helper.setError("Live Story Video - " +videoFile);
             throw e;
         } catch (IOException e) {
-            Helper.setError("Live Story Muxing Failed - " +e);
+            Helper.setError("Live Story Muxing Failed3 - " +e);
             return false;
         }
 
@@ -166,10 +168,10 @@ public class Live extends IntentService {
         try {
             audio = new MovieCreator().build(audioFile);
         } catch (IOException e) {
-            Helper.setError("Live Story Muxing Failed - " +e);
+            Helper.setError("Live Story Muxing Failed4 - " +e);
             return false;
         } catch (NullPointerException e) {
-            Helper.setError("Live Story Muxing Failed - " +e);
+            Helper.setError("Live Story Muxing Failed5 - " +e);
             return false;
         }
 
@@ -190,7 +192,7 @@ public class Live extends IntentService {
 
                 byteBufferByteChannel = new BufferedWritableFileByteChannel(outputStream);
             } catch (Throwable t) {
-                Helper.setError("Live Story Muxing Failed2 - " + e);
+                Helper.setError("Live Story Muxing Failed6 - " + e);
                 return false;
             }
         }
@@ -207,7 +209,7 @@ public class Live extends IntentService {
                 }
             }
         } catch (Throwable t) {
-            Helper.setError("Live Story Muxing Failed - " +t);
+            Helper.setError("Live Story Muxing Failed7 - " +t);
             return false;
         }
         return true;

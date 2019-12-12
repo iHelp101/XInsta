@@ -41,6 +41,8 @@ public class FileFormat extends AppCompatActivity {
         listView = (DragNDropListView) findViewById(R.id.listdrag);
         mContext = getApplicationContext();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         updateListView();
     }
@@ -53,18 +55,7 @@ public class FileFormat extends AppCompatActivity {
             list = Helper.getSetting("FileFormat");
 
             if (Helper.getSetting("FileFormat").equals("Instagram")) {
-                list = "Username_MediaID_ItemID";
-
-                if (!Helper.getSetting("File").equals("Instagram")) {
-                    list = "Username_MediaID_Date";
-                    Helper.setSetting("FileFormat", list);
-                }
-            }
-
-            if (!Helper.getSetting("File").equals("Instagram")) {
-                list = list.replace("ItemID", "Date");
-            } else {
-                list = list.replace("Date", "ItemID");
+                list = "Username_MediaID_UserID";
             }
 
             lists = list.split("_");
@@ -78,5 +69,65 @@ public class FileFormat extends AppCompatActivity {
             listView.setDragNDropAdapter(mAdapter);
         } catch (Exception e) {
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add("+").setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getTitle().equals("+")) {
+
+            String list = "Username_MediaID_Date_UserID";
+
+            if (Helper.getSetting("FileFormat").equals("Instagram")) {
+                String fileFormat = "Username_MediaID_UserID";
+
+                for (String string : fileFormat.split("_")) {
+                    list = list.replace(string + "_", "");
+                    list = list.replace(string, "");
+                }
+            } else {
+                String fileFormat = Helper.getSetting("FileFormat");
+
+                for (String string : fileFormat.split("_")) {
+                    list = list.replace(string + "_", "");
+                    list = list.replace(string, "");
+                }
+            }
+
+            final String[] actualStringString = list.split("_");
+
+            if (!list.isEmpty()) {
+                new AlertDialog.Builder(this)
+                        .setSingleChoiceItems(actualStringString, 0, null)
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+
+                                List list = mAdapter.mData;
+                                list.add(actualStringString[((AlertDialog) dialog).getListView().getCheckedItemPosition()]);
+
+                                String saveString = "";
+
+                                for (int i = 0; i < list.size(); i++) {
+                                    if (saveString.isEmpty()) {
+                                        saveString = list.get(i).toString();
+                                    } else {
+                                        saveString = saveString + "_" + list.get(i).toString();
+                                    }
+                                }
+
+                                Helper.setSetting("FileFormat", saveString);
+                                updateListView();
+                            }
+                        }).show();
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
