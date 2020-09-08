@@ -20,7 +20,7 @@ public class Error extends BroadcastReceiver {
 
         if (errorMessage.equals("XInsta Initialized")) {
             try {
-                if (Helper.getFolderSize(new File(Environment.getExternalStorageDirectory(), ".Instagram/Error.txt")) > 10000) {
+                if (Helper.getFolderSize(new File(Environment.getExternalStorageDirectory(), ".Instagram/Error.txt")) > 100000) {
                     startErrorLog(errorMessage);
                 } else {
                     setError("---------------------------");

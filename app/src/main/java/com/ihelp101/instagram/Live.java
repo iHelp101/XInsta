@@ -1,12 +1,18 @@
 package com.ihelp101.instagram;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
+
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
@@ -14,7 +20,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.coremedia.iso.IsoFile;
+import com.arthenica.mobileffmpeg.FFmpeg;
 import com.coremedia.iso.boxes.Container;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.Track;
@@ -22,11 +28,9 @@ import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.nio.BufferOverflowException;
@@ -35,122 +39,241 @@ import java.nio.channels.WritableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
 
-public class Live extends IntentService {
+public class Live extends Service {
 
-    Context mContext;
-    String notificationTitle = "";
-    NotificationCompat.Builder mBuilder;
-    NotificationManager mNotifyManager;
-    int id = 100;
+    static NotificationCompat.Builder mBuilder;
+    static NotificationManager mNotifyManager;
+    static int id = 100;
+    static boolean ready = false;
 
-    public Live() {
-        super("Download");
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onCreate() {
+        super.onCreate();
 
+        mNotifyManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        mBuilder = new NotificationCompat.Builder(getApplicationContext());
+
+        mBuilder.setContentTitle("Muxing")
+                .setContentText("Muxing...")
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_launcher));
+
+
+        startForeground(100, mBuilder.build());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mNotifyManager.notify(100, mBuilder.build());
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         try {
-            mContext = getApplicationContext();
-            String save = URLDecoder.decode(intent.getStringExtra("SAVE"), "utf-8");
-            String audioFile = URLDecoder.decode(save.replace("LiveVideo", "LiveAudio"), "utf-8");
+            try {
+                if (intent.getAction().equals("StopService")) {
+                    stopForeground(false);
+                    stopSelf();
+
+                    return super.onStartCommand(intent, flags, startId);
+                }
+            } catch (Throwable t) {
+            }
+
+            System.out.println("Handle");
+            String linkToDownload = URLDecoder.decode(intent.getStringExtra("SAVE"), "utf-8");
+            String userName = intent.getStringExtra("Username");
+            String fileName = intent.getStringExtra("Filename");
+            ready = false;
+
+            Helper.setError("Passing Live To Downloader");
+            new Helper.DownloadLive2(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, linkToDownload, userName, fileName);
+        } catch (Throwable t) {
+            Helper.setError("Live Story Intent Failed - " +t);
+
+            String downloadFailed = "Intent Failed";
+
+            Toast(getApplicationContext(), downloadFailed);
+
+
+            mBuilder.setContentText(downloadFailed)
+                    .setTicker(downloadFailed)
+                    .setContentTitle(downloadFailed)
+                    .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                    .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ic_launcher));
+            mNotifyManager.notify(id, mBuilder.build());
+        }
+        return START_NOT_STICKY;
+    }
+
+    static void startMux(Context context, String audioFile, String videoFile, String notificationTitle) {
+        try {
+            Helper.setError("Started Mux");
             String out = Helper.getSaveLocation("Video");
 
             if (out.toLowerCase().contains("com.android.externalstorage.documents")) {
                 out = out.split(";")[1];
             }
 
-            String fileName = save.split("/")[save.split("/").length - 1];
+            String fileName = videoFile.split("/")[videoFile.split("/").length - 1];
             String userName = fileName.split("_")[0];
+
+            Helper.setError("Pre-Save Location: " +out);
 
             out = Helper.checkSave(out, userName, fileName);
 
+            Helper.setError("Mux Save Location: " +out);
+
             String outputFile = URLDecoder.decode(out.replace("LiveVideo", "Live"), "utf-8");
 
-
-            notificationTitle = intent.getStringExtra("Title");
-
-            mNotifyManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(mContext);
+            mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mBuilder = new NotificationCompat.Builder(context);
 
             notificationTitle = notificationTitle.substring(0, 1).toUpperCase() + notificationTitle.substring(1);
 
             mBuilder.setContentTitle(notificationTitle)
                     .setContentText("Muxing...")
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher));
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
             mNotifyManager.notify(id, mBuilder.build());
 
-            if (mux(save, audioFile, outputFile)) {
-                File file = new File(audioFile);
-                file.delete();
-                file = new File(save);
-                file.delete();
+            if (mux(context, videoFile, audioFile, outputFile)) {
+                new File(audioFile).delete();
+                new File(videoFile).delete();
 
-                mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(audioFile))));
-                mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(save))));
-                mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(outputFile))));
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(audioFile))));
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(videoFile))));
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(outputFile))));
 
                 String downloadComplete;
 
                 try {
-                    downloadComplete = Helper.getResourceString(mContext, R.string.Download_Completed);
+                    downloadComplete = Helper.getResourceString(context, R.string.Download_Completed);
                 } catch (Throwable t) {
                     downloadComplete = "Download Complete";
                 }
 
                 mBuilder.setContentTitle(notificationTitle)
-                            .setContentText(downloadComplete)
-                            .setSmallIcon(android.R.drawable.ic_dialog_info)
-                            .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher));
+                        .setContentText(downloadComplete)
+                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
 
                 Intent notificationIntent = new Intent();
                 notificationIntent.setAction(Intent.ACTION_VIEW);
 
                 File fileSave = new File(outputFile);
 
-                mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(fileSave)));
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(fileSave)));
 
                 notificationIntent.setDataAndType(Uri.fromFile(fileSave), "video/*");
                 notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 mBuilder.setContentIntent(contentIntent);
                 mNotifyManager.notify(id, mBuilder.build());
 
-                Toast(downloadComplete);
+                Toast(context, downloadComplete);
             } else {
                 Helper.setError("Muxing Failed - Returned False");
                 String downloadFailed = "Muxing Failed";
 
-                Toast(downloadFailed);
-
-                mBuilder.setContentText(downloadFailed)
-                        .setTicker(downloadFailed)
-                        .setContentTitle(notificationTitle)
-                        .setSmallIcon(android.R.drawable.ic_dialog_alert)
-                        .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher))
-                        .setAutoCancel(true);
-                mNotifyManager.notify(id, mBuilder.build());
+                failed(context, audioFile, videoFile, downloadFailed);
             }
         } catch (Throwable t) {
             Helper.setError("Live Story Muxing Failed - " +t);
 
             String downloadFailed = "Muxing Failed";
 
-            Toast(downloadFailed);
-
-            mBuilder.setContentText(downloadFailed)
-                    .setTicker(downloadFailed)
-                    .setContentTitle(notificationTitle)
-                    .setSmallIcon(android.R.drawable.ic_dialog_alert)
-                    .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher));
-            mNotifyManager.notify(id, mBuilder.build());
+            failed(context, audioFile, videoFile, downloadFailed);
         }
     }
 
-    public boolean mux(String videoFile, String audioFile, String outputFile) {
+    static void startMux2(Context context, String audioFile, String videoFile, String notificationTitle) {
+        try {
+            Helper.setError("Started Mux");
+            String outputFile = videoFile.replace("Video", "");
+
+            Helper.setError("Mux Save Location: " +outputFile);
+
+            mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mBuilder = new NotificationCompat.Builder(context);
+
+            notificationTitle = notificationTitle.substring(0, 1).toUpperCase() + notificationTitle.substring(1);
+
+            mBuilder.setContentTitle(notificationTitle)
+                    .setContentText("Muxing...")
+                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
+            mNotifyManager.notify(id, mBuilder.build());
+
+            int rc = FFmpeg.execute("-i '"  + videoFile +  "' -i '" + audioFile +  "' -y -acodec copy -vcodec copy '" +outputFile + "'");
+
+            if (rc == RETURN_CODE_SUCCESS) {
+                Helper.setError("Completed Mux: " +outputFile);
+                new File(audioFile).delete();
+                new File(videoFile).delete();
+
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(audioFile))));
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(videoFile))));
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(outputFile))));
+
+                String downloadComplete;
+
+                try {
+                    downloadComplete = Helper.getResourceString(context, R.string.Download_Completed);
+                } catch (Throwable t) {
+                    downloadComplete = "Download Complete";
+                }
+
+                mBuilder.setContentTitle(notificationTitle)
+                        .setContentText(downloadComplete)
+                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
+
+                Intent notificationIntent = new Intent();
+                notificationIntent.setAction(Intent.ACTION_VIEW);
+
+                File fileSave = new File(outputFile);
+
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(fileSave)));
+
+                notificationIntent.setDataAndType(Uri.fromFile(fileSave), "video/*");
+                notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                mBuilder.setContentIntent(contentIntent);
+                mNotifyManager.notify(id, mBuilder.build());
+
+                Toast(context, downloadComplete);
+
+                stopService(context, mBuilder);
+            } else {
+                Helper.setError("Muxing Failed - Returned False");
+                Helper.setError("Muxing Failed Audio - " +audioFile);
+                Helper.setError("Muxing Failed Video - " +videoFile);
+                String downloadFailed = "Muxing Failed";
+
+                failed(context, audioFile, videoFile, downloadFailed);
+            }
+        } catch (Throwable t) {
+            Helper.setError("Live Story Muxing Failed - " +t);
+
+            String downloadFailed = "Muxing Failed";
+
+            failed(context, audioFile, videoFile, downloadFailed);
+        }
+    }
+
+    static public boolean mux(Context context, String videoFile, String audioFile, String outputFile) {
         Movie video;
         try {
             video = new MovieCreator().build(videoFile);
@@ -158,7 +281,7 @@ public class Live extends IntentService {
             Helper.setError("Live Story Muxing Failed2 - " +e);
             Helper.setError("Live Story Audio - " +audioFile);
             Helper.setError("Live Story Video - " +videoFile);
-            throw e;
+            return false;
         } catch (IOException e) {
             Helper.setError("Live Story Muxing Failed3 - " +e);
             return false;
@@ -188,7 +311,7 @@ public class Live extends IntentService {
             byteBufferByteChannel = new BufferedWritableFileByteChannel(fos);
         } catch (FileNotFoundException e) {
             try {
-                outputStream = getContentResolver().openOutputStream(getDocumentFile(new File(outputFile), false, outputFile).getUri());
+                outputStream = context.getContentResolver().openOutputStream(getDocumentFile(context, new File(outputFile), false, outputFile).getUri());
 
                 byteBufferByteChannel = new BufferedWritableFileByteChannel(outputStream);
             } catch (Throwable t) {
@@ -270,8 +393,8 @@ public class Live extends IntentService {
         }
     }
 
-    DocumentFile getDocumentFile(File file, boolean isDirectory, String SAVE) {
-        String baseFolder = getExtSdCardFolder(file);
+    static DocumentFile getDocumentFile(Context context, File file, boolean isDirectory, String SAVE) {
+        String baseFolder = getExtSdCardFolder(context, file);
 
         if (baseFolder == null) {
             return null;
@@ -293,7 +416,7 @@ public class Live extends IntentService {
             fileExtension = "video/*";
         }
 
-        DocumentFile document = DocumentFile.fromTreeUri(mContext, Uri.parse(Helper.getSaveLocation("Video").split(";")[0]));
+        DocumentFile document = DocumentFile.fromTreeUri(context, Uri.parse(Helper.getSaveLocation("Video").split(";")[0]));
 
         String[] parts = relativePath.split("\\/");
         for (int i = 0; i < parts.length; i++) {
@@ -313,8 +436,8 @@ public class Live extends IntentService {
         return document;
     }
 
-    String getExtSdCardFolder(final File file) {
-        String[] extSdPaths = getExtSdCardPaths();
+    static String getExtSdCardFolder(Context context, final File file) {
+        String[] extSdPaths = getExtSdCardPaths(context);
         try {
             for (int i = 0; i < extSdPaths.length; i++) {
                 if (file.getCanonicalPath().contains(extSdPaths[i])) {
@@ -327,11 +450,11 @@ public class Live extends IntentService {
         return null;
     }
 
-    String[] getExtSdCardPaths() {
+    static String[] getExtSdCardPaths(Context context) {
         List<String> paths = new ArrayList<>();
         if (android.os.Build.VERSION.SDK_INT >= 21) {
-            for (File file : mContext.getExternalFilesDirs("external")) {
-                if (file != null && !file.equals(mContext.getExternalFilesDir("external"))) {
+            for (File file : context.getExternalFilesDirs("external")) {
+                if (file != null && !file.equals(context.getExternalFilesDir("external"))) {
                     int index = file.getAbsolutePath().lastIndexOf("/Android/data");
                     if (index > 0) {
                         String path = file.getAbsolutePath().substring(0, index);
@@ -347,10 +470,35 @@ public class Live extends IntentService {
         return paths.toArray(new String[paths.size()]);
     }
 
-    void Toast(String message) {
-        Toast toast = Toast.makeText(mContext, message, Toast.LENGTH_SHORT);
+    static void Toast(Context context, String message) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         TextView v = (TextView) toast.getView().findViewById(android.R.id.message);
         if (v != null) v.setGravity(Gravity.CENTER);
         toast.show();
+    }
+
+    static void failed(Context context, String audioFile, String videoFile, String downloadFailed) {
+        File file = new File(audioFile);
+        file.delete();
+        file = new File(videoFile);
+        file.delete();
+
+        Toast(context, downloadFailed);
+
+        mBuilder.setContentText(downloadFailed)
+                .setTicker(downloadFailed)
+                .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
+        mNotifyManager.notify(id, mBuilder.build());
+
+        Intent serviceToStop = new Intent(context, Live.class);
+        context.stopService(serviceToStop);
+    }
+
+    static void stopService(Context context, NotificationCompat.Builder builder) {
+        Intent serviceToStop = new Intent(context, Live.class);
+        serviceToStop.setAction("StopService");
+        context.startService(serviceToStop);
+        mBuilder = builder;
     }
 }

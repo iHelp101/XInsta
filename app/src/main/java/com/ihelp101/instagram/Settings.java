@@ -192,11 +192,11 @@ public class Settings extends Preferences {
 
         if (clicked.equals(Helper.getResourceString(mContext, R.string.ChangeApp))) {
             if (o.toString().equals("true")) {
-                Helper.setIcon(mContext, "IntroActivity-Alias", false);
-                Helper.setIcon(mContext, "IntroActivity-Alias2", true);
+                Helper.setIcon(mContext, "IntroActivityAlias", false);
+                Helper.setIcon(mContext, "IntroActivityAlias2", true);
             } else {
-                Helper.setIcon(mContext, "IntroActivity-Alias", true);
-                Helper.setIcon(mContext, "IntroActivity-Alias2", false);
+                Helper.setIcon(mContext, "IntroActivityAlias", true);
+                Helper.setIcon(mContext, "IntroActivityAlias2", false);
             }
             Helper.setSetting("AppIcon", o.toString());
         }
@@ -256,11 +256,11 @@ public class Settings extends Preferences {
         if (clicked.equals(Helper.getResourceString(mContext, R.string.Hide))) {
             if (o.toString().equals("true")) {
                 if (Helper.getSettings("AppIcon")) {
-                    Helper.setIcon(mContext, "IntroActivity-Alias", false);
-                    Helper.setIcon(mContext, "IntroActivity-Alias2", true);
+                    Helper.setIcon(mContext, "IntroActivityAlias", false);
+                    Helper.setIcon(mContext, "IntroActivityAlias2", true);
                 } else {
-                    Helper.setIcon(mContext, "IntroActivity-Alias", true);
-                    Helper.setIcon(mContext, "IntroActivity-Alias2", false);
+                    Helper.setIcon(mContext, "IntroActivityAlias", true);
+                    Helper.setIcon(mContext, "IntroActivityAlias2", false);
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(nContext);
@@ -281,8 +281,8 @@ public class Settings extends Preferences {
                 builder.setPositiveButton(okay, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Helper.setIcon(mContext, "IntroActivity-Alias", false);
-                        Helper.setIcon(mContext, "IntroActivity-Alias2", false);
+                        Helper.setIcon(mContext, "IntroActivityAlias", false);
+                        Helper.setIcon(mContext, "IntroActivityAlias2", false);
                         Helper.setSetting("HideApp", "true");
                     }
                 }).setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -300,11 +300,11 @@ public class Settings extends Preferences {
                 dialog.show();
             } else {
                 if (Helper.getSettings("AppIcon")) {
-                    Helper.setIcon(mContext, "IntroActivity-Alias", false);
-                    Helper.setIcon(mContext, "IntroActivity-Alias2", true);
+                    Helper.setIcon(mContext, "IntroActivityAlias", false);
+                    Helper.setIcon(mContext, "IntroActivityAlias2", true);
                 } else {
-                    Helper.setIcon(mContext, "IntroActivity-Alias", true);
-                    Helper.setIcon(mContext, "IntroActivity-Alias2", false);
+                    Helper.setIcon(mContext, "IntroActivityAlias", true);
+                    Helper.setIcon(mContext, "IntroActivityAlias2", false);
                 }
                 Helper.setSetting("HideApp", "false");
             }
@@ -506,8 +506,8 @@ public class Settings extends Preferences {
             menuItem.setTitle(changeApp);
 
             if (Helper.getSettings("AppIcon")) {
-                Helper.setIcon(mContext, "IntroActivity-Alias", false);
-                Helper.setIcon(mContext, "IntroActivity-Alias2", true);
+                Helper.setIcon(mContext, "IntroActivityAlias", false);
+                Helper.setIcon(mContext, "IntroActivityAlias2", true);
                 return true;
             }
         }
@@ -759,8 +759,8 @@ public class Settings extends Preferences {
             menuItem.setTitle(hide);
 
             if (Helper.getSettings("HideApp")) {
-                Helper.setIcon(mContext, "IntroActivity-Alias", false);
-                Helper.setIcon(mContext, "IntroActivity-Alias2", false);
+                Helper.setIcon(mContext, "IntroActivityAlias", false);
+                Helper.setIcon(mContext, "IntroActivityAlias2", false);
                 return true;
             }
         }

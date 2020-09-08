@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ihelp101.instagram"
     android:installLocation="internalOnly">
 
@@ -7,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-sdk tools:overrideLibrary="com.arthenica.mobileffmpeg"/>
 
     <application
         android:allowBackup="true"
@@ -46,15 +48,14 @@
         <activity
             android:name=".MainNew"
             android:configChanges="orientation"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
         <activity-alias
-            android:name="com.ihelp101.instagram.IntroActivity-Alias"
+            android:name="com.ihelp101.instagram.IntroActivityAlias"
             android:label="@string/app_name"
             android:icon="@drawable/ic_launcher"
             android:enabled="true"
@@ -65,7 +66,7 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name="com.ihelp101.instagram.IntroActivity-Alias2"
+            android:name="com.ihelp101.instagram.IntroActivityAlias2"
             android:label="@string/app_name"
             android:enabled="false"
             android:icon="@drawable/ic_launcher2"
@@ -86,9 +87,7 @@
         <receiver android:name=".Dismiss" android:exported="true"/>
         <receiver android:name=".Error" android:exported="true">
             <intent-filter>
-                <action android:name= "com.ihelp101.instagram.Error">
-                    <category android:name = "android.intent.category.DEFAULT" />
-                </action>
+                <action android:name= "com.ihelp101.instagram.Error"/>
             </intent-filter>
         </receiver>
         <receiver android:name=".Receiver">
@@ -103,9 +102,7 @@
         </receiver>
         <receiver android:name=".Update">
             <intent-filter>
-                <action android:name= "com.ihelp101.instagram.UPDATE">
-                    <category android:name = "android.intent.category.DEFAULT" />
-                </action>
+                <action android:name= "com.ihelp101.instagram.UPDATE"/>
             </intent-filter>
         </receiver>
         <receiver android:name=".Updated">
@@ -133,7 +130,6 @@
                 <action android:name= "com.ihelp101.instagram.LIVE"/>
             </intent-filter>
         </service>
-
         <meta-data android:name="storeprefs_mainclass" android:value="com.ihelp101.instagram.Module" />
     </application>
 </manifest>

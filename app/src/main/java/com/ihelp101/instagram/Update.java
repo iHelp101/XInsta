@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.support.v4.app.NotificationCompat;
 
-import de.robv.android.xposed.XposedHelpers;
-
 public class Update extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -5,7 +5,6 @@ import android.app.IntentService;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
@@ -42,12 +41,7 @@ public class Download extends IntentService {
     void checkSDCard() {
         try {
             SAVE = Helper.getSaveLocation(fileType).split(";")[1];
-
-            if (fileType.equals("Profile")) {
-                SAVE = Helper.checkSaveProfile(SAVE, userName, fileName);
-            } else {
-                SAVE = Helper.checkSave(SAVE, userName, fileName);
-            }
+            SAVE = Helper.checkSave(SAVE, userName, fileName);
 
             checkSDPermission();
         } catch (Exception e) {

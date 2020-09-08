@@ -19,10 +19,8 @@ package com.ihelp101.instagram;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
-import android.os.Handler;
-import android.support.v7.widget.AppCompatTextView;
+
 import android.util.AttributeSet;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,11 +28,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Adapter;
-import android.widget.TextView;
 import android.widget.WrapperListAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DragNDropListView extends ListView {
 

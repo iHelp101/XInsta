@@ -22,7 +22,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
-import android.preference.ListPreference;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -48,8 +48,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -235,12 +233,14 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
 
                 InputStream inputStream = c.getInputStream();
 
+
+                System.out.println("Hi: " +uri[0]);
+
                 responseString = Helper.convertStreamToString(inputStream);
             } catch (Exception e) {
                 responseString = "Nope";
                 Helper.setError("Hook Fetch Failed - " +e);
             }
-
 
             return responseString;
         }
@@ -695,14 +695,7 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
             mDialog.setMessage("Please wait...");
             mDialog.setCancelable(false);
             mDialog.show();
-            new HookCheck().execute("http://pastebin.com/raw.php?i=sTXbUFcx");
-        }
-        if (currentAction.equals("Alternate Source")) {
-            mDialog = new ProgressDialog(MainNew.this);
-            mDialog.setMessage("Please wait...");
-            mDialog.setCancelable(false);
-            mDialog.show();
-            new HookCheck().execute("http://www.snapprefs.com/xinsta/Hooks.txt");
+            new HookCheck().execute("https://pastebin.com/raw/sTXbUFcx");
         }
         if (currentAction.equals("One Tap Video Download")) {
             if (appInstalledOrNot("com.phantom.onetapvideodownload")) {
@@ -748,11 +741,6 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent intent = new Intent();
-        intent.setAction("com.ihelp101.instagram.TESTING");
-        intent.putExtra("Notification", "{\"a\":\"https:\\/\\/scontent.cdninstagram.com\\/vp\\/7e8713f4ee7e30304789c53fe3a84cdf\\/5B602146\\/t51.2885-19\\/s150x150\\/25037633_2038387122844589_5808458396097052672_n.jpg\",\"bc\":\"{\\\"dt\\\":0}\",\"c\":\"post\",\"sound\":\"default\",\"i\":\"https:\\/\\/scontent.cdninstagram.com\\/vp\\/4e01724d57c5acbaf68419516e70f59b\\/5B6118A7\\/t51.2885-15\\/e35\\/30603543_602579183426446_6857414457753075712_n.jpg\",\"SuppressBadge\":\"1\",\"m\":\"not_zannah just posted a photo.\",\"collapse_key\":\"post\",\"s\":\"3768802609\",\"u\":35518138,\"PushNotifID\":\"56a8a8a8f6bf5H21df6baH56a8ad4256ec7H49\",\"pi\":\"56a8a8a8f6bf5H21df6baH56a8ad4256ec7H49\",\"ig\":\"media?id=1764118739753381872_3768802609\"}");
-        //sendBroadcast(intent);
-
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.AM,  R.string.Date) {
@@ -785,6 +773,10 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
             }
         } catch (Throwable t) {
         }
+
+
+        //Helper.getPostUrl(getApplicationContext(), "media123;https://scontent.cdninstagram.com/v/t51.2885-15/e35/90313383_3882892315069115_678282839935124843_n.jpg?_nc_ht=scontent.cdninstagram.com&_nc_cat=111&_nc_ohc=_yOne_EJSiUAX98X14c&oh=eff325ca6cf34275f6b697fc67f36664&oe=5E9E83BA", "mystikgunn345.jpg", "Image", "mystikgunn's Image", "tessaviolet");
+        //Helper.passLiveStory(getApplicationContext(), "https://scontent-atl3-1.cdninstagram.com/v/t72.12950-16/10000000_574082339985805_1137244526084096000_n.mp4?_nc_ht=scontent-atl3-1.cdninstagram.com&_nc_cat=1&_nc_ohc=KK28ekfg9LIAX9XPIKW&oh=fc85063dc6229efa6ef6dc1f6c7e9dba&oe=5E5FAA12;https://scontent-atl3-1.cdninstagram.com/v/t72.12950-16/10000000_233330661170003_7409706329570279424_n.mp4?_nc_ht=scontent-atl3-1.cdninstagram.com&_nc_cat=111&_nc_ohc=28lEd2lGsfkAX_VtizH&oh=52ba55e41c9d3a9464033c330799c560&oe=5E5FAC92", "YourPerfectName", "YourPerfectName_LiveAudio_20200220180225.mp4");
     }
 
     @Override
@@ -1052,7 +1044,6 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
         mAdapter.addSectionHeaderItem(updateHooks);
         mAdapter.addItem("GitHub");
         mAdapter.addItem("Pastebin");
-        mAdapter.addItem("Alternate Source");
         mAdapter.addSectionHeaderItem(recommended.toUpperCase());
         mAdapter.addItem("One Tap Video Download");
         mAdapter.addItem("Zoom For Instagram");

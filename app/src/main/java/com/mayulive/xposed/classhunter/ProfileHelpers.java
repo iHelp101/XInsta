@@ -246,7 +246,8 @@ public class ProfileHelpers
 	 * @param rightParentClass 	The parent class of the objects, if they belong to a class.
 	 * @return
 	 */
-	@Nullable public static <T> T findMostSimilar(Profile<T> profile, T[] candidates, Class rightParentClass)
+	@Nullable
+	public static <T> T findMostSimilar(Profile<T> profile, T[] candidates, Class rightParentClass)
 	{
 		if (candidates.length < 1)
 			return null;
