@@ -41,6 +41,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -690,13 +692,6 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
             mDialog.show();
             new HookCheck().execute("https://raw.githubusercontent.com/iHelp101/XInsta/master/Hooks.txt");
         }
-        if (currentAction.equals("Pastebin")) {
-            mDialog = new ProgressDialog(MainNew.this);
-            mDialog.setMessage("Please wait...");
-            mDialog.setCancelable(false);
-            mDialog.show();
-            new HookCheck().execute("https://pastebin.com/raw/sTXbUFcx");
-        }
         if (currentAction.equals("One Tap Video Download")) {
             if (appInstalledOrNot("com.phantom.onetapvideodownload")) {
                 Intent intent = getPackageManager().getLaunchIntentForPackage("com.phantom.onetapvideodownload");
@@ -773,11 +768,7 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
             }
         } catch (Throwable t) {
         }
-
-
-        //Helper.getPostUrl(getApplicationContext(), "media123;https://scontent.cdninstagram.com/v/t51.2885-15/e35/90313383_3882892315069115_678282839935124843_n.jpg?_nc_ht=scontent.cdninstagram.com&_nc_cat=111&_nc_ohc=_yOne_EJSiUAX98X14c&oh=eff325ca6cf34275f6b697fc67f36664&oe=5E9E83BA", "mystikgunn345.jpg", "Image", "mystikgunn's Image", "tessaviolet");
-        //Helper.passLiveStory(getApplicationContext(), "https://scontent-atl3-1.cdninstagram.com/v/t72.12950-16/10000000_574082339985805_1137244526084096000_n.mp4?_nc_ht=scontent-atl3-1.cdninstagram.com&_nc_cat=1&_nc_ohc=KK28ekfg9LIAX9XPIKW&oh=fc85063dc6229efa6ef6dc1f6c7e9dba&oe=5E5FAA12;https://scontent-atl3-1.cdninstagram.com/v/t72.12950-16/10000000_233330661170003_7409706329570279424_n.mp4?_nc_ht=scontent-atl3-1.cdninstagram.com&_nc_cat=111&_nc_ohc=28lEd2lGsfkAX_VtizH&oh=52ba55e41c9d3a9464033c330799c560&oe=5E5FAC92", "YourPerfectName", "YourPerfectName_LiveAudio_20200220180225.mp4");
-    }
+     }
 
     @Override
     public boolean onNavigationItemSelected(final MenuItem menuItem) {
@@ -1043,7 +1034,6 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
         mAdapter.addItem(video);
         mAdapter.addSectionHeaderItem(updateHooks);
         mAdapter.addItem("GitHub");
-        mAdapter.addItem("Pastebin");
         mAdapter.addSectionHeaderItem(recommended.toUpperCase());
         mAdapter.addItem("One Tap Video Download");
         mAdapter.addItem("Zoom For Instagram");

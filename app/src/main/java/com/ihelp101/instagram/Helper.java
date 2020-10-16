@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.v4.provider.DocumentFile;
 import android.support.v4.app.NotificationCompat;
 import android.util.Base64;
@@ -24,10 +25,6 @@ import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.mayulive.xposed.classhunter.ProfileHelpers;
-import com.mayulive.xposed.classhunter.packagetree.PackageTree;
-import com.mayulive.xposed.classhunter.profiles.ClassProfile;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -868,6 +865,10 @@ public class Helper {
                     fileName = Helper.getNotificationFileName(jsonObject, fileExtension, fileName, userName, context.get());
 
                     try {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+                        StrictMode.setThreadPolicy(policy);
+
                         String videoUrl = "https://www.instagram.com/p/" + Helper.getNotificationURL(jsonObject);
 
                         URL u = new URL(videoUrl);
@@ -1016,38 +1017,45 @@ public class Helper {
     }
 
     static List injectButton(Context context, List list, String type) {
-        String downloadCheck;
-
         try {
-            downloadCheck = Helper.getResourceString(context, R.string.the_not_so_big_but_big_button);
-        } catch (Throwable t) {
-            downloadCheck = "Download";
-        }
-
-        Pair downloadPair = Pair.create(downloadCheck, downloadCheck);
-        List pairsList = new ArrayList();
-        pairsList.add(downloadPair);
-
-        if (Helper.getSettings("Lock") && type.equals("Feed")) {
-            String lockFeed;
+            String downloadCheck;
 
             try {
-                lockFeed = Helper.getResourceString(context, R.string.the_not_so_big_but_big_button2);
+                downloadCheck = Helper.getResourceString(context, R.string.the_not_so_big_but_big_button);
             } catch (Throwable t) {
-                lockFeed = "Privacy Lock";
+                downloadCheck = "Download";
             }
 
-            Pair lockFeedPair = Pair.create(lockFeed, lockFeed);
 
-            pairsList.add(lockFeedPair);
-        }
 
-        if (Helper.getSettings("Order")) {
-            pairsList.addAll(list);
-            list.clear();
-            list.addAll(pairsList);
-        } else {
-            list.addAll(pairsList);
+            Pair downloadPair = Pair.create(((Pair) list.get(0)).first, downloadCheck);
+            List pairsList = new ArrayList();
+            pairsList.add(downloadPair);
+
+            if (Helper.getSettings("Lock") && type.equals("Feed")) {
+                String lockFeed;
+
+                try {
+                    lockFeed = Helper.getResourceString(context, R.string.the_not_so_big_but_big_button2);
+                } catch (Throwable t) {
+                    lockFeed = "Privacy Lock";
+                }
+
+                Pair lockFeedPair = Pair.create("COPY_LINK", lockFeed);
+
+                pairsList.add(lockFeedPair);
+            }
+
+            if (Helper.getSettings("Order")) {
+                pairsList.addAll(list);
+                list.clear();
+                list.addAll(pairsList);
+            } else {
+                list.addAll(pairsList);
+            }
+        } catch (Throwable t) {
+            setError("Failed to Inject New Feed Dialog - " +t);
+            return null;
         }
 
         return list;
@@ -1108,15 +1116,15 @@ public class Helper {
         for (Field field : fields) {
             String className = XposedHelpers.getObjectField(object, field.getName()).getClass().toString();
             if (!className.contains("List")) {
-                returnObject = XposedHelpers.getObjectField(object, field.getName());
-                break;
+                try {
+                    returnObject = XposedHelpers.getObjectField(object, field.getName());
+                    returnObject = getObjectField(returnObject, XposedHelpers.findFirstFieldByExactType(returnObject.getClass(), XposedHelpers.findClass(MEDIA_CLASS_NAME, classLoader)).getName());
+                    if (returnObject != null) {
+                        break;
+                    }
+                } catch (Throwable t) {
+                }
             }
-        }
-
-        try {
-            returnObject = getObjectField(returnObject, XposedHelpers.findFirstFieldByExactType(returnObject.getClass(), XposedHelpers.findClass(MEDIA_CLASS_NAME, classLoader)).getName());
-        } catch (Throwable t) {
-            returnObject = null;
         }
 
         return returnObject;
@@ -1129,18 +1137,28 @@ public class Helper {
         for (Field field : fields) {
             String className = XposedHelpers.getObjectField(object, field.getName()).getClass().toString();
             if (!className.contains("List")) {
-                returnObject = XposedHelpers.getObjectField(object, field.getName());
-                break;
+                try {
+                    Object returnObjectTest = XposedHelpers.getObjectField(object, field.getName());
+                    //Get Profile Class 2
+                    returnObjectTest = getObjectField(returnObjectTest, XposedHelpers.findFirstFieldByExactType(returnObject.getClass(), XposedHelpers.findClass(PROFILE_HOOK_CLASS2, classLoader)).getName());
+                    //Get User Class
+                    returnObjectTest = getObjectField(returnObjectTest, XposedHelpers.findFirstFieldByExactType(returnObject.getClass(), XposedHelpers.findClass(USER_CLASS_NAME, classLoader)).getName());
+
+                    if (returnObjectTest != null && returnObjectTest.getClass().equals(findClass(USER_CLASS_NAME, classLoader))) {
+                        returnObject = returnObjectTest;
+                        System.out.println("d: " +returnObject);
+                        break;
+                    }
+                } catch (Throwable t) {
+                }
             }
         }
 
-        try {
+        if (returnObject == null) {
             //Get Profile Class 2
-            returnObject = getObjectField(returnObject, XposedHelpers.findFirstFieldByExactType(returnObject.getClass(), XposedHelpers.findClass(PROFILE_HOOK_CLASS2, classLoader)).getName());
+            returnObject = getObjectField(object, XposedHelpers.findFirstFieldByExactType(object.getClass(), XposedHelpers.findClass(PROFILE_HOOK_CLASS2, classLoader)).getName());
             //Get User Class
             returnObject = getObjectField(returnObject, XposedHelpers.findFirstFieldByExactType(returnObject.getClass(), XposedHelpers.findClass(USER_CLASS_NAME, classLoader)).getName());
-        } catch (Throwable t) {
-            returnObject = null;
         }
 
         return returnObject;
@@ -1899,21 +1917,6 @@ public class Helper {
         }
 
         return fileFormat;
-    }
-
-    static String loadProfiledClass (ClassProfile classProfile, PackageTree packageTree, String fallBack) {
-        try {
-             String className = ProfileHelpers.loadProfiledClass(classProfile, packageTree).getName();
-
-             if (className.equals(null)) {
-                 className = fallBack;
-             }
-
-             return className;
-        } catch (Throwable t) {
-            setError(" Experimental Hook Failed - " +classProfile.getKnownPath());
-            return fallBack;
-        }
     }
 
     static String checkSave(String saveLocation, String userName, String fileName) {

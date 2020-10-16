@@ -13,8 +13,6 @@ public class Click extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String save = intent.getStringExtra("File");
 
-        System.out.println("Got! " +save);
-
         File file = new File(save);
         Intent intentGallery = new Intent();
         intentGallery.setAction(Intent.ACTION_VIEW);

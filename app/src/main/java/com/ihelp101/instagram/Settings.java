@@ -30,7 +30,6 @@ public class Settings extends Preferences {
     static String contact;
     static String customization;
     static String date;
-    static String defaultSource;
     static String discovery;
     static String errorLog;
     static String file;
@@ -461,16 +460,6 @@ public class Settings extends Preferences {
             }
         }
 
-        if (pref.getDialogTitle().equals(Helper.getResourceString(mContext, R.string.Default))) {
-            if (Helper.getSetting("Source").equals("Pastebin")) {
-                pref.setValueIndex(1);
-            }
-
-            if (Helper.getSetting("Source").equals("Alternate Source")) {
-                pref.setValueIndex(2);
-            }
-        }
-
         if (pref.getDialogTitle().equals("Download Options")) {
             if (Helper.getSettings("OneTap")) {
                 pref.setValueIndex(1);
@@ -572,15 +561,6 @@ public class Settings extends Preferences {
                 date = context.getResources().getString(R.string.Date);
             }
             menuItem.setTitle(date);
-        }
-
-        if (menuTitle.equals(context.getResources().getString(R.string.Default))) {
-            try {
-                defaultSource = Helper.getResourceString(mContext, R.string.Default);
-            } catch (Throwable t) {
-                defaultSource = context.getResources().getString(R.string.Default);
-            }
-            menuItem.setTitle(defaultSource);
         }
 
         if (menuTitle.equals("Direct Message - Download")) {

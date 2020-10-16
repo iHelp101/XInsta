@@ -60,7 +60,6 @@
             <item android:title="@string/ChangeApp"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/Check"/>
-            <item android:title="@string/Default"/>
             <item android:title="Direct Message - Download"
                 app:actionLayout="@layout/menu_switch"/>
             <item android:title="@string/Logging"
