@@ -235,9 +235,6 @@ public class MainNew extends AppCompatActivity implements NavigationView.OnNavig
 
                 InputStream inputStream = c.getInputStream();
 
-
-                System.out.println("Hi: " +uri[0]);
-
                 responseString = Helper.convertStreamToString(inputStream);
             } catch (Exception e) {
                 responseString = "Nope";

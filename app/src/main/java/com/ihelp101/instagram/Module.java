@@ -2953,6 +2953,12 @@ public class Module implements IXposedHookLoadPackage, Listen {
                     }
 
                     try {
+                        //hookReels();
+                    } catch (Throwable t) {
+                        setError("Reels Failed: " + t);
+                    }
+
+                    try {
                         hookScreenShotPrivacy();
                     } catch (Throwable t) {
                         setError("Screenshot Privacy Failed: " + t);
@@ -3879,8 +3885,6 @@ public class Module implements IXposedHookLoadPackage, Listen {
                     mContext = AndroidAppHelper.currentApplication().getApplicationContext();
                     oContext = ((Dialog) param.args[0]).getContext();
 
-                    setError("CLICKKKED");
-
                     try {
                         for (Field field : fields) {
                             Object object = XposedHelpers.getObjectField(param.thisObject, field.getName());
@@ -4084,6 +4088,7 @@ public class Module implements IXposedHookLoadPackage, Listen {
                                 setError("Profile Media Failed: " +t.toString());
                                 sendError();
                             }
+                            param.setResult(null);
                         }
                     }
                 });
@@ -4109,13 +4114,11 @@ public class Module implements IXposedHookLoadPackage, Listen {
                     try {
                         setError(view.getTag() + ";" +PROFILE_ICON_CLASS);
                         if (view.getTag().toString().contains(PROFILE_ICON_CLASS)) {
-                            Object[] objects = param.args;
+                            final Object[] objects = param.args;
 
                             profileView = view.getTag();
 
                             for (Field field : profileView.getClass().getDeclaredFields()) {
-                                View view1 = (View) XposedHelpers.getObjectField(profileView, "A0D");
-
                                 if (field.getType().toString().contains("ImageView") && XposedHelpers.getObjectField(profileView, field.getName()) != null) {
                                     try {
                                         final ImageView imageView = (ImageView) XposedHelpers.getObjectField(profileView, field.getName());
@@ -4140,6 +4143,60 @@ public class Module implements IXposedHookLoadPackage, Listen {
                                     } catch (Throwable t) {
                                         setError("Profile Long Press ImageView Failed - " + t);
                                         setError("Profile Long Press ImageView Hook - " + PROFILE_ICON_CLASS);
+                                    }
+                                } else if (XposedHelpers.getObjectField(profileView, field.getName()) != null) {
+                                    Object profileViewTest = XposedHelpers.getObjectField(profileView, field.getName());
+                                    Field[] testFields = profileViewTest.getClass().getDeclaredFields();
+                                    for (Field field2 : testFields) {
+                                        if (field2.getType().toString().contains("ImageView") && XposedHelpers.getObjectField(profileViewTest, field2.getName()) != null) {
+                                            try {
+                                                final ImageView imageView = (ImageView) XposedHelpers.getObjectField(profileViewTest, field2.getName());
+                                                imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                                                    @Override
+                                                    public boolean onLongClick(View view) {
+                                                        oContext = imageView.getContext();
+                                                        //userProfileIcon = userProfileIcon.replace("s150x150/", "");
+
+                                                        for (Object object : objects) {
+                                                            try {
+                                                                Field[] fields = object.getClass().getDeclaredFields();
+                                                                for (Field field : fields) {
+                                                                    try {
+                                                                        if (field.toString().contains(USER_CLASS_NAME)) {
+                                                                            Object user = XposedHelpers.getObjectField(object, field.getName());
+                                                                            try {
+                                                                                try {
+                                                                                    userName = (String) getObjectField(user, USERNAME_HOOK);
+                                                                                } catch (Throwable t) {
+                                                                                    setError("Profile Icon Failed Username - " + t);
+                                                                                }
+
+                                                                                setError("Username Held: " +userName);
+
+                                                                                try {
+                                                                                    String fixedLink = Helper.getProfileIcon(userName);
+                                                                                    if (!fixedLink.isEmpty()) {
+                                                                                        new Privacy().execute(fixedLink, "Other");
+                                                                                    }
+                                                                                } catch (Throwable t) {
+                                                                                }
+                                                                            } catch (Throwable t) {
+                                                                            }
+                                                                        }
+                                                                    } catch (Throwable t) {
+                                                                    }
+                                                                }
+                                                            } catch (Throwable t) {
+                                                            }
+                                                        }
+                                                        return false;
+                                                    }
+                                                });
+                                            } catch (Throwable t) {
+                                                setError("Profile Long Press ImageView Failed - " + t);
+                                                setError("Profile Long Press ImageView Hook - " + PROFILE_ICON_CLASS);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -4178,34 +4235,6 @@ public class Module implements IXposedHookLoadPackage, Listen {
                                     } catch (Throwable t) {
                                         setError("Profile Long Press ImageView Failed - " + t);
                                         setError("Profile Long Press ImageView Hook - " + PROFILE_ICON_CLASS);
-                                    }
-                                }
-                            }
-
-                            for (Object object : objects) {
-                                Field[] fields = object.getClass().getDeclaredFields();
-                                for (Field field : fields) {
-                                    try {
-                                        if (field.toString().contains(USER_CLASS_NAME)) {
-                                            Object user = XposedHelpers.getObjectField(object, field.getName());
-                                            Field[] fields2 = user.getClass().getDeclaredFields();
-                                            for (Field field2 : fields2) {
-                                                try {
-                                                    String URL = XposedHelpers.getObjectField(user, field2.getName()).toString();
-                                                    if (URL.contains(".jpg")) {
-                                                        userProfileIcon = URL;
-
-                                                        try {
-                                                            userName = (String) getObjectField(user, USERNAME_HOOK);
-                                                        } catch (Throwable t) {
-                                                            setError("Profile Icon Failed Username - " +t);
-                                                        }
-                                                    }
-                                                } catch (Throwable t) {
-                                                }
-                                            }
-                                        }
-                                    } catch (Throwable t) {
                                     }
                                 }
                             }
@@ -4382,6 +4411,16 @@ public class Module implements IXposedHookLoadPackage, Listen {
         } catch (Throwable t) {
             setError("Screenshot Privacy Failed - " +t);
         }
+    }
+
+    void hookReels() {
+        XposedHelpers.findAndHookMethod("X.5az", loadPackageParam.classLoader, "onClick", View.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                setError("Clicked!");
+            }
+        });
     }
 
     void hookSearch() {
@@ -5161,9 +5200,23 @@ public class Module implements IXposedHookLoadPackage, Listen {
                         }
                     });
                 } catch (Throwable t3) {
-                    setError("Stories Image Timer Failed - " +t3);
-                    setError("Stories Image Timer Hook - " +STORY_HOOK);
-                    setError("Stories Image Timer Class - " +STORY_TIME_HOOK_CLASS2);
+                    try {
+                        Class<?> storyTimer = XposedHelpers.findClass(STORY_TIME_HOOK_CLASS2, loadPackageParam.classLoader);
+
+                        XposedHelpers.findAndHookMethod(storyTimer, STORY_TIME_HOOK2, Object.class, new XC_MethodHook() {
+                            @Override
+                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                super.beforeHookedMethod(param);
+                                if (Helper.getSettings("Story")) {
+                                    param.setResult(null);
+                                }
+                            }
+                        });
+                    } catch (Throwable t4) {
+                        setError("Stories Image Timer Failed - " + t3);
+                        setError("Stories Image Timer Hook - " + STORY_HOOK);
+                        setError("Stories Image Timer Class - " + STORY_TIME_HOOK_CLASS2);
+                    }
                 }
             }
         }
