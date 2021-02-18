@@ -50,7 +50,7 @@
     <string name="Follow">追蹤名單 - 顏色</string>
     <string name="Hide">隱藏應用程式</string>
     <string name="Like">停用讚好按鈕</string>
-    <string name="Liked">Disable Liked Post</string>
+    <string name="Liked">隱藏喜歡的貼文</string>
     <string name="Logging">停用 Xposed 記錄</string>
     <string name="Manual">手動更改鉤子</string>
     <string name="Misc">雜項</string>
@@ -67,7 +67,53 @@
     <string name="StoryHide">Hide Stories</string>
     <string name="Suggestion">隱藏搜尋建議</string>
     <string name="Translations">翻譯 XInsta</string>
-    <string name="VideoLikes">影片讚好計數</string>
+    <string name="VideoLikes">影片喜歡計數</string>
+    <string name="Sound">開啟影片聲音自動播放</string>
+    <string name="Special">特別感謝</string>
+    <string name="Story">禁用動態計時器</string>
+    <string name="StoryHide">隱藏動態</string>
+    <string name="StoryPrivacy">動態隱私</string>
+    <string name="Suggestion">隱藏建議</string>
+    <string name="Translations">協助翻譯 XInsta</string>
+    <string name="VideoLikes">喜歡影片總數</string>
+    <!-- Menu Items Description -->
+    <string name="Automatically_Summary">開啟 Instagram 後檢查 XInata 版本</string>
+    <string name="Change_Summary">更改檔案分隔符</string>
+    <string name="ChangeApp_Summary">更換 XInsta 預設圖示</string>
+    <string name="ChangeOrder_Summary">點擊三點圖示時修改 Instagram 的選項順序</string>
+    <string name="Check_Summary">手動更新</string>
+    <string name="Comment_Summary">點擊複製回覆</string>
+    <string name="Custom_Summary">使用 Android 不支援的語系</string>
+    <string name="Date_Summary">設定發布日期為正確日期格式（而不是x分鐘前）</string>
+    <string name="Default_Summary">選擇 XInsta 默認使用鉤子來源</string>
+    <string name="Discovery_Summary">禁用發現（搜尋圖示）</string>
+    <string name="Experimental_Summary">鉤子的實驗性解决方案。</string>
+    <string name="File_Summary">選擇檔案日期格式 (月/日/年)</string>
+    <string name="FileFormat_Summary">更改檔案參數格式(用户名_日期_媒體ID)</string>
+    <string name="FileURL_Summary">使用 Instagram 貼文 URL 中的檔案名作為檔案名稱</string>
+    <string name="FileUsername_Summary">使用用戶完整 Instagram 暱稱</string>
+    <string name="Folder_Summary">附带用戶的用戶名儲存到資料夾</string>
+    <string name="Follow_Summary">修改關注指示顏色</string>
+    <string name="Hide_Summary">隱藏 XInsta 圖示</string>
+    <string name="HidePost_Summary">隱藏贊助商的貼文</string>
+    <string name="Like_Summary">禁用雙擊喜歡貼文</string>
+    <string name="Liked_Summary">在 Instagram 中 隱藏喜歡的貼文</string>
+    <string name="Logging_Summary">禁用在 Xposed 裡的日誌紀錄</string>
+    <string name="Manual_Summary">手動替换鉤子</string>
+    <string name="NotificationHide_Summary">隱藏下載完成通知</string>
+    <string name="Pin_Summary">使用丁選/儲存按钮下載貼文</string>
+    <string name="Push_Summary">自動下載推送通知</string>
+    <string name="Resolution_Summary">為低分辨率屏幕的設備強制壓縮圖像/影像。這可能會導致某些設備出現問題。</string>
+    <string name="Search_Summary">禁用探索選項裡的搜索歷史</string>
+    <string name="SaveHooks_Summary">XInsta 將不拉取它們來獲得鉤子</string>
+    <string name="Show_Summary">在設備上顯示 XInsta 圖示</string>
+    <string name="Slide_Summary">禁用左右滑動切換導航</string>
+    <string name="Story_Summary">防止自動關閉</string>
+    <string name="StoryHide_Summary">隱藏主菜單內的動態托盤</string>
+    <string name="StoryPrivacy_Summary">防止用戶看到你觀看了他们的動態</string>
+    <string name="VideoLikes_Summary">新增影片喜歡</string>
+
+    <string name="the_not_so_big_but_big_button2_summary">允許再私聊天中開啟貼文</string>
 
     <!-- Module -->
     <string name="Download_Completed">下載完成</string>
